@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ambrosia and Nihilium Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+      background-color: #1e1e1e;
+      color: #fff;
+    }
+
+    .table-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 300px;
+      background-color: #111;
+      border: 1px solid #333;
+    }
+
+    th,
+    td {
+      width: 250px;
+      border: 1px solid #333;
+      padding: 0;
+      text-align: left;
+    }
+
+    th {
+      background: linear-gradient(to right, #666, #999);
+      color: white;
+      padding: 8px;
+    }
+
+    td {
+      height: 40px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: #1c1c1c;
+      color: #00d8ff;
+      font-size: 15px;
+      text-align: center;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      background-color: #2a2a2a;
+    }
+
+    .add-button {
+      margin-top: 10px;
+      width: 40px;
+      height: 40px;
+      background-color: #1c1c1c;
+      border: 1px solid #555;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.2s;
+    }
+
+    .add-button:hover {
+      background-color: #2a2a2a;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="table-wrapper">
+    <table id="ambrosia-table">
+      <tr>
+        <th>Ambrosia #</th>
+        <th>Date</th>
+        <th>Depth</th>
+      </tr>
+    </table>
+    <button class="add-button" onclick="addRow('ambrosia')">+</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="nihilium-table">
+      <tr>
+        <th>Nihilium #</th>
+        <th>Date</th>
+        <th>Depth</th>
+      </tr>
+    </table>
+    <button class="add-button" onclick="addRow('nihilium')">+</button>
+  </div>
+
+  <script>
+    let ambrosiaCount = parseInt(localStorage.getItem("ambrosiaCount")) || 25;
+    let nihiliumCount = parseInt(localStorage.getItem("nihiliumCount")) || 25;
+
+    const ambrosiaTable = document.getElementById('ambrosia-table');
+    const nihiliumTable = document.getElementById('nihilium-table');
+
+    function addRow(type) {
+      if (type === 'ambrosia') {
+        ambrosiaCount++;
+        localStorage.setItem("ambrosiaCount", ambrosiaCount);
+        renderRow(ambrosiaTable, 'Ambrosia', ambrosiaCount);
+      } else {
+        nihiliumCount++;
+        localStorage.setItem("nihiliumCount", nihiliumCount);
+        renderRow(nihiliumTable, 'Nihilium', nihiliumCount);
+      }
+    }
+
+    function renderRow(table, label, index) {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td style="padding-left: 8px;">${label} #${index}</td>
+        <td><input type="text" name="${label.toLowerCase()}-date-${index}" /></td>
+        <td><input type="text" name="${label.toLowerCase()}-depth-${index}" /></td>
+      `;
+      table.appendChild(row);
+
+      // Restore saved values if any
+      setTimeout(() => {
+        const dateInput = document.getElementsByName(`${label.toLowerCase()}-date-${index}`)[0];
+        const depthInput = document.getElementsByName(`${label.toLowerCase()}-depth-${index}`)[0];
+        dateInput.value = localStorage.getItem(dateInput.name) || "";
+        depthInput.value = localStorage.getItem(depthInput.name) || "";
+
+        dateInput.addEventListener("input", () => {
+          localStorage.setItem(dateInput.name, dateInput.value);
+        });
+        depthInput.addEventListener("input", () => {
+          localStorage.setItem(depthInput.name, depthInput.value);
+        });
+      }, 0);
+    }
+
+    // Initial Load
+    for (let i = 1; i <= ambrosiaCount; i++) {
+      renderRow(ambrosiaTable, 'Ambrosia', i);
+    }
+    for (let i = 1; i <= nihiliumCount; i++) {
+      renderRow(nihiliumTable, 'Nihilium', i);
+    }
+  </script>
+</body>
+
+</html>
