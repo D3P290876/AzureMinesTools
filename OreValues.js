@@ -15,7 +15,7 @@ const oreValues = {
 
     "Garnet":          { AV: 120,   CV: 400 },
     "Moonstone":       { AV: 140,   CV: 500 },
-    "Kappa":           { AV: 220,   CV: 800 },
+    "Kappa":           { AV: 20,   CV: 800 },
     "Tungsten":        { AV: 11,    CV: 40 },
     "Titanium":        { AV: 9,     CV: 35 },
     "Element V":       { AV: 8,     CV: 30 },
