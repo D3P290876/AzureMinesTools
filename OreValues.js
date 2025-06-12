@@ -5,7 +5,7 @@ const oreValues = {
     "Sinistyte S":     { AV: 150,   CV: 600 },
     "Sinistyte E":     { AV: 160,   CV: 650 },
     "Nightmarium":     { AV: 70,    CV: 300 },
-    "Twitchite":       { AV: 14,    CV: 60 },
+    "Twitchite":       { AV: 12,    CV: 60 },
     "Frostarium":      { AV: 11,    CV: 50 },
     "Giftium":         { AV: 400,   CV: 1500 },
     "Frawstbyte":      { AV: 400,   CV: 1500 },
