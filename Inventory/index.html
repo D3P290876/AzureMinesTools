@@ -279,8 +279,31 @@
           total = value / av;
         }
         document.getElementById(avId).textContent = total.toFixed(2);
+        saveInventoryToLocal();
       });
     });
+
+    function saveInventoryToLocal() {
+      const inventory = {};
+      document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
+        inventory[input.getAttribute('data-ore')] = input.value;
+      });
+      localStorage.setItem('inventory', JSON.stringify(inventory));
+    }
+
+    function loadInventoryFromLocal() {
+      const inventory = JSON.parse(localStorage.getItem('inventory') || '{}');
+      document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
+        const ore = input.getAttribute('data-ore');
+        if (inventory[ore] !== undefined) {
+          input.value = inventory[ore];
+          input.dispatchEvent(new Event('input')); // Update Total AV
+        }
+      });
+    }
+
+    // After rendering and adding event listeners:
+    loadInventoryFromLocal();
   </script>
 </body>
 </html>
