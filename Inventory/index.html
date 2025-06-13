@@ -38,7 +38,7 @@
       box-shadow: none;
       margin-bottom: 32px;
       padding: 0;
-      max-width: 500px;   /* Set a reasonable max width */
+      max-width: 720px;   /* Set a reasonable max width */
       width: 100%;        /* Allow it to shrink on small screens */
       margin-left: auto;  /* Center horizontally */
       margin-right: auto; /* Center horizontally */
@@ -105,6 +105,7 @@
       border-bottom: 2px solid #333;
       color: #7ecbff;
       font-size: 1.05em;
+      padding: 7px 4px;
     }
     .ore-table tr:last-child td {
       border-bottom: none;
@@ -235,6 +236,19 @@
       return (window.oreValues && ore in oreValues) ? window.oreValues[ore].AV : "";
     }
 
+    function getAVPercent(ore, avCount) {
+      const oreAV = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
+      if (!oreAV) return "0.00%";
+      const percent = (avCount / oreAV) * 100;
+      return percent.toFixed(2) + "%";
+    }
+
+    function getAVPercentValue(inventory, oreAV, n) {
+      if (!oreAV || !inventory) return "0.00%";
+      const percent = (inventory / (oreAV * n)) * 100;
+      return Math.min(percent, 100).toFixed(2) + "%";
+    }
+
     // Render one section per row
     function renderSections(sections) {
       let html = "";
@@ -244,7 +258,7 @@
         html += `<div class="ore-card">
           <div class="ore-header ${getHeaderClass(section.name)}">${section.name}</div>
           <table class="ore-table">
-            <tr><th>Ore</th><th>Inventory</th><th>Ore per AV</th><th>Total AV</th></tr>`;
+            <tr><th>Ore</th><th>Inventory</th><th>Ore per AV</th><th>Total AV</th><th>1 AV%</th><th>2 AV%</th><th>3 AV%</th><th>5 AV%</th></tr>`;
         for (const [oreIndex, ore] of section.ores.entries()) {
           const inputId = `inv-${i}-${oreIndex}`;
           const avId = `av-${i}-${oreIndex}`;
@@ -256,6 +270,10 @@
             <td><input type="number" min="0" id="${inputId}" data-ore="${ore}" data-av-id="${avId}"></td>
             <td>${getAV(ore)}</td>
             <td id="${avId}">0.00</td>
+            <td id="${avId}-percent-1">0.00%</td>
+            <td id="${avId}-percent-2">0.00%</td>
+            <td id="${avId}-percent-3">0.00%</td>
+            <td id="${avId}-percent-5">0.00%</td>
           </tr>`;
         }
         html += `</table></div>`;
@@ -279,6 +297,15 @@
           total = value / av;
         }
         document.getElementById(avId).textContent = total.toFixed(2);
+
+        // Update AV% columns
+        [1, 2, 3, 5].forEach(n => {
+          const percentCell = document.getElementById(`${avId}-percent-${n}`);
+          if (percentCell) {
+            percentCell.textContent = getAVPercentValue(value, av, n);
+          }
+        });
+
         saveInventoryToLocal();
       });
     });
