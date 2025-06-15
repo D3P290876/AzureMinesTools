@@ -7,7 +7,7 @@
   <title>Finds Tracker</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 1, sans-serif;
       display: flex;
       justify-content: center;
       gap: 40px;
@@ -211,11 +211,35 @@
     .modal-cancel:hover {
       background: #222;
     }
+
+    /* Home Button */
+    #home-btn {
+      position: fixed;
+      top: 16px;
+      right: 24px;
+      z-index: 100;
+      padding: 10px 22px;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0003;
+      transition: background 0.2s;
+    }
+
+    #home-btn:hover {
+      background: #444;
+    }
   </style>
 </head>
 
 
 <body>
+  <!-- Home Button -->
+  <button id="home-btn" onclick="window.location.href='/'">Home Page</button>
+
   <div class="table-wrapper">
     <div class="table-header">
       <img src="../src/Ambrosia.png" alt="Ambrosia">

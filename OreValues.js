@@ -77,4 +77,4 @@ const oreValues = {
     "Mightstone":      { AV: 1000,  CV: 275.0 }
 };
 
-window.oreValues = oreValues;
+window.oreValues = oreValues;   
