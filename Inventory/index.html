@@ -104,23 +104,41 @@
       white-space: nowrap;
     }
     
-    #stats-box {
+    #stats-dropdown {
       position: absolute;
       top: 24px;
       left: 24px;
+      min-width: 260px;
+      z-index: 10;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px #0004;
+      opacity: 0.98;
+      background: #23242a;
+    }
+    #stats-toggle {
+      width: 100%;
+      text-align: left;
+      font-weight: bold;
+      font-size: 1.1em;
+      background: #23242a;
+      color: #fff;
+      border: none;
+      padding: 10px 0 10px 8px;
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      outline: none;
+    }
+    #stats-box {
       background: #23242a;
       color: #fff;
       border: 2px solid #222;
-      border-radius: 8px;
+      border-radius: 0 0 8px 8px;
       padding: 16px 20px;
-      min-width: 260px;
       font-size: 1em;
-      z-index: 10;
-      box-shadow: 0 2px 12px #0004;
-      opacity: 0.98;
+      border-top: none;
     }
     @media (max-width: 700px) {
-      #stats-box {
+      #stats-dropdown {
         position: static;
         margin-bottom: 16px;
         width: 95vw;
@@ -130,11 +148,20 @@
       }
     }
 
+    #top-btn-bar {
+      display: flex;
+      gap: 12px;
+      align-self: flex-end;
+      margin-top: 12px;
+      margin-right: 0;
+    }
+
+    #add-av-btn, #home-btn {
+      position: static;
+      margin: 0;
+    }
+
     #home-btn {
-      position: fixed;
-      top: 16px;
-      right: 24px;
-      z-index: 100;
       padding: 10px 22px;
       background: #222;
       color: #fff;
@@ -148,36 +175,134 @@
     #home-btn:hover {
       background: #444;
     }
+
+    #add-av-btn {
+      padding: 10px 22px;
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0003;
+      transition: background 0.2s;
+    }
+    #add-av-btn:hover {
+      background: #218838;
+    }
+
+    /* Modal styles */
+    #custom-av-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000a;
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+    #custom-av-modal > div {
+      background: #23242a;
+      padding: 24px 32px;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px #0008;
+      min-width: 260px;
+    }
+    #custom-av-modal div:first-child {
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    #custom-av-input {
+      width: 100px;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #333;
+      background: #181a20;
+      color: #fff;
+    }
+    #custom-av-cancel, #custom-av-add {
+      padding: 6px 18px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    #custom-av-cancel {
+      margin-right: 12px;
+      background: #444;
+      color: #fff;
+    }
+    #custom-av-add {
+      background: #2196f3;
+      color: #fff;
+    }
+    #custom-av-cancel:hover {
+      background: #555;
+    }
+    #custom-av-add:hover {
+      background: #1e88e5;
+    }
+
+    /* Custom AV% column style */
+    .custom-av-percent-cell {
+      background: #181a20;
+      color: #fff;
+      font-weight: bold;
+    }
   </style>
   <script src="../OreValues.js"></script>
 </head>
 <body>
-  <button id="home-btn" onclick="window.location.href='https://d3p290876.github.io/amInventoryManager/'">Home Page</button>
+  <div id="top-btn-bar">
+    <button id="add-av-btn" class="add-av-btn">Add AV%</button>
+    <button id="home-btn" onclick="window.location.href='https://d3p290876.github.io/amInventoryManager/'">Home Page</button>
+  </div>
 
-  <div id="stats-box">
-    <b>Statistics:</b><br>
-    <br>
-    Total Inventory Value: <span id="stats-total-av">0.00</span><br>
-    <br>
-    # of Ores above 1 AV: <span id="stats-above-1av">0</span><br>
-    # of Ores above 2 AV: <span id="stats-above-2av">0</span><br>
-    # of Ores above 3 AV: <span id="stats-above-3av">0</span><br>
-    # of Ores above 5 AV: <span id="stats-above-5av">0</span><br>
-    <br>
-    # of Ores at or above 1K: <span id="stats-above-1k">0</span><br>
-    # of Ores above 10K: <span id="stats-above-10k">0</span><br>
-    # of Ores above 100K: <span id="stats-above-100k">0</span><br>
-    <br>
-    Total AV of Limited Ores: <span id="stats-av-limited">0.00</span><br>
-    Total AV of Special Ores: <span id="stats-av-special">0.00</span><br>
-    Total AV of Market Ores: <span id="stats-av-market">0.00</span><br>
-    Total AV of Scary Caverns: <span id="stats-av-scary">0.00</span><br>
-    Total AV of Azure Caverns: <span id="stats-av-azure">0.00</span><br>
-    Total AV of Underworld: <span id="stats-av-underworld">0.00</span><br>
-    Total AV of Radioactive Zone: <span id="stats-av-radioactive">0.00</span><br>
-    Total AV of Dreamscape/Abyss: <span id="stats-av-dreamscape">0.00</span><br>
+  <div id="stats-dropdown">
+    <button id="stats-toggle" style="width:100%;text-align:left;font-weight:bold;font-size:1.1em;background:#23242a;color:#fff;border:none;padding:10px 0 10px 8px;cursor:pointer;border-radius:8px 8px 0 0;">
+      Statistics ▼
+    </button>
+    <div id="stats-box" style="display:block;">
+  
+  
+      Total Inventory Value: <span id="stats-total-av">0.00</span><br>
+      <br>
+      # of Ores above 1 AV: <span id="stats-above-1av">0</span><br>
+      # of Ores above 2 AV: <span id="stats-above-2av">0</span><br>
+      # of Ores above 3 AV: <span id="stats-above-3av">0</span><br>
+      # of Ores above 5 AV: <span id="stats-above-5av">0</span><br>
+      <div id="stats-above-custom"></div>
+      <br>
+      # of Ores above 1K: <span id="stats-above-1k">0</span><br>
+      # of Ores above 10K: <span id="stats-above-10k">0</span><br>
+      # of Ores above 100K: <span id="stats-above-100k">0</span><br>
+      <br>
+      Total AV of Limited Ores: <span id="stats-av-limited">0.00</span><br>
+      Total AV of Special Ores: <span id="stats-av-special">0.00</span><br>
+      Total AV of Market Ores: <span id="stats-av-market">0.00</span><br>
+      Total AV of Scary Caverns: <span id="stats-av-scary">0.00</span><br>
+      Total AV of Azure Caverns: <span id="stats-av-azure">0.00</span><br>
+      Total AV of Underworld: <span id="stats-av-underworld">0.00</span><br>
+      Total AV of Radioactive Zone: <span id="stats-av-radioactive">0.00</span><br>
+      Total AV of Dreamscape/Abyss: <span id="stats-av-dreamscape">0.00</span><br>
+    </div>
   </div>
   <div id="ore-sections"></div>
+
+  <!-- Modal for custom AV% -->
+  <div id="custom-av-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000a;z-index:999;align-items:center;justify-content:center;">
+    <div style="background:#23242a;padding:24px 32px;border-radius:10px;box-shadow:0 2px 12px #0008;min-width:260px;">
+      <div style="margin-bottom:12px;color:#fff;">Enter AV amount:</div>
+      <input id="custom-av-input" type="number" min="1" style="width:100px;padding:6px 8px;border-radius:4px;border:1px solid #333;background:#181a20;color:#fff;">
+      <div style="margin-top:18px;text-align:right;">
+        <button id="custom-av-cancel" style="margin-right:12px;padding:6px 18px;border-radius:5px;border:none;background:#444;color:#fff;cursor:pointer;">Cancel</button>
+        <button id="custom-av-add" style="padding:6px 18px;border-radius:5px;border:none;background:#2196f3;color:#fff;cursor:pointer;">Add</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Section definitions
     const sections = [
@@ -234,7 +359,7 @@
         ]
       }
     ];
-
+window.customAVs = [];
     // Helper to get AV from oreValues, fallback to blank if not found
     function getAV(ore) {
       return (window.oreValues && ore in oreValues) ? window.oreValues[ore].AV : "";
@@ -356,13 +481,98 @@
         });
 
         saveInventoryToLocal();
-        updateFooterTotals(); // Add this line
+        updateFooterTotals();
         updateStatsTotalAV();
-        updateStatsAboveAV(); // Add this line
-        updateStatsAboveInventory(); // Add this line
+        updateStatsAboveAV();
+        updateStatsAboveInventory();
         updateStatsSectionTotals();
+        updateStatsAboveCustomAV(); // <-- Add this!
       });
     });
+
+    // --- Custom AV% Modal Logic ---
+    document.getElementById('add-av-btn').onclick = function() {
+      document.getElementById('custom-av-modal').style.display = 'flex';
+      document.getElementById('custom-av-input').value = '';
+      document.getElementById('custom-av-input').focus();
+    };
+
+    document.getElementById('custom-av-cancel').onclick = function() {
+      document.getElementById('custom-av-modal').style.display = 'none';
+    };
+
+    document.getElementById('custom-av-add').onclick = function() {
+      const n = parseInt(document.getElementById('custom-av-input').value, 10);
+      if (!n || n < 1) return;
+      addCustomAVColumnAllTables(n);
+      document.getElementById('custom-av-modal').style.display = 'none';
+    };
+
+    function addCustomAVColumnAllTables(n) {
+      if (!window.customAVs.includes(n)) {
+        window.customAVs.push(n);
+        window.customAVs.sort((a, b) => a - b);
+        saveCustomAVsToLocal(); // <-- Add this line
+      }
+      updateStatsAboveCustomAV();
+
+      const tables = document.querySelectorAll('.ore-table');
+      tables.forEach((table, sectionIdx) => {
+        // Add header
+        const th = document.createElement('th');
+        th.style.position = "relative";
+        th.innerHTML = `${n} AV% <button class="remove-av-btn" data-av="${n}" title="Remove column" style="position:absolute;top:2px;right:2px;background:none;border:none;color:#fff;font-weight:bold;cursor:pointer;font-size:1em;line-height:1;">×</button>`;
+
+        table.querySelector('thead tr').appendChild(th);
+
+        // Add cells for each row
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach((row, oreIdx) => {
+          const ore = sections[sectionIdx].ores[oreIdx];
+          const input = document.getElementById(`inv-${sectionIdx}-${oreIdx}`);
+          const av = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
+          const td = document.createElement('td');
+          // Match built-in AV% cell style
+          td.style.border = '1px solid #000';
+          td.style.boxSizing = 'border-box';
+          td.style.paddingLeft = '4px';
+          td.style.paddingRight = '4px';
+          td.style.height = '40px';
+          td.style.textAlign = 'center';
+          td.style.fontSize = '1em';
+          td.id = `custom-av-${sectionIdx}-${oreIdx}-${n}`;
+
+          // Calculate percent and color
+          let value = parseFloat(input.value) || 0;
+          let percentValue = av && value ? getAVPercentValue(value, av, n) : '0.00%';
+          let percentNum = parseFloat(percentValue);
+          td.textContent = percentValue;
+          td.style.background = percentToColor(percentNum);
+          td.style.color = "#222"; // Always dark text for contrast
+
+          row.appendChild(td);
+
+          // Update cell on input change
+          input.addEventListener('input', function() {
+            const value = parseFloat(input.value) || 0;
+            const percentValue = av ? getAVPercentValue(value, av, n) : '0.00%';
+            const percentNum = parseFloat(percentValue);
+            td.textContent = percentValue;
+            td.style.background = percentToColor(percentNum);
+            td.style.color = "#222";
+          });
+        });
+      });
+    }
+
+    // Load custom AVs from localStorage
+const savedCustomAVs = JSON.parse(localStorage.getItem('customAVs') || '[]');
+window.customAVs = savedCustomAVs;
+
+// Re-create custom AV columns if any
+window.customAVs.forEach(n => addCustomAVColumnAllTables(n));
+
+    document.getElementById('custom-av-modal').style.display = 'none';
 
     function saveInventoryToLocal() {
       const inventory = {};
@@ -381,6 +591,10 @@
           input.dispatchEvent(new Event('input')); // Update Total AV
         }
       });
+    }
+
+    function saveCustomAVsToLocal() {
+      localStorage.setItem('customAVs', JSON.stringify(window.customAVs));
     }
 
     function updateFooterTotals() {
@@ -490,6 +704,78 @@
     updateStatsAboveAV();
     updateStatsAboveInventory();
     updateStatsSectionTotals();
+    updateStatsAboveCustomAV();
+
+    document.getElementById('stats-toggle').onclick = function() {
+      const box = document.getElementById('stats-box');
+      const btn = document.getElementById('stats-toggle');
+      if (box.style.display === "none") {
+        box.style.display = "block";
+        btn.innerHTML = "Statistics ▼";
+      } else {
+        box.style.display = "none";
+        btn.innerHTML = "Statistics ▲";
+      }
+    };
+
+    function updateStatsAboveCustomAV() {
+      const container = document.getElementById('stats-above-custom');
+      if (!container) return;
+      container.innerHTML = '';
+      if (!window.customAVs) return;
+      window.customAVs.forEach(n => {
+        let count = 0;
+        document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
+          const ore = input.getAttribute('data-ore');
+          const av = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
+          const value = parseFloat(input.value) || 0;
+          if (av && value > 0) {
+            const totalOreAV = value / av;
+            if (totalOreAV >= n) count++;
+          }
+        });
+        // Add the stat line
+        const line = document.createElement('div');
+        line.setAttribute('data-av', n);
+        line.innerHTML = `# of Ores above ${n} AV: <span id="stats-above-${n}av">${count}</span>`;
+        container.appendChild(line);
+      });
+    }
+
+    document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('remove-av-btn')) {
+    // Find the <th> containing this button
+    const th = e.target.closest('th');
+    if (!th) return;
+    // Find the table and the index of this <th>
+    const table = th.closest('table');
+    const ths = Array.from(table.querySelectorAll('thead th'));
+    const idx = ths.indexOf(th);
+    const av = parseInt(e.target.getAttribute('data-av'), 10);
+    removeCustomAVColumn(av, idx);
+  }
+});
+
+function removeCustomAVColumn(n, idx) {
+  // Remove from window.customAVs
+  window.customAVs = window.customAVs.filter(val => val !== n);
+  saveCustomAVsToLocal(); // <-- Add this line
+
+  // Remove the column at the correct index from all tables
+  document.querySelectorAll('.ore-table').forEach(table => {
+    // Remove header cell at idx
+    const ths = table.querySelectorAll('thead th');
+    if (ths[idx]) ths[idx].remove();
+    // Remove each cell in this column
+    table.querySelectorAll('tbody tr').forEach(row => {
+      const tds = row.querySelectorAll('td');
+      if (tds[idx - 1]) tds[idx - 1].remove(); // -1 because th includes the "Ore" header
+    });
+  });
+
+  // Remove the stat line from the stats box (handled by updateStatsAboveCustomAV)
+  updateStatsAboveCustomAV();
+}
   </script>
 </body>
 </html>
