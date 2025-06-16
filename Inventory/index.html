@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventory Tracker</title>
+  <link rel="icon" type="image/png" href="./src/Azure.jpg">
   <style>
     body {
       font-family: 1, sans-serif;
@@ -163,9 +164,9 @@
     # of Ores above 3 AV: <span id="stats-above-3av">0</span><br>
     # of Ores above 5 AV: <span id="stats-above-5av">0</span><br>
     <br>
-    # of Ores at or above 1K: <span id="stats-above-1k">0</span><br>
-    # of Ores at or above 10K: <span id="stats-above-10k">0</span><br>
-    # of Ores at or above 100K: <span id="stats-above-100k">0</span><br>
+    # of Ores above 1K: <span id="stats-above-1k">0</span><br>
+    # of Ores above 10K: <span id="stats-above-10k">0</span><br>
+    # of Ores above 100K: <span id="stats-above-100k">0</span><br>
     <br>
     Total AV of Limited Ores: <span id="stats-av-limited">0.00</span><br>
     Total AV of Special Ores: <span id="stats-av-special">0.00</span><br>
@@ -484,10 +485,10 @@
 
     // After rendering and adding event listeners:
     loadInventoryFromLocal();
-    updateFooterTotals(); // Add this line
+    updateFooterTotals();
     updateStatsTotalAV();
-    updateStatsAboveAV(); // Add this line
-    updateStatsAboveInventory(); // Add this line
+    updateStatsAboveAV();
+    updateStatsAboveInventory();
     updateStatsSectionTotals();
   </script>
 </body>
