@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Home Page</title>
-  <link rel="icon" type="image/png" href="./src/Azure.jpg">
+  <link rel="icon" type="image/png" href="./src/Azure.png">
   <style>
     body {
       margin: 0;
       padding: 0;
       background: url('images/AzureMinesLogo.png') no-repeat center center fixed;
       background-size: cover;
-      font-family: Arial, sans-serif;
+      font-family: 1, sans-serif;
       color: white;
       display: flex;
       flex-direction: column;
@@ -19,20 +19,17 @@
       height: 100vh;
     }
 
-    .title {
-      font-size: 48px;
-      font-weight: bold;
-      text-shadow: 2px 2px 4px #000;
-    }
-
-    .title span:first-child {
-      color: #1eaaff;
-      font-family: monospace;
-    }
-
-    .title span:last-child {
-      color: #90ffb4;
-      font-family: monospace;
+    .info-box {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      height: fit-content;
+      width: 200px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      font-size: 1rem;
     }
 
     .menu {
@@ -41,7 +38,7 @@
       padding: 50px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 35px;
+      gap: 30px;
       margin-top: 45px;
       box-shadow: 0 8px 32px #000a;
       font-size: 2rem;
@@ -49,7 +46,7 @@
 
     .menu button {
       background: #ccc;
-      border: none;
+      border: black;
       padding: 15px 20px;
       border-radius: 15px;
       font-size: 2rem;
@@ -94,6 +91,27 @@
     <a href="Inventory/index.html" class="menu-btn">Inventory</a>
     <a href="Value Chart/index.html" class="menu-btn">Value Chart</a>
     <a href="Trading Calculator/index.html" class="menu-btn">Trading Calculator</a>
+  </div>
+
+  <div class="info-box">
+    <span>
+     <strong>This site has a number of useful tools for Azure Mines.</strong>
+     <br>
+     <br>
+     <strong>Mainly Featuring:</strong>
+     <br>
+     - A way to see your Inventory's value, + a lot of other statistics.
+     <br>
+     - Trading Calculators to help with easy trading.
+     <br>
+     - And a place to track your Ambrosia/Nihilium finds.
+     <br>
+     <br>
+     Everything saves locally. So as long as you don't delete your browser data, each page will be exactly how you left it when visiting the site again.
+     <br>
+     <br>
+     If you have any suggestions or find any bugs, you can ping @D3P290876 in the Azure Mines Club Discord server.
+     </span>
   </div>
   
 </body>
