@@ -110,7 +110,6 @@ window.customAVs = [];
               <th>1 AV%</th>
               <th>2 AV%</th>
               <th>3 AV%</th>
-              <th>5 AV%</th>
             </tr>
           </thead>
           <tbody>
@@ -129,7 +128,6 @@ window.customAVs = [];
             <td id="${avId}-percent-1">0.00%</td>
             <td id="${avId}-percent-2">0.00%</td>
             <td id="${avId}-percent-3">0.00%</td>
-            <td id="${avId}-percent-5">0.00%</td>
           </tr>`;
         }
         html += `</tbody>
@@ -180,7 +178,7 @@ window.customAVs = [];
         updateStatsAboveAV();
         updateStatsAboveInventory();
         updateStatsSectionTotals();
-        updateStatsAboveCustomAV(); // <-- Add this!
+        updateStatsAboveCustomAV();
       });
     });
 
@@ -206,7 +204,7 @@ window.customAVs = [];
       if (!window.customAVs.includes(n)) {
         window.customAVs.push(n);
         window.customAVs.sort((a, b) => a - b);
-        saveCustomAVsToLocal(); // <-- Add this line
+        saveCustomAVsToLocal();
       }
       updateStatsAboveCustomAV();
 
@@ -311,7 +309,6 @@ window.customAVs.forEach(n => addCustomAVColumnAllTables(n));
       }
     }
 
-    // Add this function in your <script>
     function updateStatsTotalAV() {
       let totalAV = 0;
       document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
@@ -329,7 +326,7 @@ window.customAVs.forEach(n => addCustomAVColumnAllTables(n));
     }
 
     function updateStatsAboveAV() {
-      let above1 = 0, above2 = 0, above3 = 0, above5 = 0;
+      let above1 = 0, above2 = 0, above3 = 0;
       document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
         const ore = input.getAttribute('data-ore');
         const av = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
@@ -339,13 +336,11 @@ window.customAVs.forEach(n => addCustomAVColumnAllTables(n));
           if (totalOreAV >= 1) above1++;
           if (totalOreAV >= 2) above2++;
           if (totalOreAV >= 3) above3++;
-          if (totalOreAV >= 5) above5++;
         }
       });
       document.getElementById('stats-above-1av').textContent = above1;
       document.getElementById('stats-above-2av').textContent = above2;
       document.getElementById('stats-above-3av').textContent = above3;
-      document.getElementById('stats-above-5av').textContent = above5;
     }
 
     function updateStatsAboveInventory() {

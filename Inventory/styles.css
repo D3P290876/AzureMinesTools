@@ -32,7 +32,6 @@
       padding: 0;
       height: 40px;
       text-align: center;
-      /* Remove border-bottom for all cells */
       border-bottom: none;
       font-size: 1em;
     }
@@ -44,17 +43,19 @@
       font-size: 1.05em;
       padding: 7px 4px;
     }
-    /* Remove border from last row */
-    .ore-table tr:last-child td {
-      border-bottom: none;
-    }
     /* Add black gridlines to AV% cells */
     .ore-table td[id*="-percent-"] {
-      border: 1px solid #000;
+      border-top: 2px solid #000000;
+      border-bottom: 2px solid #000000;
+      border-left: 2px solid #000000;
+      border-right: 2px solid #000000;
       box-sizing: border-box;
       padding-left: 4px;
       padding-right: 4px;
     }
+    .ore-table th, .ore-table td:not([id*="-percent-"]) {
+      border: none;
+} 
     .ore-table input[type="text"],
     .ore-table input[type="number"] {
       width: 90px;
