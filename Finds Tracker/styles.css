@@ -26,6 +26,7 @@ body {
       width: 320px;
       background-color: #111;
       border: 1px solid #333;
+      text-wrap-mode: nowrap;
     }
 
 
@@ -239,7 +240,7 @@ body {
     #home-btn {
       position: fixed;
       top: 16px;
-      right: 24px;
+      right: 16px;
       z-index: 100;
       padding: 10px 22px;
       background: #222;
