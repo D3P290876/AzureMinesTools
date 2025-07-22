@@ -161,3 +161,24 @@ select, input[type="number"] {
 .ore-popup-cancel-btn:hover {
   background: darkred;
 }
+
+/* Home Button */
+#home-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  padding: 10px 22px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0003;
+  transition: background 0.2s;
+}
+
+#home-btn:hover {
+  background: #444;
+}
