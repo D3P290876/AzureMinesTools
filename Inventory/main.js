@@ -1,4 +1,4 @@
-    // Section definitions
+// Section definitions
     const sections = [
       {
         name: "Limited Ores",
@@ -433,35 +433,33 @@ window.customAVs.forEach(n => addCustomAVColumnAllTables(n));
 
     document.addEventListener('click', function(e) {
   if (e.target.classList.contains('remove-av-btn')) {
-    // Find the <th> containing this button
-    const th = e.target.closest('th');
-    if (!th) return;
-    // Find the table and the index of this <th>
-    const table = th.closest('table');
-    const ths = Array.from(table.querySelectorAll('thead th'));
-    const idx = ths.indexOf(th);
     const av = parseInt(e.target.getAttribute('data-av'), 10);
-    removeCustomAVColumn(av, idx);
+    removeCustomAVColumn(av);
   }
 });
 
-function removeCustomAVColumn(n, idx) {
-  // Remove from window.customAVs
+function removeCustomAVColumn(n) {
   window.customAVs = window.customAVs.filter(val => val !== n);
-  saveCustomAVsToLocal(); // <-- Add this line
+  saveCustomAVsToLocal();
 
-  // Remove the column at the correct index from all tables
+  // Remove the column with the matching data-av from all tables
   document.querySelectorAll('.ore-table').forEach(table => {
-    // Remove header cell at idx
+    // Remove the <th> with the remove button for this AV
     const ths = table.querySelectorAll('thead th');
-    if (ths[idx]) ths[idx].remove();
-    // Remove each cell in this column
-    table.querySelectorAll('tbody tr').forEach(row => {
-      const tds = row.querySelectorAll('td');
-      if (tds[idx - 1]) tds[idx - 1].remove(); // -1 because th includes the "Ore" header
+    ths.forEach(th => {
+      const btn = th.querySelector('.remove-av-btn');
+      if (btn && parseInt(btn.getAttribute('data-av'), 10) === n) {
+        th.remove();
+      }
+    });
+
+    // Remove the corresponding <td> in each row (by custom id)
+    table.querySelectorAll('tbody tr').forEach((row, oreIdx) => {
+      // Find the custom AV% cell by id
+      const td = row.querySelector(`td[id^="custom-av-"][id$="-${n}"]`);
+      if (td) td.remove();
     });
   });
 
-  // Remove the stat line from the stats box (handled by updateStatsAboveCustomAV)
   updateStatsAboveCustomAV();
 }
