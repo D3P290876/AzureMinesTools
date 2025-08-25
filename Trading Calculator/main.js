@@ -196,7 +196,7 @@
       const grid = document.createElement('div');
       grid.className = 'ore-popup-grid';
 
-      Object.keys(oreData).forEach(ore => {
+      Object.keys(oreData).sort().forEach(ore => {
         const row = document.createElement('div');
         row.className = 'ore-popup-row';
 
