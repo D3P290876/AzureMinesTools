@@ -1,253 +1,231 @@
-// Use oreValues from OreValues.js
-    const oreData = {};
-    for (const [ore, data] of Object.entries(window.oreValues)) {
-      oreData[ore] = data.AV;
+/**************************
+     * Trade Calculator Script
+     **************************/
+    let ores = [];
+    let paymentMultiplier = 1;
+    let outputOre = "";
+    let currentPopupMode = "add";
+
+    const oreRows = document.getElementById("oreRows");
+    const totalDisplay = document.getElementById("totalDisplay");
+    const paymentMultDisplay = document.getElementById("paymentMultDisplay");
+    const outputOreDisplay = document.getElementById("outputOreDisplay");
+
+    /* ========= LOCAL STORAGE ========== */
+    window.onload = () => {
+      const saved = JSON.parse(localStorage.getItem("tradeData"));
+      if (saved) {
+        ores = saved.ores || [];
+        paymentMultiplier = saved.paymentMultiplier || 1;
+        outputOre = saved.outputOre || "";
+      }
+      renderTable();
+      updateDisplays();
+    };
+
+    function saveData() {
+      localStorage.setItem(
+        "tradeData",
+        JSON.stringify({ ores, paymentMultiplier, outputOre })
+      );
     }
 
-    const oreRowsContainer = document.getElementById('ore-rows');
-    const outputOreSelect = document.getElementById('output-ore');
-    const multiplierInput = document.getElementById('multiplier');
-
-    // Populate dropdowns
-    function createOreDropdown() {
-      const select = document.createElement('select');
-      const noneOption = document.createElement('option');
-      noneOption.value = '';
-      noneOption.textContent = 'None';
-      select.appendChild(noneOption);
-
-      for (let ore in oreData) {
-        const option = document.createElement('option');
-        option.value = ore;
-        option.textContent = ore;
-        select.appendChild(option);
-      }
-
-      return select;
-    }
-
-    // Store references to value displays for total calculation
-    const valueDisplays = [];
-
-    function formatValue(val) {
-      if (val === 0) return '0';
-
-      // Step 1: Round to 3 decimal places
-      const rounded3 = Math.round(val * 1000) / 1000;
-
-      // Step 2: Round that to a whole number
-      const rounded0 = Math.round(rounded3);
-
-      // If rounded value is less than 100, show 1 decimal from rounded3
-      if (rounded0 < 100) {
-    const oneDecimal = Math.round(rounded3 * 10) / 10;
-    return oneDecimal.toString().replace(/\.0$/, '');
-      }
-
-      // If rounded value is 100 or greater, show the whole number
-      return rounded0.toString();
-    }
-
-    // Modify createRow to push valueDisplay to valueDisplays
-    function createRow(selectedOre) {
-      const tr = document.createElement('tr');
-
-      const oreCell = document.createElement('td');
-      const amountCell = document.createElement('td');
-      const valueCell = document.createElement('td');
-      valueCell.classList.add('value-cell');
-
-      // Show ore name and image, not a dropdown
-      const oreDiv = document.createElement('div');
-      oreDiv.style.display = 'flex';
-      oreDiv.style.alignItems = 'center';
-
-      const img = document.createElement('img');
-      img.src = oreImages[selectedOre] || '';
-      img.alt = selectedOre;
-      img.className = 'ore-img';
-
-      const label = document.createElement('span');
-      label.textContent = selectedOre;
-
-      oreDiv.appendChild(img);
-      oreDiv.appendChild(label);
-
-      oreCell.appendChild(oreDiv);
-
-      const amountInput = document.createElement('input');
-      amountInput.type = 'number';
-      amountInput.min = 0;
-      amountInput.step = 1;
-
-      const valueDisplay = document.createElement('div');
-      valueDisplay.textContent = '';
-
-      amountCell.appendChild(amountInput);
-      valueCell.appendChild(valueDisplay);
-
-      tr.appendChild(oreCell);
-      tr.appendChild(amountCell);
-      tr.appendChild(valueCell);
-
-      valueDisplays.push({ valueDisplay, getValue });
-
-      function getValue() {
-        const ore = selectedOre;
-        const amount = parseFloat(amountInput.value) || 0;
-        const outputOre = outputOreSelect.value;
-        if (ore && outputOre && oreData[ore] && oreData[outputOre]) {
-          const inputAV = oreData[ore];
-          const outputAV = oreData[outputOre];
-          return (amount / inputAV) * outputAV;
-        }
-        return 0;
-      }
-
-      function formatValue(val) {
-        if (val === 0) return '0';
-
-        // Step 1: Round to 3 decimal places
-        const rounded3 = Math.round(val * 1000) / 1000;
-
-        // Step 2: Round to 1 decimal
-        const rounded1 = Math.round(rounded3 * 10) / 10;
-
-        // If rounds to 0 but original wasn't zero, show the 3-decimal rounded value
-        if (rounded1 === 0 && val !== 0) {
-          return rounded3.toString().replace(/\.?0+$/, '');
-        }
-
-        return rounded1.toString().replace(/\.?0+$/, '');
-      }
-
-      function updateValue() {
-        const value = getValue();
-        const outputOre = outputOreSelect.value;
-        if (value && outputOre) {
-          valueDisplay.textContent = formatValue(value) + ' ' + outputOre;
-        } else {
-          valueDisplay.textContent = '';
-        }
-        updateTotal();
-      }
-
-      amountInput.addEventListener('input', updateValue);
-      outputOreSelect.addEventListener('change', updateValue);
-      multiplierInput.addEventListener('input', updateValue);
-
-      return tr;
-    }
-
-    // Add a row for the total
-    function createTotalRow() {
-      const tr = document.createElement('tr');
-      tr.id = 'total-row';
-      const td = document.createElement('td');
-      td.colSpan = 3;
-      td.style.textAlign = 'right';
-      td.style.fontWeight = 'bold';
-      td.textContent = 'Total:';
-      tr.appendChild(td);
-      return tr;
-    }
-
-    // Function to update the total value
-    function updateTotal() {
-      const totalRow = document.getElementById('total-row');
-      if (!totalRow) return;
-      const outputOre = outputOreSelect.value;
-      let total = 0;
-      for (const { getValue } of valueDisplays) {
-        total += Math.round(getValue() * 100) / 100;
-      }
-      const multiplier = parseFloat(multiplierInput.value) || 1;
-      total *= multiplier;
-    
-      // Fill the total row with a single cell spanning all columns
-      totalRow.innerHTML = '';
-      const td = document.createElement('td');
-      td.colSpan = 3;
-      td.style.textAlign = 'right';
-      td.style.fontWeight = 'bold';
-      td.id = 'total-value-cell';
-      if (outputOreSelect) {
-        td.textContent = `Total: ${formatValue(total)} ${outputOre}`;
-      } else {
-        td.textContent = 'Total:';
-      }
-      totalRow.appendChild(td);
-    }
-
-    // Clear all rows and valueDisplays
-    oreRowsContainer.innerHTML = '';
-    valueDisplays.length = 0;
-
-    // Add the total row
-    oreRowsContainer.appendChild(createTotalRow());
-
-    // Show popup with ore list
+    /* ========= POPUP HANDLER ========== */
     function showOrePopup() {
-      const popup = document.getElementById('ore-popup');
-      const content = document.getElementById('ore-popup-content');
-      content.innerHTML = '<h3 style="margin-top:0;">Select an Ore</h3>';
+      const popup = document.getElementById("ore-popup");
+      const content = document.getElementById("ore-popup-content");
+      const title =
+        currentPopupMode === "output"
+        ? "Select Output Ore"
+        : "Select Input Ore";
+    content.innerHTML = `<h3 style="margin-top:0;">${title}</h3>`;
 
-      // Create grid container
-      const grid = document.createElement('div');
-      grid.className = 'ore-popup-grid';
+      const grid = document.createElement("div");
+      grid.className = "ore-popup-grid";
 
-      Object.keys(oreData).sort().forEach(ore => {
-        const row = document.createElement('div');
-        row.className = 'ore-popup-row';
+      Object.keys(window.oreValues)
+        .sort()
+        .forEach((ore) => {
+          const row = document.createElement("div");
+          row.className = "ore-popup-row";
 
-        const img = document.createElement('img');
-        img.src = oreImages[ore] || '';
-        img.alt = ore;
+          const img = document.createElement("img");
+          img.src = window.oreImages[ore] || "";
+          img.alt = ore;
 
-        const label = document.createElement('span');
-        label.textContent = ore;
+          const label = document.createElement("span");
+          label.textContent = ore;
 
-        row.appendChild(img);
-        row.appendChild(label);
+          row.appendChild(img);
+          row.appendChild(label);
 
-        row.onclick = () => {
-          popup.style.display = 'none';
-          addOreRow(ore);
-        };
+          row.onclick = () => {
+            popup.style.display = "none";
+            if (currentPopupMode === "add") addOreRow(ore);
+            else if (currentPopupMode === "output") {
+              outputOre = ore;
+              recalc();
+              saveData();
+            }
+          };
 
-        grid.appendChild(row);
-      });
+          grid.appendChild(row);
+        });
 
-      // Add the Cancel button as a grid item
-      const cancelBtn = document.createElement('button');
-      cancelBtn.textContent = 'Cancel';
-      cancelBtn.className = 'ore-popup-cancel-btn';
-      cancelBtn.onclick = () => { popup.style.display = 'none'; };
-
+      const cancelBtn = document.createElement("button");
+      cancelBtn.textContent = "Cancel";
+      cancelBtn.className = "ore-popup-cancel-btn";
+      cancelBtn.onclick = () => (popup.style.display = "none");
       grid.appendChild(cancelBtn);
 
       content.appendChild(grid);
-      popup.style.display = 'flex';
+      popup.style.display = "flex";
     }
 
-// Add a new ore input row for the selected ore
-function addOreRow(selectedOre) {
-  const tr = createRow(selectedOre);
-  const totalRow = document.getElementById('total-row');
-  oreRowsContainer.insertBefore(tr, totalRow); // Insert before the total row
-  updateTotal();
+    /* ========= DISPLAY FORMATTING ========== */
+    function formatWithCommas(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-    // Populate output ore dropdown
-const outputDropdown = createOreDropdown();
-while (outputDropdown.firstChild) {
-  outputOreSelect.appendChild(outputDropdown.firstChild);
+function formatValue(val) {
+  if (val === 0 || isNaN(val)) return "0";
+
+  let rounded;
+  if (Math.abs(val) < 1) {
+    rounded = Math.round(val * 1000) / 1000; // 3 decimals
+  } else if (val < 10) {
+    rounded = Math.round(val * 100) / 100; // 2 decimals
+  } else if (val < 100) {
+    rounded = Math.round(val * 10) / 10; // 1 decimal
+  } else {
+    rounded = Math.round(val); // Whole number for 100+
+  }
+
+  return formatWithCommas(rounded.toString());
 }
 
-// Update total when output ore or multiplier changes
-outputOreSelect.addEventListener('change', updateTotal);
-multiplierInput.addEventListener('input', updateTotal);
+function formatTotal(val) {
+  if (val === 0 || isNaN(val)) return "0";
 
-// Initial setup: add the add button row and total row (no default ore rows)
+  let rounded;
+  if (val < 10) {
+    rounded = Math.round(val * 1000) / 1000; // 3 decimals
+  } else if (val < 100) {
+    rounded = Math.round(val * 10) / 10; // 1 decimal
+  } else {
+    rounded = Math.round(val); // Whole number
+  }
 
-document.getElementById('add-ore-btn').onclick = showOrePopup;
+  return formatWithCommas(rounded.toString());
+}
+
+    /* ========= CORE FUNCTIONS ========== */
+    function renderTable() {
+      oreRows.innerHTML = "";
+      ores.forEach((ore, i) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><img src="${window.oreImages[ore.name]}" class="ore-icon"> ${ore.name}</td>
+          <td><input type="number" min="0" value="${ore.amount}" data-index="${i}" class="amountInput"></td>
+          <td>${ore.valueDisplay || "—"}</td>
+        `;
+        oreRows.appendChild(row);
+      });
+
+      document.querySelectorAll(".amountInput").forEach((input) => {
+        input.addEventListener("input", (e) => {
+          const idx = e.target.dataset.index;
+          ores[idx].amount = parseFloat(e.target.value) || 0;
+          recalc();
+          saveData();
+        });
+      });
+
+      recalc();
+    }
+
+    function addOreRow(oreName) {
+      const oreBaseValue = window.oreValues[oreName].AV;
+      ores.push({
+        name: oreName,
+        amount: 0,
+        valueBase: oreBaseValue,
+        valueDisplay: "—",
+      });
+      renderTable();
+      saveData();
+    }
+
+    function recalc() {
+      if (!outputOre || !window.oreValues[outputOre]) {
+        totalDisplay.textContent = "—";
+        ores.forEach((ore) => (ore.valueDisplay = "—"));
+        renderTableValuesOnly();
+        return;
+      }
+
+      let total = 0;
+      ores.forEach((ore) => {
+        const conversion =
+  (ore.amount * window.oreValues[outputOre].AV) / ore.valueBase;
+        ore.valueDisplay = `${formatValue(conversion)} ${outputOre}`;
+        total += conversion;
+      });
+      total *= paymentMultiplier;
+
+      totalDisplay.innerHTML = `
+        ${formatWithCommas(formatTotal(total))} 
+        <img src="${window.oreImages[outputOre] || ''}" 
+          alt="${outputOre}" 
+          class="ore-icon" 
+       style="margin-left:6px; vertical-align:middle;">
+    `;
+      paymentMultDisplay.textContent = paymentMultiplier + "x";
+      outputOreDisplay.textContent = outputOre;
+      saveData();
+      renderTableValuesOnly();
+    }
+
+    function renderTableValuesOnly() {
+      oreRows.querySelectorAll("tr").forEach((tr, i) => {
+        const tds = tr.querySelectorAll("td");
+        if (tds[2]) tds[2].innerHTML = ores[i].valueDisplay;
+      });
+    }
+
+    function updateDisplays() {
+      paymentMultDisplay.textContent = paymentMultiplier + "x";
+      outputOreDisplay.textContent = outputOre || "—";
+      totalDisplay.textContent = "—";
+    }
+
+    /* ========= BUTTONS ========== */
+    document.getElementById("addOreBtn").addEventListener("click", () => {
+      currentPopupMode = "add";
+      showOrePopup();
+    });
+
+    document.getElementById("setOutputBtn").addEventListener("click", () => {
+      currentPopupMode = "output";
+      showOrePopup();
+    });
+
+    document.getElementById("paymentMultBtn").addEventListener("click", () => {
+      const newMult = parseFloat(prompt("Enter payment multiplier:", paymentMultiplier));
+      if (!isNaN(newMult) && newMult > 0) {
+        paymentMultiplier = newMult;
+        recalc();
+        saveData();
+      }
+    });
+
+    document.getElementById("clearDataBtn").addEventListener("click", () => {
+      if (confirm("Clear all trade data?")) {
+        localStorage.removeItem("tradeData");
+        ores = [];
+        paymentMultiplier = 1;
+        outputOre = "";
+        renderTable();
+        updateDisplays();
+      }
+    });

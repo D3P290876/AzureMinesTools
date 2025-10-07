@@ -69,3 +69,5 @@ const oreImages = {
     "Constellatium": "../src/Constellatium.png",
     "Mightstone": "../src/Mightstone.png"
 };
+
+window.oreImages = oreImages;

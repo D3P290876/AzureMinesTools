@@ -19,6 +19,20 @@
       height: 100vh;
     }
 
+    .kappa {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 75px;
+      height: 75px;
+    }
+
+    .falling-kappa {
+      pointer-events: none;
+      transition: none;
+      will-change: top;
+  }
+
     .info-box {
       position: absolute;
       bottom: 20px;
@@ -81,14 +95,17 @@
       transform: scale(1.025);
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
+
   </style>
 </head>
 <body>
 
+ <img src="./src/Kappa.png" class="kappa">
+
   <div class="menu">
     <a href="Inventory/index.html" class="menu-btn">Inventory Stats</a>
     <a href="Finds Tracker/index.html" class="menu-btn">Finds Tracker</a>
-    <a href="Trading Calculator/index.html" class="menu-btn">Trading Calculator (WIP) </a>
+    <a href="Trading Calculator/index.html" class="menu-btn">Trading Calculator</a>
   </div>
 
   <div class="info-box">
@@ -102,6 +119,7 @@
      If you have any suggestions or find any bugs you can ping @D3P290876 in the Azure Mines Club Discord server.
      </span>
   </div>
-  
+
+  <script src="kappafall.js"></script>
 </body>
 </html>

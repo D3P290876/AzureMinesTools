@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trading Calculator</title>
+  <link rel="icon" type="image/png" href="../src/Azure.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Home Button -->
+  <button id="home-btn" onclick="window.location.href='https://d3p290876.github.io/amInventoryManager/'">Home Page</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Input Ores</th>
+        <th>Amount</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody id="ore-rows">
+      <td id="total-row"></td>
+    </tbody>
+  </table>
+
+  <div class="bottom-wrapper">
+    <div class="bottom-cell">
+      <label>Payment Multiplier:</label>
+      <input type="number" id="multiplier" value="1" min="0.01" step="0.01">
+    </div>
+    <div class="bottom-cell">
+      <label>Output:</label>
+      <select id="output-ore"></select>
+    </div>
+  </div>
+
+  <!-- Add Ore button below everything -->
+  <div id="add-ore-btn-wrapper" style="text-align:center; margin: 12px 0;">
+    <button class="add-ore-btn" onclick="showOrePopup()">+ Add Ore</button>
+  </div>
+
+  <div id="ore-popup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); align-items:center; justify-content:center; z-index:1000;">
+    <div id="ore-popup-content" style="background:white; padding:20px; border-radius:8px; max-height:80vh; overflow:auto;">
+    </div>
+  </div>
+
+ <script src="../OreValues.js"></script>
+ <script src="../OreImages.js"></script>
+ <script src="main.js"></script>
+</body>
+</html>
