@@ -1,0 +1,562 @@
+[
+  {
+    "name": "Stone",
+    "image": "../src/Stone.png",
+    "depth": "1m-9,999m",
+    "location": "Market Place",
+    "rate": "Untested",
+    "notes": "None"
+  },
+  {
+    "name": "Moonstone",
+    "image": "../src/Moonstone.png",
+    "depth": "1m / Surface",
+    "location": "Leaving and rejoining a private server.",
+    "rate": "Untested",
+    "notes": "None"
+  },  
+  {
+    "name": "Opal",
+    "image": "../src/Opal.png",
+    "depth": "1m-3m / Zombie Drops",
+    "location": "3,000m-4,000m Zombies",
+    "rate": "Untested",
+    "notes": "Test"
+  },
+  {
+    "name": "Amethyst",
+    "image": "../src/Amethyst.png",
+    "depth": "1m-1,000m / Zombie Drops",
+    "location": "600m-1,000m Zombies",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Coal",
+    "image": "../src/Coal.png",
+    "depth": "2m-9,999m",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Iron",
+    "image": "../src/Iron.png",
+    "depth": "5m-1,000m",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Gold",
+    "image": "../src/Gold.png",
+    "depth": "5m-1,000m / Zombie Drops",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Copper",
+    "image": "../src/Copper.png",
+    "depth": "10m-2,000m",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Silver",
+    "image": "../src/Silver.png",
+    "depth": "20m-2,000m",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Topaz",
+    "image": "../src/Topaz.png",
+    "depth": "20m-2,000m",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Sulfur",
+    "image": "../src/Sulfur.png",
+    "depth": "25m-9,999m / Zombie Drops",
+    "location": "Passive Gain(Mining)",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Ruby",
+    "image": "../src/Ruby.png",
+    "depth": "65m-300m",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Sapphire",
+    "image": "../src/Sapphire.png",
+    "depth": "95m-400m",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Emerald",
+    "image": "../src/Emerald.png",
+    "depth": "300m-500m / Zombie Drops",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Diamond",
+    "image": "../src/Diamond.png",
+    "depth": "400m-1,200m / Zombie Drops",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Platinum",
+    "image": "../src/Platinum.png",
+    "depth": "400m-1,000m / Zombie Drops",
+    "location": "3,000m-4,000m Zombies",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Boomite",
+    "image": "../src/Boomite.png",
+    "depth": "600m-1,000m | Requires Dragonglass Pickaxe",
+    "location": "Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Shadow Metal",
+    "image": "../src/Shadow Metal.png",
+    "depth": "600m-1,000m Zombie Drops Only",
+    "location": "Zombies",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Illuminunium",
+    "image": "../src/Illuminunium.png",
+    "depth": "666m",
+    "location": "666m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Plutonium",
+    "image": "../src/Plutonium.png",
+    "depth": "700m-2,000m / Zombie Drops",
+    "location": "Zombies or Mining(1,000m+)",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Uranium",
+    "image": "../src/Uranium.png",
+    "depth": "800m-1,400m / Zombie Drops",
+    "location": "Zombies or Market Place",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Serendibite",
+    "image": "../src/Serendibite.png",
+    "depth": "996m-999m / Zombie Drops",
+    "location": "Market Place or 600m-1,000m Zombies",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Baryte",
+    "image": "../src/Baryte.png",
+    "depth": "1,001m-1,999m / Zombie Drops",
+    "location": "Zombies or Mining",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Rainbonite",
+    "image": "../src/Rainbonite.png",
+    "depth": "1,000m-1,999m / Zombie Drops",
+    "location": "Zombie Drops or Mining 1,000m-1,050m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Orichalcum",
+    "image": "../src/Orichalcum.png",
+    "depth": "1,000m-2,000m Zombie Drops Only",
+    "location": "Zombies",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Alexandrite",
+    "image": "../src/Alexandrite.png",
+    "depth": "1,200m-1,600m",
+    "location": "1,550m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Azure",
+    "image": "../src/Azure.png",
+    "depth": "1,400m-1,999m",
+    "location": "1,550m or 1,700m-1,750m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Mithril",
+    "image": "../src/Mithril.png",
+    "depth": "1,700m-1,999m",
+    "location": "1,700m Exact or 1,700m-1,750m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Nullstone",
+    "image": "../src/Nullstone.png",
+    "depth": "2,000m-2,997m | Only Spawns Between 200-300 on Positive/Negative X and Z Axis",
+    "location": "2,050m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Dragonglass",
+    "image": "../src/Dragonglass.png",
+    "depth": "2,000m-2,400m / Zombie Drops",
+    "location": "2,050m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Painite",
+    "image": "../src/Painite.png",
+    "depth": "2,000m-2,997m / Zombie Drops",
+    "location": "2,050m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Soulstone",
+    "image": "../src/Soulstone.png",
+    "depth": "2,000m-3,000m Zombie Drops Only",
+    "location": "Zombies",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Firecrystal",
+    "image": "../src/Firecrystal.png",
+    "depth": "2,000m-2,997m",
+    "location": "2,050m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Symmetrium",
+    "image": "../src/Symmetrium.png",
+    "depth": "1,999m-2,999m Only From Mining Firecrystal With Frostarium Pickaxe",
+    "location": "2,050m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Dragonstone",
+    "image": "../src/Dragonstone.png",
+    "depth": "2,998m-3,002m | Requires Dragonglass Pickaxe",
+    "location": "2,998m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Promethium",
+    "image": "../src/Promethium.png",
+    "depth": "2,998m-3,002m / Zombie Drops(4,000m-5,000m)",
+    "location": "3,002m-3,003m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Newtonium",
+    "image": "../src/Newtonium.png",
+    "depth": "3,003m-3,999m",
+    "location": "3,050m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Corium",
+    "image": "../src/Corium.png",
+    "depth": "3,003m-3,999m Exploding Around Newtonium With Boomite Pickaxe",
+    "location": "3,003m-3,025m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Yunium",
+    "image": "../src/Yunium.png",
+    "depth": "3,000m-4,000m Zombie Drops Only",
+    "location": "Zombies",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Solarium",
+    "image": "../src/Solarium.png",
+    "depth": "3,700m-3,999m",
+    "location": "3,700m Exact or 3,700m-3,750m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Frightstone",
+    "image": "../src/Frightstone.png",
+    "depth": "4,000m-5,000m / Zombie Drops",
+    "location": "Zombies or 4,400m-4,450m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Redmatter",
+    "image": "../src/Redmatter.png",
+    "depth": "4,000m-5,000m Zombie Drops Only",
+    "location": "Zombies",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Darkmatter",
+    "image": "../src/Darkmatter.png",
+    "depth": "4,300m-5,000m / Zombie Drops",
+    "location": "4,613m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Antimatter",
+    "image": "../src/Antimatter.png",
+    "depth": "4,500m-5,000m",
+    "location": "4,613m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Stellarite",
+    "image": "../src/Stellarite.png",
+    "depth": "4,000m-4,700m / Zombie Drops",
+    "location": "Zombies or 4,400m-4,450m|4,613m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Constellatium",
+    "image": "../src/Constellatium.png",
+    "depth": "4,600m-5,200m",
+    "location": "4,613m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Mightstone",
+    "image": "../src/Mightstone.png",
+    "depth": "5,000m-5,200m",
+    "location": "5,220m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Garnet",
+    "image": "../src/Garnet.png",
+    "depth": "Staff Room | Click Waterfall to Left of the Teleport Pad",
+    "location": "Empty Staff Room",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Kappa",
+    "image": "../src/Kappa.png",
+    "depth": "Specific Coordinates | 1337, 420, 0",
+    "location": "Low Delay Pickaxes/+Walkspeed Items",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Tungsten",
+    "image": "../src/Tungsten.png",
+    "depth": "1,000m-1,999m | Only Spawns 10,000 Blocks Outwards on Positive/Negative X and Z Axis",
+    "location": "1,700m-1,750m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Titanium",
+    "image": "../src/Titanium.png",
+    "depth": "2,800m-4,200m More Common Closer the Mine is to Resetting",
+    "location": "Mine Lifetime 70%-100%",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Element V",
+    "image": "../src/Element V.png",
+    "depth": "Specific Coordinates | 718, 4439, 252",
+    "location": "Low Delay Pickaxes/+Walkspeed Items",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Havium",
+    "image": "../src/Havium.png",
+    "depth": "Max Level Market Place Only",
+    "location": "Only Buy 3 Havium Market Deals",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Valhalum",
+    "image": "../src/Valhalum.png",
+    "depth": "5,000m-5,200m | Requires Completionist Badge and Super Deity Rank(or Platinum Pickaxe)",
+    "location": "Vertical Mining Downwards from 5,000m in 2 Block Apart Holes",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Nihilium",
+    "image": "../src/Nihilium.png",
+    "depth": "1m-9,999m | 1/100,000 Rarity",
+    "location": "RNG | Passive Gain(Mining)",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Ambrosia",
+    "image": "../src/Ambrosia.png",
+    "depth": "1m-9,999m | 1/1,000,000 Rarity",
+    "location": "RNG | Passive Gain(Mining)",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Pumpkinite",
+    "image": "../src/Pumpkinite.png",
+    "depth": "Surface | Halloween Event Only",
+    "location": "On Mountains Surrounding the Mine",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Sinistyte M",
+    "image": "../src/Sinistyte M.png",
+    "depth": "2m-1,000m | Halloween Event Only",
+    "location": "666m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Sinistyte L",
+    "image": "../src/Sinistyte L.png",
+    "depth": "1,000m-3,000m | Halloween Event Only",
+    "location": "1,000m-2,000m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Sinistyte S",
+    "image": "../src/Sinistyte S.png",
+    "depth": "3,000m-4,000m | Halloween Event Only",
+    "location": "3,002m-3,003m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Sinistyte E",
+    "image": "../src/Sinistyte E.png",
+    "depth": "4,005m-5,200m | Halloween Event Only",
+    "location": "4,400m-4,450m or 4,613m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Nightmarium",
+    "image": "../src/Nightmarium.png",
+    "depth": "600m-1,000m | October 31st Only",
+    "location": "666m",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Twitchite",
+    "image": "../src/Twitchite.png",
+    "depth": "1m-9,999m | Only Spawns When Bereza is Live",
+    "location": "Rarity Based on Viewer Count",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Frostarium",
+    "image": "../src/Frostarium.png",
+    "depth": "Surface Frozen River | Christmas Event Only",
+    "location": "Server Hopping and Mining the Frozen River",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Giftium",
+    "image": "../src/Giftium.png",
+    "depth": "600m-1,000m | Christmas Event Only",
+    "location": "Present Zombie Drops",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Frawstbyte",
+    "image": "../src/Frawstbyte.png",
+    "depth": "1,000m-2,000m | Christmas Event Only",
+    "location": "Present Zombie Drops",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Gingerbreadium",
+    "image": "../src/Gingerbreadium.png",
+    "depth": "2,000m-3,000m | Christmas Event Only",
+    "location": "Present Zombie Drops",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Peppermintium",
+    "image": "../src/Peppermintium.png",
+    "depth": "3,000m-4,000m | Christmas Event Only",
+    "location": "Present Zombie Drops",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Noobite",
+    "image": "../src/Noobite.png",
+    "depth": "4,000m-5,000m | Christmas Event Only",
+    "location": "Present Zombie Drops",
+    "rate": "Test",
+    "notes": "Test"
+  },
+  {
+    "name": "Unobtainium",
+    "image": "../src/Unobtainium.png",
+    "depth": "50m-5,200m",
+    "location": "Passive Gain(Mining) Slightly More Common Farther Down You Are",
+    "rate": "Test",
+    "notes": "Test"
+  }
+]
