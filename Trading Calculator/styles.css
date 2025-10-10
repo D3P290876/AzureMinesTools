@@ -209,3 +209,186 @@ body {
     #home-btn:hover {
       background: #444;
     }
+
+    /* ===============================
+   📱 MOBILE RESPONSIVENESS
+   =============================== */
+
+/* For tablets and smaller screens */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  table, .summary-table {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  th, td {
+    padding: 6px;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+    padding: 6px;
+    box-sizing: border-box;
+  }
+
+  .controls {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .controls button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  /* Allow table to scroll horizontally if too wide */
+  #oreTable, .summary-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* Popup content fits small screens */
+  #ore-popup-content {
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 18px 20px;
+  }
+
+  /* Popup grid adjusts columns for mobile */
+  .ore-popup-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+
+  .ore-popup-row {
+    min-width: auto;
+    justify-content: center;
+    padding: 4px 6px;
+    font-size: 0.9em;
+  }
+
+  .ore-popup-cancel-btn {
+    grid-column: span 2;
+    width: 100%;
+  }
+
+  /* Clear Trade Button */
+  .top-right-clear {
+    bottom: 12px;
+    left: 12px;
+    font-size: 0.9rem;
+    padding: 10px 16px;
+  }
+
+  /* Home button scales down slightly */
+  #home-btn {
+    top: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    font-size: 1rem;
+  }
+}
+
+/* =========================================
+   RESPONSIVE POPUP ORE SELECTION LAYOUT
+   ========================================= */
+@media (max-width: 480px) {
+  #ore-popup-content {
+    width: 92%;
+    max-width: 340px;
+    padding: 16px 18px;
+    border-radius: 10px;
+  }
+
+  .ore-popup-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .ore-popup-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: #232323;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.9em;
+    min-height: 42px;
+  }
+
+  .ore-popup-row img {
+    width: 22px;
+    height: 22px;
+    margin-right: 8px;
+  }
+
+  .ore-popup-cancel-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 8px 0;
+    margin-top: 4px;
+  }
+
+  #ore-popup-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* 📱 Medium phones & small tablets (481px–767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  #ore-popup-content {
+    width: 90%;
+    max-width: 480px;
+    padding: 20px;
+  }
+
+  .ore-popup-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .ore-popup-row {
+    min-height: 46px;
+    font-size: 0.95em;
+  }
+}
+
+/* 💻 Tablets & small laptops (768px–1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  #ore-popup-content {
+    width: 85%;
+    max-width: 600px;
+  }
+
+  .ore-popup-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .ore-popup-row {
+    min-height: 48px;
+  }
+}
+
+/* 🖥️ Large screens (1024px+) */
+@media (min-width: 1024px) {
+  .ore-popup-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+}
