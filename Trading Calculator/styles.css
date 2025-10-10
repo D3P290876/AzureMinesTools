@@ -250,11 +250,11 @@ body {
   }
 
   .summary-table th {
-    font-size: 0.85rem;   /* Shrinks header text */
+    font-size: 0.90rem;
   }
 
   .summary-table td {
-    font-size: 0.9rem;    /* Slightly smaller cell text */
+    font-size: 0.95rem;
   }
 
   /* Allow table to scroll horizontally if too wide */
