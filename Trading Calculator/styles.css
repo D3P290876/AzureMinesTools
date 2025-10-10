@@ -249,6 +249,14 @@ body {
     font-size: 1rem;
   }
 
+  .summary-table th {
+    font-size: 0.85rem;   /* Shrinks header text */
+  }
+
+  .summary-table td {
+    font-size: 0.9rem;    /* Slightly smaller cell text */
+  }
+
   /* Allow table to scroll horizontally if too wide */
   #oreTable, .summary-table {
     display: block;
