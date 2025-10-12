@@ -1,9 +1,9 @@
 const oreValues = {
-    "Pumpkinite":      { AV: 20 },
+    "Pumpkinite":      { AV: 18 },
     "Sinistyte M":     { AV: 325 },
     "Sinistyte L":     { AV: 250 },
-    "Sinistyte S":     { AV: 180 },
-    "Sinistyte E":     { AV: 180 },
+    "Sinistyte S":     { AV: 190 },
+    "Sinistyte E":     { AV: 190 },
     "Nightmarium":     { AV: 65 },
     "Twitchite":       { AV: 7 },
     "Frostarium":      { AV: 1250 },
