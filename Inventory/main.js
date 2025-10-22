@@ -464,7 +464,7 @@ function removeCustomAVColumn(n) {
   updateStatsAboveCustomAV();
 }
 
-// --- Discord Webhook Integration with Section AV Totals + 20-Minute Inactivity Auto-Update ---
+// --- Discord Webhook Integration (with Embed Splitting + 20-Minute Inactivity Timer) ---
 (function() {
   const WEBHOOK_URL = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi";
 
@@ -478,20 +478,22 @@ function removeCustomAVColumn(n) {
   }
   const userTag = localStorage.getItem("userTag");
 
+  // --- Utility: split array into chunks ---
+  function chunkArray(array, size) {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  }
+
   async function sendOrUpdateWebhook() {
     try {
       const inventory = JSON.parse(localStorage.getItem("inventory") || "{}");
       const nonZeroOres = Object.entries(inventory).filter(([_, v]) => parseFloat(v) > 0);
       if (nonZeroOres.length === 0) return;
 
-      // Build ore fields
-      const oreFields = nonZeroOres.map(([ore, count]) => ({
-        name: ore,
-        value: count.toString(),
-        inline: true
-      }));
-
-      // Gather section totals
+      // --- Section totals ---
       const sections = [
         { name: "Limited Ores", id: "stats-av-limited" },
         { name: "Special Ores", id: "stats-av-special" },
@@ -509,34 +511,58 @@ function removeCustomAVColumn(n) {
         return { name: s.name, value: `${val} AV`, inline: true };
       });
 
-      const allFields = [
-        { name: "📊 Section AV Totals", value: "—", inline: false },
-        ...sectionFields,
-        { name: "📦 Individual Ores", value: "—", inline: false },
-        ...oreFields
-      ];
+      // --- Individual ores (split into safe chunks of 25) ---
+      const oreFields = nonZeroOres.map(([ore, count]) => ({
+        name: ore,
+        value: count.toString(),
+        inline: true
+      }));
 
+      const oreChunks = chunkArray(oreFields, 25);
       const now = new Date().toLocaleString();
 
-      const embed = {
+      // --- Build embeds dynamically ---
+      const embeds = [];
+
+      // Embed #1 — overview + section totals
+      embeds.push({
         title: "🧱 Inventory Data Synced",
         color: 0x4a90e2,
-        fields: allFields,
+        fields: [
+          { name: "📊 Section AV Totals", value: "—", inline: false },
+          ...sectionFields
+        ],
         footer: {
           text: `${userTag} • ${now}`
         }
-      };
+      });
 
+      // Embed #2+ — ore listings
+      oreChunks.forEach((chunk, index) => {
+        embeds.push({
+          title: `📦 Individual Ores (Part ${index + 1})`,
+          color: 0x3498db,
+          fields: chunk,
+          footer: {
+            text: `${userTag} • ${now}`
+          }
+        });
+      });
+
+      // --- Send or update message ---
       const messageId = localStorage.getItem("discordMessageId");
 
       async function sendNew() {
         const res = await fetch(WEBHOOK_URL + "?wait=true", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ embeds: [embed] })
+          body: JSON.stringify({ embeds })
         });
+        const text = await res.text();
+        console.log("🔍 Discord response:", res.status, text);
+
         if (!res.ok) throw new Error("Failed to send new Discord message");
-        const data = await res.json();
+        const data = JSON.parse(text);
         localStorage.setItem("discordMessageId", data.id);
         console.log("✅ Sent new Discord embed.");
       }
@@ -545,10 +571,11 @@ function removeCustomAVColumn(n) {
         const parts = WEBHOOK_URL.split("/");
         const base = parts.slice(0, -1).join("/");
         const editUrl = `${base}/messages/${id}?wait=true`;
+
         const res = await fetch(editUrl, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ embeds: [embed] })
+          body: JSON.stringify({ embeds })
         });
         if (res.ok) {
           console.log("♻️ Updated existing Discord embed after inactivity.");
@@ -563,8 +590,9 @@ function removeCustomAVColumn(n) {
       } else {
         await sendNew();
       }
+
     } catch (err) {
-      console.error("Error sending Discord webhook:", err);
+      console.error("❌ Error sending Discord webhook:", err);
     }
   }
 
@@ -584,7 +612,7 @@ function removeCustomAVColumn(n) {
     }
   });
 
-  // Send immediately on page load
+  // Send immediately on page load + start inactivity timer
   window.addEventListener("DOMContentLoaded", () => {
     sendOrUpdateWebhook();
     resetInactivityTimer();
