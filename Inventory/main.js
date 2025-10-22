@@ -464,30 +464,37 @@ function removeCustomAVColumn(n) {
   updateStatsAboveCustomAV();
 }
 
-// --- Discord Webhook Integration on Page Close ---
-window.addEventListener("beforeunload", function() {
+// --- Discord Webhook Integration on Page Load ---
+window.addEventListener("DOMContentLoaded", function() {
   try {
-    const webhookUrl = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi"; // 🔗 Replace with your actual webhook URL
+    const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // 🔗 Replace with your actual Discord webhook URL
 
-    // Retrieve the latest saved inventory
+    // Retrieve the latest saved inventory from localStorage
     const inventory = JSON.parse(localStorage.getItem("inventory") || "{}");
 
     // Build message content
-    let message = "📦 **Inventory Submitted on Exit**\n\n";
+    let message = "📦 **Inventory Loaded**\n\n";
     for (const [ore, count] of Object.entries(inventory)) {
       if (count && parseFloat(count) > 0) {
         message += `• ${ore} → ${count}\n`;
       }
     }
 
-    // Don’t send empty inventories
-    if (message.trim() !== "📦 **Inventory Submitted on Exit**") {
-      // Use navigator.sendBeacon for reliability during unload
-      const payload = JSON.stringify({ content: message });
-      const blob = new Blob([payload], { type: "application/json" });
-      navigator.sendBeacon(webhookUrl, blob);
+    // Only send if there’s data
+    if (message.trim() !== "📦 **Inventory Loaded**") {
+      fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: message })
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to send webhook");
+        console.log("✅ Inventory sent to Discord on page load");
+      })
+      .catch(err => console.error("Webhook send failed:", err));
     }
   } catch (err) {
-    console.error("Error sending Discord webhook on exit:", err);
+    console.error("Error sending Discord webhook on load:", err);
   }
 });
+
