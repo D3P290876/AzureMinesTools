@@ -463,3 +463,31 @@ function removeCustomAVColumn(n) {
 
   updateStatsAboveCustomAV();
 }
+
+// --- Discord Webhook Integration on Page Close ---
+window.addEventListener("beforeunload", function() {
+  try {
+    const webhookUrl = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi"; // 🔗 Replace with your actual webhook URL
+
+    // Retrieve the latest saved inventory
+    const inventory = JSON.parse(localStorage.getItem("inventory") || "{}");
+
+    // Build message content
+    let message = "📦 **Inventory Submitted on Exit**\n\n";
+    for (const [ore, count] of Object.entries(inventory)) {
+      if (count && parseFloat(count) > 0) {
+        message += `• ${ore} → ${count}\n`;
+      }
+    }
+
+    // Don’t send empty inventories
+    if (message.trim() !== "📦 **Inventory Submitted on Exit**") {
+      // Use navigator.sendBeacon for reliability during unload
+      const payload = JSON.stringify({ content: message });
+      const blob = new Blob([payload], { type: "application/json" });
+      navigator.sendBeacon(webhookUrl, blob);
+    }
+  } catch (err) {
+    console.error("Error sending Discord webhook on exit:", err);
+  }
+});
