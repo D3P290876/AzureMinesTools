@@ -467,7 +467,7 @@ function removeCustomAVColumn(n) {
 // --- Discord Webhook Integration on Page Load ---
 window.addEventListener("DOMContentLoaded", function() {
   try {
-    const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // 🔗 Replace with your actual Discord webhook URL
+    const webhookUrl = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi"; // 🔗 Replace with your actual Discord webhook URL
 
     // Retrieve the latest saved inventory from localStorage
     const inventory = JSON.parse(localStorage.getItem("inventory") || "{}");
