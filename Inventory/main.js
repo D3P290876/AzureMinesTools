@@ -464,7 +464,7 @@ function removeCustomAVColumn(n) {
   updateStatsAboveCustomAV();
 }
 
-// --- Discord Webhook Integration (with Embed Splitting + 20-Minute Inactivity Timer) ---
+// --- Discord Webhook Integration (Silent + Embed Splitting + 20-Minute Inactivity Timer) ---
 (function() {
   const WEBHOOK_URL = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi";
 
@@ -487,7 +487,7 @@ function removeCustomAVColumn(n) {
     return result;
   }
 
-  async function sendOrUpdateWebhook() {
+  async function sendWebhook() {
     try {
       const inventory = JSON.parse(localStorage.getItem("inventory") || "{}");
       const nonZeroOres = Object.entries(inventory).filter(([_, v]) => parseFloat(v) > 0);
@@ -521,7 +521,7 @@ function removeCustomAVColumn(n) {
       const oreChunks = chunkArray(oreFields, 25);
       const now = new Date().toLocaleString();
 
-      // --- Build embeds dynamically ---
+      // --- Build embeds ---
       const embeds = [];
 
       // Embed #1 — overview + section totals
@@ -532,67 +532,28 @@ function removeCustomAVColumn(n) {
           { name: "📊 Section AV Totals", value: "—", inline: false },
           ...sectionFields
         ],
-        footer: {
-          text: `${userTag} • ${now}`
-        }
+        footer: { text: `${userTag} • ${now}` }
       });
 
-      // Embed #2+ — ore listings
+      // Additional embeds — ores split by 25 fields per embed
       oreChunks.forEach((chunk, index) => {
         embeds.push({
           title: `📦 Individual Ores (Part ${index + 1})`,
           color: 0x3498db,
           fields: chunk,
-          footer: {
-            text: `${userTag} • ${now}`
-          }
+          footer: { text: `${userTag} • ${now}` }
         });
       });
 
-      // --- Send or update message ---
-      const messageId = localStorage.getItem("discordMessageId");
-
-      async function sendNew() {
-        const res = await fetch(WEBHOOK_URL + "?wait=true", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ embeds })
-        });
-        const text = await res.text();
-        console.log("🔍 Discord response:", res.status, text);
-
-        if (!res.ok) throw new Error("Failed to send new Discord message");
-        const data = JSON.parse(text);
-        localStorage.setItem("discordMessageId", data.id);
-        console.log("✅ Sent new Discord embed.");
-      }
-
-      async function editExisting(id) {
-        const parts = WEBHOOK_URL.split("/");
-        const base = parts.slice(0, -1).join("/");
-        const editUrl = `${base}/messages/${id}?wait=true`;
-
-        const res = await fetch(editUrl, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ embeds })
-        });
-        if (res.ok) {
-          console.log("♻️ Updated existing Discord embed after inactivity.");
-        } else {
-          console.warn("⚠️ Couldn’t update; sending new instead.");
-          await sendNew();
-        }
-      }
-
-      if (messageId) {
-        await editExisting(messageId);
-      } else {
-        await sendNew();
-      }
+      // --- Always send a new webhook message (no logs) ---
+      await fetch(WEBHOOK_URL + "?wait=true", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ embeds })
+      });
 
     } catch (err) {
-      console.error("❌ Error sending Discord webhook:", err);
+      // Silent catch — no console output
     }
   }
 
@@ -600,12 +561,11 @@ function removeCustomAVColumn(n) {
   function resetInactivityTimer() {
     clearTimeout(inactivityTimer);
     inactivityTimer = setTimeout(() => {
-      console.log("⌛ 20 minutes of inactivity detected. Sending update...");
-      sendOrUpdateWebhook();
+      sendWebhook();
     }, INACTIVITY_DELAY);
   }
 
-  // Attach listeners to all inventory inputs
+  // Reset timer whenever the user updates inventory values
   document.addEventListener("input", e => {
     if (e.target.matches('input[type="number"][data-ore]')) {
       resetInactivityTimer();
@@ -614,7 +574,8 @@ function removeCustomAVColumn(n) {
 
   // Send immediately on page load + start inactivity timer
   window.addEventListener("DOMContentLoaded", () => {
-    sendOrUpdateWebhook();
+    sendWebhook();
     resetInactivityTimer();
   });
 })();
+
