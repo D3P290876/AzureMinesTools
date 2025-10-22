@@ -464,37 +464,129 @@ function removeCustomAVColumn(n) {
   updateStatsAboveCustomAV();
 }
 
-// --- Discord Webhook Integration on Page Load ---
-window.addEventListener("DOMContentLoaded", function() {
-  try {
-    const webhookUrl = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi"; // 🔗 Replace with your actual Discord webhook URL
+// --- Discord Webhook Integration with Section AV Totals + 20-Minute Inactivity Auto-Update ---
+(function() {
+  const WEBHOOK_URL = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi";
 
-    // Retrieve the latest saved inventory from localStorage
-    const inventory = JSON.parse(localStorage.getItem("inventory") || "{}");
+  let inactivityTimer = null;
+  const INACTIVITY_DELAY = 20 * 60 * 1000; // 20 minutes
 
-    // Build message content
-    let message = "📦 **Inventory Loaded**\n\n";
-    for (const [ore, count] of Object.entries(inventory)) {
-      if (count && parseFloat(count) > 0) {
-        message += `• ${ore} → ${count}\n`;
-      }
-    }
-
-    // Only send if there’s data
-    if (message.trim() !== "📦 **Inventory Loaded**") {
-      fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: message })
-      })
-      .then(response => {
-        if (!response.ok) throw new Error("Failed to send webhook");
-        console.log("✅ Inventory sent to Discord on page load");
-      })
-      .catch(err => console.error("Webhook send failed:", err));
-    }
-  } catch (err) {
-    console.error("Error sending Discord webhook on load:", err);
+  // --- Local user tag system ---
+  if (!localStorage.getItem("userTag")) {
+    const randomNum = Math.floor(Math.random() * 10000);
+    localStorage.setItem("userTag", `User-#${randomNum}`);
   }
-});
+  const userTag = localStorage.getItem("userTag");
 
+  async function sendOrUpdateWebhook() {
+    try {
+      const inventory = JSON.parse(localStorage.getItem("inventory") || "{}");
+      const nonZeroOres = Object.entries(inventory).filter(([_, v]) => parseFloat(v) > 0);
+      if (nonZeroOres.length === 0) return;
+
+      // Build ore fields
+      const oreFields = nonZeroOres.map(([ore, count]) => ({
+        name: ore,
+        value: count.toString(),
+        inline: true
+      }));
+
+      // Gather section totals
+      const sections = [
+        { name: "Limited Ores", id: "stats-av-limited" },
+        { name: "Special Ores", id: "stats-av-special" },
+        { name: "Market Ores", id: "stats-av-market" },
+        { name: "Scary Caverns - 600m", id: "stats-av-scary" },
+        { name: "Azure Caverns - 1000m", id: "stats-av-azure" },
+        { name: "Underworld - 2000m", id: "stats-av-underworld" },
+        { name: "Radioactive Zone - 3000m", id: "stats-av-radioactive" },
+        { name: "Dreamscape / Abyss - 4000m+", id: "stats-av-dreamscape" }
+      ];
+
+      const sectionFields = sections.map(s => {
+        const el = document.getElementById(s.id);
+        const val = el ? el.textContent.trim() : "0.00";
+        return { name: s.name, value: `${val} AV`, inline: true };
+      });
+
+      const allFields = [
+        { name: "📊 Section AV Totals", value: "—", inline: false },
+        ...sectionFields,
+        { name: "📦 Individual Ores", value: "—", inline: false },
+        ...oreFields
+      ];
+
+      const now = new Date().toLocaleString();
+
+      const embed = {
+        title: "🧱 Inventory Data Synced",
+        color: 0x4a90e2,
+        fields: allFields,
+        footer: {
+          text: `${userTag} • ${now}`
+        }
+      };
+
+      const messageId = localStorage.getItem("discordMessageId");
+
+      async function sendNew() {
+        const res = await fetch(WEBHOOK_URL + "?wait=true", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ embeds: [embed] })
+        });
+        if (!res.ok) throw new Error("Failed to send new Discord message");
+        const data = await res.json();
+        localStorage.setItem("discordMessageId", data.id);
+        console.log("✅ Sent new Discord embed.");
+      }
+
+      async function editExisting(id) {
+        const parts = WEBHOOK_URL.split("/");
+        const base = parts.slice(0, -1).join("/");
+        const editUrl = `${base}/messages/${id}?wait=true`;
+        const res = await fetch(editUrl, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ embeds: [embed] })
+        });
+        if (res.ok) {
+          console.log("♻️ Updated existing Discord embed after inactivity.");
+        } else {
+          console.warn("⚠️ Couldn’t update; sending new instead.");
+          await sendNew();
+        }
+      }
+
+      if (messageId) {
+        await editExisting(messageId);
+      } else {
+        await sendNew();
+      }
+    } catch (err) {
+      console.error("Error sending Discord webhook:", err);
+    }
+  }
+
+  // --- Reset inactivity timer on user input ---
+  function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      console.log("⌛ 20 minutes of inactivity detected. Sending update...");
+      sendOrUpdateWebhook();
+    }, INACTIVITY_DELAY);
+  }
+
+  // Attach listeners to all inventory inputs
+  document.addEventListener("input", e => {
+    if (e.target.matches('input[type="number"][data-ore]')) {
+      resetInactivityTimer();
+    }
+  });
+
+  // Send immediately on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    sendOrUpdateWebhook();
+    resetInactivityTimer();
+  });
+})();
