@@ -469,7 +469,7 @@ function removeCustomAVColumn(n) {
   const WEBHOOK_URL = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi";
 
   let inactivityTimer = null;
-  const INACTIVITY_DELAY = 20 * 60 * 1000; // 20 minutes
+  const INACTIVITY_DELAY = 5 * 60 * 1000; // 5 minutes
 
   // --- Local user tag system ---
   if (!localStorage.getItem("userTag")) {
@@ -574,7 +574,7 @@ function removeCustomAVColumn(n) {
 
   // Send immediately on page load + start inactivity timer
   window.addEventListener("DOMContentLoaded", () => {
-    sendWebhook();
+ 
     resetInactivityTimer();
   });
 })();
