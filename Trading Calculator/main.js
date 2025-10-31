@@ -229,3 +229,117 @@ function formatTotal(val) {
         updateDisplays();
       }
     });
+
+    /*******************************
+ *  CUSTOM ORE VALUE EDITOR
+ *******************************/
+const editBtn = document.getElementById("edit-ores-btn");
+const editPopup = document.getElementById("edit-popup");
+const editList = document.getElementById("ore-edit-list");
+const oreSearch = document.getElementById("ore-search");
+const resetOresBtn = document.getElementById("reset-ores-btn");
+const saveOresBtn = document.getElementById("save-ores-btn");
+const closeEditPopup = document.getElementById("close-edit-popup");
+
+// Load custom values if any
+const savedCustomValues = JSON.parse(localStorage.getItem("customOreValues"));
+if (savedCustomValues) {
+  Object.keys(savedCustomValues).forEach((ore) => {
+    if (window.oreValues[ore]) {
+      window.oreValues[ore].AV = savedCustomValues[ore];
+    }
+  });
+}
+
+// Open editor
+editBtn.addEventListener("click", () => {
+  showOreEditor();
+});
+
+function showOreEditor() {
+  editPopup.style.display = "flex";
+  renderOreEditList();
+}
+
+// Close editor
+closeEditPopup.addEventListener("click", () => {
+  editPopup.style.display = "none";
+});
+
+// Render ore list
+function renderOreEditList(filter = "") {
+  editList.innerHTML = "";
+
+  const ores = Object.keys(window.oreValues)
+    .filter((ore) => ore.toLowerCase().includes(filter.toLowerCase()))
+    .sort();
+
+  const visibleOres = ores.length;
+  const MIN_ROWS = 12; // ensures stable height, adjust as needed
+  const placeholderCount = Math.max(0, MIN_ROWS - visibleOres);
+
+  ores.forEach((ore) => {
+    const row = document.createElement("div");
+    row.className = "ore-edit-row";
+
+    const oreImg =
+      window.oreImages && window.oreImages[ore]
+        ? window.oreImages[ore]
+        : "../src/default.png";
+
+    row.innerHTML = `
+      <span><img src="${oreImg}" alt="${ore} icon"> ${ore}</span>
+      <input type="number" step="any" value="${window.oreValues[ore].AV}" data-ore="${ore}">
+    `;
+    editList.appendChild(row);
+  });
+
+  // Add invisible rows to lock height perfectly
+  for (let i = 0; i < placeholderCount; i++) {
+    const placeholder = document.createElement("div");
+    placeholder.className = "ore-edit-row";
+    placeholder.style.visibility = "hidden";
+    placeholder.style.height = "32px";
+    editList.appendChild(placeholder);
+  }
+}
+
+// Filter ores live
+oreSearch.addEventListener("input", (e) => {
+  renderOreEditList(e.target.value);
+});
+
+// Save changes
+saveOresBtn.addEventListener("click", () => {
+  const inputs = editList.querySelectorAll("input");
+  const customValues = {};
+
+  inputs.forEach((input) => {
+    const ore = input.dataset.ore;
+    const val = parseFloat(input.value);
+    if (!isNaN(val) && val > 0) {
+      window.oreValues[ore].AV = val;
+      customValues[ore] = val;
+    }
+  });
+
+  localStorage.setItem("customOreValues", JSON.stringify(customValues));
+  editPopup.style.display = "none";
+  updateAllOreValues();
+});
+
+// Reset to default
+resetOresBtn.addEventListener("click", () => {
+  if (confirm("Reset all ore values to default?")) {
+    localStorage.removeItem("customOreValues");
+    window.location.reload();
+  }
+});
+
+function updateAllOreValues() {
+  if (typeof recalculateTotals === "function") {
+    recalculateTotals();
+  } else {
+    location.reload();
+  }
+}

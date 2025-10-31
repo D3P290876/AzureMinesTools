@@ -96,14 +96,12 @@ body {
       padding: 8px;
     }
 
-    /* Remove the up/down number input arrows (Chrome, Edge, Safari) */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
 
-    /* Remove arrows in Firefox */
     input[type=number] {
       -moz-appearance: textfield;
     }
@@ -188,6 +186,167 @@ body {
     .ore-popup-cancel-btn:hover {
       background: darkred;
     }
+
+    /* ===== Ore Edit Popup ===== */
+#edit-popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.7);
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+
+#edit-popup-content {
+  background: #181818;
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 6px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ore-search {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0 16px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background-color: #222;
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+}
+
+#ore-edit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.ore-edit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #232323;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.ore-edit-row span {
+  flex: 1;
+  text-align: left;
+}
+
+.ore-edit-row input {
+  width: 80px;
+  text-align: right;
+  background: #1c1c1c;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.edit-popup-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 16px;
+  gap: 10px;
+}
+
+.edit-popup-actions button {
+  flex: 1;
+  padding: 10px;
+  background: #2a2a2a;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.edit-popup-actions button:hover {
+  background: #444;
+}
+
+/* Top-left button */
+#edit-ores-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 22px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0003;
+  transition: background 0.2s;
+}
+
+#edit-ores-btn:hover {
+  background: #444;
+}
+
+#ore-edit-list {
+  flex: 1;
+  overflow-y: scroll;       /* enables scroll but hidden visually */
+  min-height: 300px;        /* consistent height on all states */
+  max-height: 55vh;         /* allows responsive behavior */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  scrollbar-width: none;    /* hides scrollbar in Firefox */
+  -ms-overflow-style: none; /* hides scrollbar in IE/Edge */
+}
+
+/* hides scrollbar in Chrome/Safari/Edge */
+#ore-edit-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ore row icon style */
+.ore-edit-row img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.ore-edit-row span {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ore-edit-subtext {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  text-align: center;
+  opacity: 0.85;
+}
+
 
     /* Home Button */
     #home-btn {

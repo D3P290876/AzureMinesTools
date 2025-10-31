@@ -12,6 +12,32 @@
 
     <button id="home-btn" onclick="window.location.href='https://d3p290876.github.io/AzureMinesTools/'">Home Page</button>
 
+<!-- Edit Ore Values Button -->
+<button id="edit-ores-btn">Edit Ore Values</button>
+
+<!-- Ore Value Editor Popup -->
+<div id="edit-popup">
+  <div id="edit-popup-content">
+    <h3>Edit Ore Values</h3>
+    <p class="ore-edit-subtext">Set custom AV values for ores. You MUST hit "Clear Trade" button for changes to take effect.</p>
+    <input
+      type="text"
+      id="ore-search"
+      placeholder="Search ores..."
+      autocomplete="off"
+    />
+
+    <div id="ore-edit-list"></div>
+
+    <div class="edit-popup-actions">
+      <button id="reset-ores-btn">Reset to Default</button>
+      <button id="save-ores-btn">Save Changes</button>
+      <button id="close-edit-popup">Close</button>
+    </div>
+  </div>
+</div>
+
+
   <table id="oreTable">
     <thead>
       <tr>
