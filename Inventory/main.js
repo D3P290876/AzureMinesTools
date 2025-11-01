@@ -72,14 +72,14 @@ window.customAVs = [];
       return Math.min(percent, 100).toFixed(2) + "%";
     }
 
-    // Add this function to map percent (0-100) to a color
+    // Map percent (0-100) to a color
     function percentToColor(percent) {
       if (percent >= 100) {
         // 100% or more: blue
         return "#4a86e8";
       }
       // 0% (red) → 50% (yellow) → 100% (green)
-      // We'll interpolate: 0-50% red→yellow, 50-100% yellow→green
+      // 0-50% red→yellow, 50-100% yellow→green
       let r, g, b = 0;
       if (percent < 50) {
         // Red to Yellow
@@ -131,22 +131,32 @@ window.customAVs = [];
           </tr>`;
         }
         html += `</tbody>
-          <tfoot>
-            <tr>
-              <td colspan="8" style="text-align:center; font-weight:bold; color:#c3c3c3;">
-                Total AV of all Ores: <span id="footer-av-total-${i}">0.00</span>
-              </td>
-            </tr>
-          </tfoot>
-        </table>`;
-      }
+      <tfoot>
+        <tr>
+          <td colspan="8" class="footer-row">
+            <strong>Total AV:</strong> <span id="footer-av-total-${i}">0.00</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="8" class="footer-row">
+            <strong>AV% Completed:</strong> <span id="footer-av-complete-${i}">None | 0% to 1AV% Completion</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="8" class="footer-row">
+            <strong>Highest Ore AV:</strong> <span id="footer-highest-${i}">-</span>
+          </td>
+        </tr>
+      </tfoot>
+    </table>`;
+  }
       return html;
     }
 
-    console.log(window.oreValues); // Should show your ore values object
+    console.log(window.oreValues);
     document.getElementById('ore-sections').innerHTML = renderSections(sections);
 
-    // Add event listeners to all inventory inputs
+    // Event listeners for all inventory inputs
     document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
       input.addEventListener('input', function() {
         const ore = this.getAttribute('data-ore');
@@ -226,6 +236,8 @@ window.customAVs = [];
           const td = document.createElement('td');
           // Match built-in AV% cell style
           td.style.border = '1px solid #000';
+          td.style.borderBottom = 'none';
+          td.style.borderRight = 'none';
           td.style.boxSizing = 'border-box';
           td.style.paddingLeft = '4px';
           td.style.paddingRight = '4px';
@@ -290,24 +302,64 @@ window.customAVs.forEach(n => addCustomAVColumnAllTables(n));
     }
 
     function updateFooterTotals() {
-      for (let i = 0; i < sections.length; i++) {
-        let totalAV = 0;
-        const section = sections[i];
-        for (let oreIndex = 0; oreIndex < section.ores.length; oreIndex++) {
-          const ore = section.ores[oreIndex];
-          const input = document.getElementById(`inv-${i}-${oreIndex}`);
-          const av = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
-          const value = parseFloat(input.value) || 0;
-          if (av) {
-            totalAV += value / av;
-          }
-        }
-        const footerCell = document.getElementById(`footer-av-total-${i}`);
-        if (footerCell) {
-          footerCell.textContent = totalAV.toFixed(2);
-        }
-      }
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+    const avs = [];
+    let totalAV = 0;
+
+    // Collect ore data and calculate AVs
+    for (let oreIndex = 0; oreIndex < section.ores.length; oreIndex++) {
+      const ore = section.ores[oreIndex];
+      const input = document.getElementById(`inv-${i}-${oreIndex}`);
+      const value = parseFloat(input?.value) || 0;
+      const oreAV = window.oreValues && ore in oreValues ? oreValues[ore].AV : null;
+      const total = (oreAV && value) ? value / oreAV : 0;
+      avs.push({ ore, total, img: `../src/${encodeURIComponent(ore)}.png` });
+      totalAV += total;
     }
+
+    // ----- Total AV -----
+    const totalEl = document.getElementById(`footer-av-total-${i}`);
+    if (totalEl) {
+      totalEl.textContent = totalAV.toFixed(2);
+    }
+
+    // ----- AV% Completed -----
+    let n = 0;
+    while (true) {
+      const next = n + 1;
+      const allAtLeastNext = avs.every(a => a.total >= next);
+      if (allAtLeastNext) n = next;
+      else break;
+    }
+
+    const target = n + 1;
+    let percentToNext = 0;
+
+    if (target > 0) {
+      const sumProgress = avs.reduce((sum, a) => sum + Math.min(a.total, target), 0);
+      const frac = sumProgress / (target * section.ores.length);
+      percentToNext = Math.min(Math.max(frac * 100, 0), 100);
+    }
+
+    const formattedPercent = Math.round(percentToNext * 100) / 100;
+    const completeEl = document.getElementById(`footer-av-complete-${i}`);
+    if (completeEl) {
+      const completedText = (n > 0) ? `${n}AV%` : 'None';
+      completeEl.textContent = `${completedText} | ${formattedPercent}% to ${target}AV% Completion`;
+    }
+
+    // ----- Highest Ore AV -----
+    const highest = avs.reduce((best, cur) => cur.total > (best?.total ?? -1) ? cur : best, null);
+    const highestEl = document.getElementById(`footer-highest-${i}`);
+    if (highest && highest.total > 0) {
+      highestEl.innerHTML = `<img src="${highest.img}" alt="${highest.ore}"> ${highest.total.toFixed(2)} AV`;
+    } else if (highestEl) {
+      highestEl.textContent = '-';
+    }
+  }
+}
+
 
     function updateStatsTotalAV() {
       let totalAV = 0;
@@ -426,7 +478,7 @@ window.customAVs.forEach(n => addCustomAVColumnAllTables(n));
         // Add the stat line
         const line = document.createElement('div');
         line.setAttribute('data-av', n);
-        line.innerHTML = `# of Ores above ${n} AV: <span id="stats-above-${n}av">${count}</span>`;
+        line.innerHTML = `# of Ores ≥ ${n} AV: <span id="stats-above-${n}av">${count}</span>`;
         container.appendChild(line);
       });
     }
@@ -463,119 +515,3 @@ function removeCustomAVColumn(n) {
 
   updateStatsAboveCustomAV();
 }
-
-// --- Discord Webhook Integration (Silent + Embed Splitting + 20-Minute Inactivity Timer) ---
-(function() {
-  const WEBHOOK_URL = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi";
-
-  let inactivityTimer = null;
-  const INACTIVITY_DELAY = 5 * 60 * 1000; // 5 minutes
-
-  // --- Local user tag system ---
-  if (!localStorage.getItem("userTag")) {
-    const randomNum = Math.floor(Math.random() * 10000);
-    localStorage.setItem("userTag", `User-#${randomNum}`);
-  }
-  const userTag = localStorage.getItem("userTag");
-
-  // --- Utility: split array into chunks ---
-  function chunkArray(array, size) {
-    const result = [];
-    for (let i = 0; i < array.length; i += size) {
-      result.push(array.slice(i, i + size));
-    }
-    return result;
-  }
-
-  async function sendWebhook() {
-    try {
-      const inventory = JSON.parse(localStorage.getItem("inventory") || "{}");
-      const nonZeroOres = Object.entries(inventory).filter(([_, v]) => parseFloat(v) > 0);
-      if (nonZeroOres.length === 0) return;
-
-      // --- Section totals ---
-      const sections = [
-        { name: "Limited Ores", id: "stats-av-limited" },
-        { name: "Special Ores", id: "stats-av-special" },
-        { name: "Market Ores", id: "stats-av-market" },
-        { name: "Scary Caverns - 600m", id: "stats-av-scary" },
-        { name: "Azure Caverns - 1000m", id: "stats-av-azure" },
-        { name: "Underworld - 2000m", id: "stats-av-underworld" },
-        { name: "Radioactive Zone - 3000m", id: "stats-av-radioactive" },
-        { name: "Dreamscape / Abyss - 4000m+", id: "stats-av-dreamscape" }
-      ];
-
-      const sectionFields = sections.map(s => {
-        const el = document.getElementById(s.id);
-        const val = el ? el.textContent.trim() : "0.00";
-        return { name: s.name, value: `${val} AV`, inline: true };
-      });
-
-      // --- Individual ores (split into safe chunks of 25) ---
-      const oreFields = nonZeroOres.map(([ore, count]) => ({
-        name: ore,
-        value: count.toString(),
-        inline: true
-      }));
-
-      const oreChunks = chunkArray(oreFields, 25);
-      const now = new Date().toLocaleString();
-
-      // --- Build embeds ---
-      const embeds = [];
-
-      // Embed #1 — overview + section totals
-      embeds.push({
-        title: "🧱 Inventory Data Synced",
-        color: 0x4a90e2,
-        fields: [
-          { name: "📊 Section AV Totals", value: "—", inline: false },
-          ...sectionFields
-        ],
-        footer: { text: `${userTag} • ${now}` }
-      });
-
-      // Additional embeds — ores split by 25 fields per embed
-      oreChunks.forEach((chunk, index) => {
-        embeds.push({
-          title: `📦 Individual Ores (Part ${index + 1})`,
-          color: 0x3498db,
-          fields: chunk,
-          footer: { text: `${userTag} • ${now}` }
-        });
-      });
-
-      // --- Always send a new webhook message (no logs) ---
-      await fetch(WEBHOOK_URL + "?wait=true", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ embeds })
-      });
-
-    } catch (err) {
-      // Silent catch — no console output
-    }
-  }
-
-  // --- Reset inactivity timer on user input ---
-  function resetInactivityTimer() {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(() => {
-      sendWebhook();
-    }, INACTIVITY_DELAY);
-  }
-
-  // Reset timer whenever the user updates inventory values
-  document.addEventListener("input", e => {
-    if (e.target.matches('input[type="number"][data-ore]')) {
-      resetInactivityTimer();
-    }
-  });
-
-  // Send immediately on page load + start inactivity timer
-  window.addEventListener("DOMContentLoaded", () => {
- 
-    resetInactivityTimer();
-  });
-})();
-

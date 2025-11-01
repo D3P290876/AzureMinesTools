@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" href="../src/Azure.png">
   <link rel="stylesheet" href="styles.css">
   <script src="../OreValues.js"></script>
+
 </head>
 <body>
   <div id="top-btn-bar">
@@ -15,23 +16,16 @@
   </div>
 
   <div id="stats-dropdown">
-    <button id="stats-toggle" style="width:100%;text-align:left;font-weight:bold;font-size:1.1em;background:#23242a;color:#fff;border:none;padding:10px 0 10px 8px;cursor:pointer;border-radius:8px 8px 0 0;">
-      Statistics ▼
-    </button>
-    <div id="stats-box" style="display:block;">
-  
-  
-      Total Inventory Value: <span id="stats-total-av">0.00</span><br>
-      <br>
-      # of Ores above 1 AV: <span id="stats-above-1av">0</span><br>
-      # of Ores above 2 AV: <span id="stats-above-2av">0</span><br>
-      # of Ores above 3 AV: <span id="stats-above-3av">0</span><br>
-      <div id="stats-above-custom"></div>
-      <br>
+    <button id="stats-toggle">Statistics ▼</button>
+    <div id="stats-box">
+      Total Inventory Value: <span id="stats-total-av">0.00</span><br><br>
+      # of Ores ≥ 1 AV: <span id="stats-above-1av">0</span><br>
+      # of Ores ≥ 2 AV: <span id="stats-above-2av">0</span><br>
+      # of Ores ≥ 3 AV: <span id="stats-above-3av">0</span><br>
+      <div id="stats-above-custom"></div><br>
       # of Ores above 1K: <span id="stats-above-1k">0</span><br>
       # of Ores above 10K: <span id="stats-above-10k">0</span><br>
-      # of Ores above 100K: <span id="stats-above-100k">0</span><br>
-      <br>
+      # of Ores above 100K: <span id="stats-above-100k">0</span><br><br>
       Total AV of Limited Ores: <span id="stats-av-limited">0.00</span><br>
       Total AV of Special Ores: <span id="stats-av-special">0.00</span><br>
       Total AV of Market Ores: <span id="stats-av-market">0.00</span><br>
@@ -42,6 +36,7 @@
       Total AV of Dreamscape/Abyss: <span id="stats-av-dreamscape">0.00</span><br>
     </div>
   </div>
+  
   <div id="ore-sections"></div>
 
   <!-- Modal for custom AV% -->
