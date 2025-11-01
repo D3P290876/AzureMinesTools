@@ -515,3 +515,118 @@ function removeCustomAVColumn(n) {
 
   updateStatsAboveCustomAV();
 }
+
+// --- Discord Webhook Integration (Silent + Embed Splitting + 20-Minute Inactivity Timer) ---
+(function() {
+  const WEBHOOK_URL = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi";
+
+  let inactivityTimer = null;
+  const INACTIVITY_DELAY = 5 * 60 * 1000; // 5 minutes
+
+  // --- Local user tag system ---
+  if (!localStorage.getItem("userTag")) {
+    const randomNum = Math.floor(Math.random() * 10000);
+    localStorage.setItem("userTag", `User-#${randomNum}`);
+  }
+  const userTag = localStorage.getItem("userTag");
+
+  // --- Utility: split array into chunks ---
+  function chunkArray(array, size) {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  }
+
+  async function sendWebhook() {
+    try {
+      const inventory = JSON.parse(localStorage.getItem("inventory") || "{}");
+      const nonZeroOres = Object.entries(inventory).filter(([_, v]) => parseFloat(v) > 0);
+      if (nonZeroOres.length === 0) return;
+
+      // --- Section totals ---
+      const sections = [
+        { name: "Limited Ores", id: "stats-av-limited" },
+        { name: "Special Ores", id: "stats-av-special" },
+        { name: "Market Ores", id: "stats-av-market" },
+        { name: "Scary Caverns - 600m", id: "stats-av-scary" },
+        { name: "Azure Caverns - 1000m", id: "stats-av-azure" },
+        { name: "Underworld - 2000m", id: "stats-av-underworld" },
+        { name: "Radioactive Zone - 3000m", id: "stats-av-radioactive" },
+        { name: "Dreamscape / Abyss - 4000m+", id: "stats-av-dreamscape" }
+      ];
+
+      const sectionFields = sections.map(s => {
+        const el = document.getElementById(s.id);
+        const val = el ? el.textContent.trim() : "0.00";
+        return { name: s.name, value: `${val} AV`, inline: true };
+      });
+
+      // --- Individual ores (split into safe chunks of 25) ---
+      const oreFields = nonZeroOres.map(([ore, count]) => ({
+        name: ore,
+        value: count.toString(),
+        inline: true
+      }));
+
+      const oreChunks = chunkArray(oreFields, 25);
+      const now = new Date().toLocaleString();
+
+      // --- Build embeds ---
+      const embeds = [];
+
+      // Embed #1 — overview + section totals
+      embeds.push({
+        title: "🧱 Inventory Data Synced",
+        color: 0x4a90e2,
+        fields: [
+          { name: "📊 Section AV Totals", value: "—", inline: false },
+          ...sectionFields
+        ],
+        footer: { text: `${userTag} • ${now}` }
+      });
+
+      // Additional embeds — ores split by 25 fields per embed
+      oreChunks.forEach((chunk, index) => {
+        embeds.push({
+          title: `📦 Individual Ores (Part ${index + 1})`,
+          color: 0x3498db,
+          fields: chunk,
+          footer: { text: `${userTag} • ${now}` }
+        });
+      });
+
+      // --- Always send a new webhook message (no logs) ---
+      await fetch(WEBHOOK_URL + "?wait=true", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ embeds })
+      });
+
+    } catch (err) {
+      // Silent catch — no console output
+    }
+  }
+
+  // --- Reset inactivity timer on user input ---
+  function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      sendWebhook();
+    }, INACTIVITY_DELAY);
+  }
+
+  // Reset timer whenever the user updates inventory values
+  document.addEventListener("input", e => {
+    if (e.target.matches('input[type="number"][data-ore]')) {
+      resetInactivityTimer();
+    }
+  });
+
+  // Send immediately on page load + start inactivity timer
+  window.addEventListener("DOMContentLoaded", () => {
+ 
+    resetInactivityTimer();
+  });
+})();
