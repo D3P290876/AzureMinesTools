@@ -4,7 +4,7 @@ const oreValues = {
     "Sinistyte L":     { AV: 250 },
     "Sinistyte S":     { AV: 190 },
     "Sinistyte E":     { AV: 190 },
-    "Nightmarium":     { AV: 65 },
+    "Nightmarium":     { AV: 80 },
     "Twitchite":       { AV: 7 },
     "Frostarium":      { AV: 1250 },
     "Giftium":         { AV: 300 },
@@ -20,7 +20,7 @@ const oreValues = {
     "Titanium":        { AV: 80 },
     "Element V":       { AV: 12 },
     "Havium":          { AV: 9 },
-    "Valhalum":        { AV: 9 },
+    "Valhalum":        { AV: 10 },
     "Nihilium":        { AV: 12 },
     "Ambrosia":        { AV: 1 },
 
@@ -44,7 +44,7 @@ const oreValues = {
     "Amethyst":        { AV: 650 },
     "Platinum":        { AV: 1100 },
     "Shadow Metal":    { AV: 110 },
-    "Illuminunium":    { AV: 70 },
+    "Illuminunium":    { AV: 75 },
 
     "Plutonium":       { AV: 800 },
     "Baryte":          { AV: 1000 },
