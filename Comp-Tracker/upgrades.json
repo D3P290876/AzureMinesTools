@@ -1,0 +1,144 @@
+{
+  "stations": [
+    {
+      "id": "miningOP",
+      "name": "Mining Operation",
+      "maxLevel": 27,
+      "upgrades": [
+        { "level": 1, "requirements": { "iron": 1, "coal": 3 } },
+        { "level": 2, "requirements": { "iron": 3, "silver": 3, "coal": 5 } },
+        { "level": 3, "requirements": { "iron": 20, "silver": 15, "coal": 15 } },
+        { "level": 4, "requirements": { "iron": 40, "silver": 535, "ruby": 1, "sapphire": 1 } },
+        { "level": 5, "requirements": { "iron": 50, "diamond": 1, "silver": 40 } },
+        { "level": 6, "requirements": { "uranium": 1, "iron": 90, "silver": 70 } },
+        { "level": 7, "requirements": { "plutonium": 1, "iron": 150, "silver": 100 } },
+        { "level": 8, "requirements": { "silver": 150, "iron": 200, "plutonium": 3, "opal": 1 } },
+        { "level": 9, "requirements": { "plutonium": 5, "iron": 300, "silver": 200 } },
+        { "level": 10, "requirements": { "azure": 1, "iron": 400, "silver": 300 } },
+        { "level": 11, "requirements": { "iron": 500, "baryte": 15, "azure": 1, "unobtainium": 5 } },
+        { "level": 12, "requirements": { "iron": 750, "baryte": 30, "azure": 3, "unobtainium": 10 } },
+        { "level": 13, "requirements": { "iron": 900, "baryte": 50, "serendibite": 5, "unobtainium": 15 } },
+        { "level": 14, "requirements": { "azure": 10, "unobtainium": 20, "iron": 1000, "stone": 100000 } },
+        { "level": 15, "requirements": { "azure": 20, "unobtainium": 25, "stone": 200000, "diamond": 100 } },
+        { "level": 16, "requirements": { "rainbonite": 10, "painite": 50, "unobtainium": 30, "diamond": 200 } },
+        { "level": 17, "requirements": { "dragonglass": 100, "painite": 100, "unobtainium": 35, "diamond": 300 } },
+        { "level": 18, "requirements": { "dragonglass": 250, "painite": 250, "unobtainium": 40, "diamond": 400 } },
+        { "level": 19, "requirements": { "unobtainium": 45, "diamond": 500, "emerald": 300, "mithril": 50 } },
+        { "level": 20, "requirements": { "unobtainium": 50, "platinum": 100, "painite": 500, "azure": 50 } },
+        { "level": 21, "requirements": { "unobtainium": 50, "dragonstone": 100, "firecrystal": 25, "dragonglass": 300 } },
+        { "level": 22, "requirements": { "unobtainium": 50, "dragonstone": 200, "uranium": 40, "newtonium": 25, "dragonglass": 400 } },
+        { "level": 23, "requirements": { "unobtainium": 50, "dragonstone": 300, "newtonium": 50, "plutonium": 80 } },
+        { "level": 24, "requirements": { "unobtainium": 50, "promethium": 35, "dragonstone": 400, "newtonium": 75 } },
+        { "level": 25, "requirements": { "unobtainium": 75, "promethium": 50, "dragonstone": 1000, "newtonium": 100, "uranium": 80, "plutonium": 120, "illuminunium": 30 } },
+        { "level": 26, "requirements": { "yunium": 50, "promethium": 75, "dragonstone": 1000, "newtonium": 250, "uranium": 200, "plutonium": 225, "corium": 70, "solarium": 45, "unobtainium": 100 } },
+        { "level": 27, "requirements": { "unobtainium": 200, "antimatter": 250, "constellatium": 200, "darkmatter": 350, "element v": 1, "frightstone": 1000, "coins": 3000000, "stellarite": 300, "ambrosia": 1, "sulfur": 100, "newtonium": 100, "rainbonite": 100, "gold": 100, "amethyst": 100, "sapphire": 100, "platinum": 100, "mithril": 100, "firecrystal": 100, "emerald": 100, "promethium": 100, "illuminunium": 100, "iron": 100, "azure": 100, "ruby": 100, "baryte": 100, "painite": 100, "dragonstone": 100, "silver": 100, "garnet": 100, "plutonium": 100, "uranium": 100, "serendibite": 100, "solarium": 100, "coal": 100, "boomite": 100, "opal": 100, "copper": 100, "yunium": 100, "corium": 100, "dragonglass": 100, "diamond": 100, "moonstone": 100, "topaz": 100 } }
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Data & Analysis",
+      "maxLevel": 17,
+      "upgrades": [
+        { "level": 1, "requirements": { "copper": 5, "iron": 5 } },
+        { "level": 2, "requirements": { "copper": 5, "coins": 70, "iron": 5 } },
+        { "level": 3, "requirements": { "coins": 400, "copper": 35, "iron": 30 } },
+        { "level": 4, "requirements": { "coins": 750, "copper": 50, "iron": 45 } },
+        { "level": 5, "requirements": { "coins": 1500, "copper": 75, "iron": 100, "gold": 30 } },
+        { "level": 6, "requirements": { "coins": 4000, "unobtainium": 5, "gold": 50, "copper": 200 } },
+        { "level": 7, "requirements": { "coins": 10000, "unobtainium": 10, "copper": 350 } },
+        { "level": 8, "requirements": { "coins": 30000, "unobtainium": 15, "copper": 500, "plutonium": 5 } },
+        { "level": 9, "requirements": { "coins": 100000, "unobtainium": 25, "copper": 750, "azure": 10 } },
+        { "level": 10, "requirements": { "coins": 250000, "unobtainium": 40, "copper": 1000, "illuminunium": 1 } },
+        { "level": 11, "requirements": { "coins": 500000, "unobtainium": 50, "copper": 1500, "garnet": 1 } },
+        { "level": 12, "requirements": { "coins": 900000, "unobtainium": 60, "copper": 2000, "serendibite": 25 } },
+        { "level": 13, "requirements": { "coins": 1000000, "unobtainium": 65, "copper": 2500, "dragonstone": 100, "dragonglass": 250 } },
+        { "level": 14, "requirements": { "coins": 500000, "unobtainium": 70, "copper": 2000, "dragonstone": 150, "firecrystal": 60 } },
+        { "level": 15, "requirements": { "coins": 250000, "unobtainium": 75, "copper": 3500, "dragonstone": 250, "newtonium": 100, "promethium": 45 } },
+        { "level": 16, "requirements": { "coins": 1750000, "unobtainium": 100, "corium": 50, "dragonstone": 400, "yunium": 50, "promethium": 55, "silver": 5400, "copper": 4000 } },
+        { "level": 17, "requirements": { "antimatter": 250, "constellatium": 100, "unobtainium": 100, "darkmatter": 350, "element v": 1, "frightstone": 500, "coins": 2000000, "stellarite": 200 } }
+      ]
+    },
+    {
+      "id": "research",
+      "name": "Research & Development",
+      "maxLevel": 15,
+      "upgrades": [
+        { "level": 1, "requirements": { "sapphire": 1 } },
+        { "level": 2, "requirements": { "emerald": 1, "coins": 70, "iron": 5 } },
+        { "level": 3, "requirements": { "coins": 1000, "diamond": 1, "iron": 10 } },
+        { "level": 4, "requirements": { "unobtainium": 3, "coins": 5000, "platinum": 1 } },
+        { "level": 5, "requirements": { "unobtainium": 5, "coins": 15000, "serendibite": 1 } },
+        { "level": 6, "requirements": { "unobtainium": 10, "coins": 40000, "baryte": 20, "amethyst": 1 } },
+        { "level": 7, "requirements": { "unobtainium": 15, "coins": 100000, "baryte": 40, "azure": 1 } },
+        { "level": 8, "requirements": { "unobtainium": 20, "coins": 150000, "rainbonite": 3, "azure": 5 } },
+        { "level": 9, "requirements": { "unobtainium": 25, "coins": 200000, "dragonglass": 100, "azure": 10 } },
+        { "level": 10, "requirements": { "unobtainium": 40, "coins": 300000, "garnet": 1, "azure": 50 } },
+        { "level": 11, "requirements": { "unobtainium": 45, "coins": 400000, "painite": 50, "firecrystal": 40, "dragonglass": 200, "dragonstone": 300 } },
+        { "level": 12, "requirements": { "unobtainium": 50, "coins": 500000, "newtonium": 100, "dragonstone": 400, "uranium": 50, "plutonium": 75 } },
+        { "level": 13, "requirements": { "coins": 600000, "newtonium": 120, "dragonstone": 500, "illuminunium": 20, "promethium": 35, "uranium": 80, "plutonium": 100, "unobtainium": 55 } },
+        { "level": 14, "requirements": { "coins": 600000, "newtonium": 280, "dragonstone": 500, "promethium": 35, "unobtainium": 55, "yunium": 45, "corium": 80, "solarium": 50 } },
+        { "level": 15, "requirements": { "coins": 1000000, "darkmatter": 150, "frightstone": 500, "antimatter": 100, "constellatium": 75, "element v": 1, "stellarite": 50, "unobtainium": 100 } }
+      ]
+    },
+    {
+      "id": "market",
+      "name": "Marketplace",
+      "maxLevel": 14,
+      "upgrades": [
+        { "level": 1, "requirements": { "ruby": 1 } },
+        { "level": 2, "requirements": { "coins": 1000, "topaz": 3 } },
+        { "level": 3, "requirements": { "coins": 2500, "topaz": 5, "diamond": 3 } },
+        { "level": 4, "requirements": { "coins": 6000, "topaz": 10, "diamond": 5, "opal": 3 } },
+        { "level": 5, "requirements": { "coins": 15000, "topaz": 25, "rainbonite": 1 } },
+        { "level": 6, "requirements": { "coins": 40000, "rainbonite": 3, "serendibite": 10 } },
+        { "level": 7, "requirements": { "coins": 75000, "rainbonite": 5, "azure": 5, "baryte": 15 } },
+        { "level": 8, "requirements": { "coins": 100000, "rainbonite": 10, "azure": 20, "baryte": 25 } },
+        { "level": 9, "requirements": { "coins": 200000, "rainbonite": 20, "mithril": 35, "baryte": 50, "serendibite": 25 } },
+        { "level": 10, "requirements": { "coins": 300000, "rainbonite": 60, "painite": 40, "topaz": 60, "dragonglass": 200 } },
+        { "level": 11, "requirements": { "coins": 400000, "rainbonite": 80, "firecrystal": 30, "dragonstone": 150, "topaz": 80 } },
+        { "level": 12, "requirements": { "coins": 500000, "rainbonite": 100, "topaz": 100, "ruby": 100, "emerald": 100, "sapphire": 100, "diamond": 100, "amethyst": 100, "newtonium": 75, "promethium": 60, "dragonstone": 500 } },
+        { "level": 13, "requirements": { "coins": 750000, "rainbonite": 250, "topaz": 500, "ruby": 500, "emerald": 500, "sapphire": 500, "diamond": 500, "amethyst": 500, "newtonium": 250, "promethium": 75, "dragonstone": 500, "corium": 60, "yunium": 35, "solarium": 50 } },
+        { "level": 14, "requirements": { "frightstone": 500, "coins": 1000000, "antimatter": 125, "darkmatter": 190, "stellarite": 75, "constellatium": 80, "element v": 1, "unobtainium": 100 } }
+      ]
+    },
+    {
+      "id": "storage",
+      "name": "Storage Management",
+      "maxLevel": 16,
+      "upgrades": [
+        { "level": 1, "requirements": { "silver": 3 } },
+        { "level": 2, "requirements": { "silver": 25, "coins": 100, "ruby": 3 } },
+        { "level": 3, "requirements": { "silver": 70, "coins": 2000, "sapphire": 10 } },
+        { "level": 4, "requirements": { "silver": 120, "coins": 5000, "emerald": 15 } },
+        { "level": 5, "requirements": { "silver": 250, "coins": 12500, "diamond": 20 } },
+        { "level": 6, "requirements": { "coins": 20000, "unobtainium": 5, "silver": 400, "uranium": 5 } },
+        { "level": 7, "requirements": { "coins": 50000, "unobtainium": 10, "silver": 550, "plutonium": 5 } },
+        { "level": 8, "requirements": { "coins": 100000, "unobtainium": 15, "silver": 700, "opal": 10 } },
+        { "level": 9, "requirements": { "coins": 250000, "unobtainium": 25, "silver": 900, "dragonglass": 25 } },
+        { "level": 10, "requirements": { "coins": 500000, "unobtainium": 40, "silver": 1500, "moonstone": 5 } },
+        { "level": 11, "requirements": { "coins": 700000, "unobtainium": 50, "painite": 200, "garnet": 1 } },
+        { "level": 12, "requirements": { "coins": 900000, "unobtainium": 60, "painite": 300, "dragonglass": 200 } },
+        { "level": 13, "requirements": { "coins": 1115000, "unobtainium": 65, "firecrystal": 50, "dragonglass": 300, "dragonstone": 300 } },
+        { "level": 14, "requirements": { "coins": 1350000, "unobtainium": 70, "newtonium": 150, "dragonstone": 600, "promethium": 80 } },
+        { "level": 15, "requirements": { "coins": 1500000, "unobtainium": 120, "newtonium": 750, "dragonstone": 700, "promethium": 80, "corium": 75, "solarium": 35, "yunium": 100 } },
+        { "level": 16, "requirements": { "frightstone": 500, "coins": 2000000, "antimatter": 200, "darkmatter": 300, "stellarite": 100, "constellatium": 80, "element v": 1, "unobtainium": 125 } }
+      ]
+    },
+    {
+      "id": "teleporter",
+      "name": "Teleporter Array",
+      "maxLevel": 1,
+      "upgrades": [
+        { "level": 1, "requirements": { "coins": 25 } }
+      ]
+    },
+    {
+      "id": "tunnel",
+      "name": "Personal Tunnel",
+      "maxLevel": 1,
+      "upgrades": [
+        { "level": 1, "requirements": { "unobtainium": 300 } }
+      ]
+    }
+  ]
+}
