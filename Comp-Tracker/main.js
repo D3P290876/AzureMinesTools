@@ -40,28 +40,46 @@ function createStationCard(station, currentLevel, progressData) {
     label.style.marginBottom = '5px';
     label.style.color = '#aaa';
     label.textContent = nextUpgrade
-      ? `Next Upgrade Requirements`
+      ? `Upgrade Requirements`
       : `Current Level Requirements`;
     card.appendChild(label);
 
+    // ⭐ NEW ORE IMAGE REQUIREMENTS BLOCK ⭐
+    const reqContainer = document.createElement('div');
+    reqContainer.style.display = 'flex';
+    reqContainer.style.flexDirection = 'column';
+    reqContainer.style.gap = '8px';
+    reqContainer.style.marginTop = '10px';
+
     Object.entries(upgradeInfo.requirements).forEach(([item, amount]) => {
       const row = document.createElement('div');
-      row.className = 'item-row';
+      row.style.display = 'flex';
+      row.style.alignItems = 'center';
+      row.style.gap = '10px';
 
-      const label = document.createElement('span');
-      label.textContent = `${item.toUpperCase()} (${amount})`;
-      row.appendChild(label);
+      const img = document.createElement('img');
+      img.src = window.oreImages[item] || '';
+      img.alt = item;
+      img.style.width = '32px';
+      img.style.height = '32px';
+      img.style.objectFit = 'contain';
+      img.style.filter = 'drop-shadow(0 0 5px #000)';
 
-      const progressBar = document.createElement('div');
-      progressBar.className = 'progress-bar';
-      const fill = document.createElement('div');
-      fill.className = 'progress-fill';
-      fill.style.width = '0%';
-      progressBar.appendChild(fill);
-      row.appendChild(progressBar);
+      const text = document.createElement('div');
+      text.style.display = 'flex';
+      text.style.flexDirection = 'column';
+      text.innerHTML = `
+          <span style="color:#fff; font-weight:bold;">${item}</span>
+          <span style="color:lightgray;">Required: ${amount}</span>
+      `;
 
-      card.appendChild(row);
+      row.appendChild(img);
+      row.appendChild(text);
+      reqContainer.appendChild(row);
     });
+
+    card.appendChild(reqContainer);
+    // ⭐ END OF NEW BLOCK ⭐
   }
 
   // 🔘 Button container
@@ -101,6 +119,7 @@ function createStationCard(station, currentLevel, progressData) {
 
   return card;
 }
+
 
 
 async function renderStations() {

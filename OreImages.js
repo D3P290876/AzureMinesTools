@@ -67,7 +67,9 @@ const oreImages = {
     "Antimatter": "../src/Antimatter.png",
     "Stellarite": "../src/Stellarite.png",
     "Constellatium": "../src/Constellatium.png",
-    "Mightstone": "../src/Mightstone.png"
+    "Mightstone": "../src/Mightstone.png",
+    "Unobtainium": "../src/Unobtainium.png",
+    "Coins": "../src/Coin.png"
 };
 
 window.oreImages = oreImages;
