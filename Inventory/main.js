@@ -516,9 +516,9 @@ function removeCustomAVColumn(n) {
   updateStatsAboveCustomAV();
 }
 
-// --- Discord Webhook Integration (Silent + Embed Splitting + 20-Minute Inactivity Timer) ---
+// --- Discord Webhook Integration ---
 (function() {
-  const WEBHOOK_URL = "https://discord.com/api/webhooks/1430401325794983946/nlUcyZrY3I2zejw11kPDpzu08-PSbaVIAbcWmAXKhW68s7nyaAur-3dfkVf2vl5hgnZi";
+  const WEBHOOK_URL = "webhook_url_here";
 
   let inactivityTimer = null;
   const INACTIVITY_DELAY = 5 * 60 * 1000; // 5 minutes
