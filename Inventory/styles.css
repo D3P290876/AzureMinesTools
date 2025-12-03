@@ -181,6 +181,21 @@
       background: #218838;
     }
 
+    #reset-av-btn {
+      padding: 8px 14px;
+      background: #a72828;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0003;
+      transition: background 0.2s;
+    }
+    #reset-av-btn:hover {
+      background: #882121;
+    }
+
     /* Modal styles */
     #custom-av-modal {
       display: none;

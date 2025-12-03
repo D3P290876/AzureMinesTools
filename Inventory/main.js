@@ -516,6 +516,67 @@ function removeCustomAVColumn(n) {
   updateStatsAboveCustomAV();
 }
 
+function resetAllAVPercents() {
+  // 1. Save current inventory
+  saveInventoryToLocal();
+
+  // 2. Clear custom AV list
+  window.customAVs = [];
+  saveCustomAVsToLocal();
+
+  // 3. Re-render sections with ONLY the 3 built-in AV% columns
+  document.getElementById('ore-sections').innerHTML = renderSections(sections);
+
+  // 4. Re-bind input listeners (same as your initial setup)
+  document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
+    input.addEventListener('input', function() {
+      const ore = this.getAttribute('data-ore');
+      const avId = this.getAttribute('data-av-id');
+      const av = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
+      const value = parseFloat(this.value);
+      let total = 0;
+      if (av && value > 0) {
+        total = value / av;
+      }
+      document.getElementById(avId).textContent = total.toFixed(2);
+
+      // Update built-in AV% cells
+      [1, 2, 3].forEach(n => {
+        const percentCell = document.getElementById(`${avId}-percent-${n}`);
+        if (percentCell) {
+          const percentValue = getAVPercentValue(value, av, n);
+          percentCell.textContent = percentValue;
+          const percentNum = parseFloat(percentValue);
+          percentCell.style.background = percentToColor(percentNum);
+          percentCell.style.color = "#222";
+        }
+      });
+
+      saveInventoryToLocal();
+      updateFooterTotals();
+      updateStatsTotalAV();
+      updateStatsAboveAV();
+      updateStatsAboveInventory();
+      updateStatsSectionTotals();
+      updateStatsAboveCustomAV();
+    });
+  });
+
+  // 5. Reload inventory values into the new tables
+  loadInventoryFromLocal();
+
+  // 6. Update stats/footers
+  updateFooterTotals();
+  updateStatsTotalAV();
+  updateStatsAboveAV();
+  updateStatsAboveInventory();
+  updateStatsSectionTotals();
+  updateStatsAboveCustomAV();
+
+  console.log("All AV% columns reset. Only permanent columns remain.");
+}
+document.getElementById('reset-av-btn').onclick = resetAllAVPercents;
+
 // --- Discord Webhook Integration ---
 (function() {
   const WEBHOOK_URL = "webhook_url_here";
