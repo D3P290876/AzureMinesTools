@@ -516,31 +516,84 @@ function removeCustomAVColumn(n) {
   updateStatsAboveCustomAV();
 }
 
-function resetAllAVPercents() {
-  // 1. Save current inventory
+// <<--- Reset All AV% Button --->>
+document.getElementById('reset-av-btn').addEventListener('click', () => {
+  const box = document.getElementById('reset-section-checkboxes');
+  box.innerHTML = ""; // reset
+
+  sections.forEach((section, i) => {
+    const row = document.createElement('div');
+    row.innerHTML = `
+      <label style="cursor:pointer;">
+        <input type="checkbox" data-reset-section="${i}">
+        ${section.name}
+      </label>
+    `;
+    box.appendChild(row);
+  });
+
+  document.getElementById('reset-av-modal').style.display = "flex";
+});
+
+document.getElementById('reset-av-cancel').onclick = () => {
+  document.getElementById('reset-av-modal').style.display = "none";
+};
+
+document.getElementById('reset-av-confirm').onclick = () => {
+  
+  // 1. Save inventory BEFORE reset
   saveInventoryToLocal();
 
-  // 2. Clear custom AV list
+  // 2. Determine which sections to clear
+  const boxes = document.querySelectorAll('input[data-reset-section]');
+  const sectionsToClear = [];
+  boxes.forEach(box => {
+    if (box.checked) sectionsToClear.push(parseInt(box.getAttribute('data-reset-section')));
+  });
+
+  // 3. Clear custom AV% definitions
   window.customAVs = [];
   saveCustomAVsToLocal();
 
-  // 3. Re-render sections with ONLY the 3 built-in AV% columns
+  // 4. Clear inventory in selected sections (in localStorage)
+  const stored = JSON.parse(localStorage.getItem('inventory') || '{}');
+  sectionsToClear.forEach(sectionIdx => {
+    sections[sectionIdx].ores.forEach(ore => stored[ore] = "");
+  });
+  localStorage.setItem('inventory', JSON.stringify(stored));
+
+  // 5. Re-render tables
   document.getElementById('ore-sections').innerHTML = renderSections(sections);
 
-  // 4. Re-bind input listeners (same as your initial setup)
+  // 6. Re-attach input listeners
+  rebindOreInputListeners();
+
+  // 7. Reload inventory values (cleared ones will be blank)
+  loadInventoryFromLocal();
+
+  // 8. Update all UI components
+  updateFooterTotals();
+  updateStatsTotalAV();
+  updateStatsAboveAV();
+  updateStatsAboveInventory();
+  updateStatsSectionTotals();
+  updateStatsAboveCustomAV();
+
+  // 9. Close modal + Refresh page
+  document.getElementById('reset-av-modal').style.display = "none";
+  location.reload();
+};
+
+function rebindOreInputListeners() {
   document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
     input.addEventListener('input', function() {
       const ore = this.getAttribute('data-ore');
       const avId = this.getAttribute('data-av-id');
       const av = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
       const value = parseFloat(this.value);
-      let total = 0;
-      if (av && value > 0) {
-        total = value / av;
-      }
+      let total = av && value ? value / av : 0;
       document.getElementById(avId).textContent = total.toFixed(2);
 
-      // Update built-in AV% cells
       [1, 2, 3].forEach(n => {
         const percentCell = document.getElementById(`${avId}-percent-${n}`);
         if (percentCell) {
@@ -548,7 +601,6 @@ function resetAllAVPercents() {
           percentCell.textContent = percentValue;
           const percentNum = parseFloat(percentValue);
           percentCell.style.background = percentToColor(percentNum);
-          percentCell.style.color = "#222";
         }
       });
 
@@ -561,21 +613,8 @@ function resetAllAVPercents() {
       updateStatsAboveCustomAV();
     });
   });
-
-  // 5. Reload inventory values into the new tables
-  loadInventoryFromLocal();
-
-  // 6. Update stats/footers
-  updateFooterTotals();
-  updateStatsTotalAV();
-  updateStatsAboveAV();
-  updateStatsAboveInventory();
-  updateStatsSectionTotals();
-  updateStatsAboveCustomAV();
-
-  console.log("All AV% columns reset. Only permanent columns remain.");
 }
-document.getElementById('reset-av-btn').onclick = resetAllAVPercents;
+
 
 // --- Discord Webhook Integration ---
 (function() {
