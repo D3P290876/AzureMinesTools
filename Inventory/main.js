@@ -162,7 +162,14 @@ window.customAVs = [];
         const ore = this.getAttribute('data-ore');
         const avId = this.getAttribute('data-av-id');
         const av = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
+        const rawValue = this.value.replace(/\D/g, ''); // digits only
+
+         if (rawValue.length >= 50) {
+          showBigNumberOverlay();
+         }
+
         const value = parseFloat(this.value);
+
         let total = 0;
         if (av && value > 0) {
           total = value / av;
@@ -590,7 +597,14 @@ function rebindOreInputListeners() {
       const ore = this.getAttribute('data-ore');
       const avId = this.getAttribute('data-av-id');
       const av = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
+      const rawValue = this.value.replace(/\D/g, ''); // digits only
+
+       if (rawValue.length >= 50) {
+        showBigNumberOverlay();
+       }
+
       const value = parseFloat(this.value);
+
       let total = av && value ? value / av : 0;
       document.getElementById(avId).textContent = total.toFixed(2);
 
@@ -613,6 +627,22 @@ function rebindOreInputListeners() {
       updateStatsAboveCustomAV();
     });
   });
+}
+
+let bigNumberCooldown = false;
+
+function showBigNumberOverlay() {
+  if (bigNumberCooldown) return;
+
+  bigNumberCooldown = true;
+
+  const overlay = document.getElementById('big-number-overlay');
+  overlay.classList.add('show');
+
+  setTimeout(() => {
+    overlay.classList.remove('show');
+    bigNumberCooldown = false;
+  }, 10000);
 }
 
 
