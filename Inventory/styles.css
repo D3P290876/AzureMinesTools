@@ -10,6 +10,7 @@
       align-items: center;
       justify-content: flex-start;
     }
+    /* Section Table Styling */
     .section-header {
       font-size: 1.5em;
       font-weight: bold;
@@ -54,7 +55,7 @@
     }
     .ore-table th, .ore-table td:not([id*="-percent-"]) {
       border: none;
-} 
+    } 
     .ore-table input[type="text"],
     .ore-table input[type="number"] {
       width: 90px;
@@ -97,7 +98,9 @@
     }
 
     .footer-row img{ width:25px; height:25px; }
-    
+    /* Section Table Styling */
+
+    /* Statistics Menu Styling */
     #stats-dropdown{
       position:fixed;
       left:18px; top:18px;
@@ -126,7 +129,6 @@
       border:1px solid rgba(0,0,0,0.6);
       border-top: none;
     }
-
     @media (max-width: 700px) {
       #stats-dropdown {
         position: static;
@@ -137,7 +139,9 @@
         top: unset;
       }
     }
+    /* Statistics Menu Styling */
 
+    /* Page Buttons */
     #top-btn-bar {
       display: flex;
       gap: 12px;
@@ -145,12 +149,10 @@
       margin-bottom: 12px;
       margin-right: 0;
     }
-
     #add-av-btn, #home-btn {
       position: static;
       margin: 0;
     }
-
     #home-btn {
       padding: 8px 14px;
       background: #222;
@@ -165,7 +167,6 @@
     #home-btn:hover {
       background: #444;
     }
-
     #add-av-btn {
       padding: 8px 14px;
       background: #28a745;
@@ -180,7 +181,6 @@
     #add-av-btn:hover {
       background: #218838;
     }
-
     #reset-av-btn {
       padding: 8px 14px;
       background: #a72828;
@@ -195,6 +195,7 @@
     #reset-av-btn:hover {
       background: #882121;
     }
+    /* Page Buttons */
 
     /* Modal styles */
     #custom-av-modal {
@@ -249,6 +250,7 @@
     #custom-av-add:hover {
       background: #1e88e5;
     }
+    /* Modal styles */
 
     /* Custom AV% column style */
     .custom-av-percent-cell {
@@ -256,38 +258,36 @@
       color: #fff;
       font-weight: bold;
     }
+    /* Custom AV% column style */
 
+    /* Danfan Secret Styling */
     #big-number-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-}
-
-#big-number-overlay.show {
-  display: flex;
-  animation: flash 0.3s ease-in-out;
-}
-
-@keyframes flash {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-.overlay-content {
-  text-align: center;
-  color: #fff;
-}
-
-.overlay-content img {
-  max-width: 300px;
-  margin-bottom: 20px;
-}
-
-.overlay-text {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+    }
+    #big-number-overlay.show {
+      display: flex;
+      animation: flash 0.3s ease-in-out;
+    }
+    @keyframes flash {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .overlay-content {
+      text-align: center;
+      color: #fff;
+    }
+    .overlay-content img {
+      max-width: 300px;
+      margin-bottom: 20px;
+    }
+    .overlay-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    /* Danfan Secret Styling */

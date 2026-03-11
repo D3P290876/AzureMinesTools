@@ -1,4 +1,4 @@
-body {
+    body {
       background-color: #1e1e1e;
       color: white;
       font-family: 1, sans-serif;
@@ -188,164 +188,164 @@ body {
     }
 
     /* ===== Ore Edit Popup ===== */
-#edit-popup {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.7);
-  align-items: center;
-  justify-content: center;
-  z-index: 1100;
-}
+    #edit-popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.7);
+      align-items: center;
+      justify-content: center;
+      z-index: 1100;
+    }
 
-#edit-popup-content {
-  background: #181818;
-  color: #fff;
-  padding: 12px 14px;
-  border-radius: 6px;
-  width: 90%;
-  max-width: 700px;
-  max-height: 85vh;
-  overflow-y: auto;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    #edit-popup-content {
+      background: #181818;
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 6px;
+      width: 90%;
+      max-width: 700px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-#ore-search {
-  width: 80%;
-  padding: 10px;
-  margin: 10px 0 16px;
-  border: 1px solid #444;
-  border-radius: 6px;
-  background-color: #222;
-  color: white;
-  font-size: 1rem;
-  text-align: center;
-}
+    #ore-search {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0 16px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background-color: #222;
+      color: white;
+      font-size: 1rem;
+      text-align: center;
+    }
 
-#ore-edit-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-}
+    #ore-edit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
 
-.ore-edit-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #232323;
-  padding: 8px 12px;
-  border-radius: 6px;
-}
+    .ore-edit-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #232323;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
 
-.ore-edit-row span {
-  flex: 1;
-  text-align: left;
-}
+    .ore-edit-row span {
+      flex: 1;
+      text-align: left;
+    }
 
-.ore-edit-row input {
-  width: 80px;
-  text-align: right;
-  background: #1c1c1c;
-  color: white;
-  border: 1px solid #555;
-  border-radius: 4px;
-  padding: 4px;
-}
+    .ore-edit-row input {
+      width: 80px;
+      text-align: right;
+      background: #1c1c1c;
+      color: white;
+      border: 1px solid #555;
+      border-radius: 4px;
+      padding: 4px;
+    }
 
-.edit-popup-actions {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 16px;
-  gap: 10px;
-}
+    .edit-popup-actions {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 16px;
+      gap: 10px;
+    }
 
-.edit-popup-actions button {
-  flex: 1;
-  padding: 10px;
-  background: #2a2a2a;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
+    .edit-popup-actions button {
+      flex: 1;
+      padding: 10px;
+      background: #2a2a2a;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-.edit-popup-actions button:hover {
-  background: #444;
-}
+    .edit-popup-actions button:hover {
+      background: #444;
+    }
 
-/* Top-left button */
-#edit-ores-btn {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  z-index: 100;
-  padding: 10px 22px;
-  background: #222;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 1.1em;
-  cursor: pointer;
-  box-shadow: 0 2px 8px #0003;
-  transition: background 0.2s;
-}
+    /* Top-left button */
+    #edit-ores-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      padding: 10px 22px;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0003;
+      transition: background 0.2s;
+    }
 
-#edit-ores-btn:hover {
-  background: #444;
-}
+    #edit-ores-btn:hover {
+      background: #444;
+    }
 
-#ore-edit-list {
-  flex: 1;
-  overflow-y: scroll;       /* enables scroll but hidden visually */
-  min-height: 300px;        /* consistent height on all states */
-  max-height: 55vh;         /* allows responsive behavior */
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  scrollbar-width: none;    /* hides scrollbar in Firefox */
-  -ms-overflow-style: none; /* hides scrollbar in IE/Edge */
-}
+    #ore-edit-list {
+      flex: 1;
+      overflow-y: scroll;       /* enables scroll but hidden visually */
+      min-height: 300px;        /* consistent height on all states */
+      max-height: 55vh;         /* allows responsive behavior */
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      scrollbar-width: none;    /* hides scrollbar in Firefox */
+      -ms-overflow-style: none; /* hides scrollbar in IE/Edge */
+    }
 
-/* hides scrollbar in Chrome/Safari/Edge */
-#ore-edit-list::-webkit-scrollbar {
-  display: none;
-}
+    /* hides scrollbar in Chrome/Safari/Edge */
+    #ore-edit-list::-webkit-scrollbar {
+      display: none;
+    }
 
-/* Ore row icon style */
-.ore-edit-row img {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-  flex-shrink: 0;
-}
+    /* Ore row icon style */
+    .ore-edit-row img {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
 
-.ore-edit-row span {
-  flex: 1;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    .ore-edit-row span {
+      flex: 1;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-.ore-edit-subtext {
-  font-size: 0.85rem;
-  color: #ccc;
-  margin-top: 4px;
-  margin-bottom: 12px;
-  text-align: center;
-  opacity: 0.85;
-}
+    .ore-edit-subtext {
+      font-size: 0.85rem;
+      color: #ccc;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      text-align: center;
+      opacity: 0.85;
+    }
 
 
     /* Home Button */
@@ -373,181 +373,181 @@ body {
    📱 MOBILE RESPONSIVENESS
    =============================== */
 
-/* For tablets and smaller screens */
-@media (max-width: 768px) {
-  body {
-    padding: 1rem;
-  }
+    /* For tablets and smaller screens */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
 
-  table, .summary-table {
+    table, .summary-table {
     width: 100%;
     font-size: 0.95rem;
-  }
+    }
 
-  th, td {
-    padding: 6px;
-  }
+    th, td {
+      padding: 6px;
+    }
 
-  input[type="number"] {
-    width: 100%;
-    height: 100%;
-    font-size: 1rem;
-    padding: 6px;
-    box-sizing: border-box;
-  }
+    input[type="number"] {
+      width: 100%;
+      height: 100%;
+      font-size: 1rem;
+      padding: 6px;
+      box-sizing: border-box;
+    }
 
-  .controls {
-    flex-direction: column;
-    width: 100%;
-    gap: 8px;
-    margin-top: 12px;
-  }
+    .controls {
+      flex-direction: column;
+      width: 100%;
+      gap: 8px;
+      margin-top: 12px;
+    }
 
-  .controls button {
-    width: 100%;
-    font-size: 1rem;
-  }
+    .controls button {
+      width: 100%;
+      font-size: 1rem;
+    }
 
-  /* Allow table to scroll horizontally if too wide */
-  #oreTable, .summary-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+    /* Allow table to scroll horizontally if too wide */
+    #oreTable, .summary-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
 
-  /* Popup content fits small screens */
-  #ore-popup-content {
-    width: 90%;
-    max-width: 400px;
-    max-height: 80vh;
-    overflow-y: auto;
-    padding: 18px 20px;
-  }
+    /* Popup content fits small screens */
+    #ore-popup-content {
+      width: 90%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 18px 20px;
+    }
 
-  /* Popup grid adjusts columns for mobile */
-  .ore-popup-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 4px;
-  }
+    /* Popup grid adjusts columns for mobile */
+    .ore-popup-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+    }
 
-  .ore-popup-row {
-    min-width: auto;
-    justify-content: center;
-    padding: 4px 6px;
-    font-size: 0.9em;
-  }
+    .ore-popup-row {
+      min-width: auto;
+      justify-content: center;
+      padding: 4px 6px;
+      font-size: 0.9em;
+    }
 
-  .ore-popup-cancel-btn {
-    grid-column: span 2;
-    width: 100%;
-  }
+    .ore-popup-cancel-btn {
+      grid-column: span 2;
+      width: 100%;
+    }
 
-  /* Clear Trade Button */
-  .top-right-clear {
-    bottom: 12px;
-    left: 12px;
-    font-size: 0.9rem;
-    padding: 10px 16px;
-  }
+    /* Clear Trade Button */
+    .top-right-clear {
+      bottom: 12px;
+      left: 12px;
+      font-size: 0.9rem;
+      padding: 10px 16px;
+    }
 
-  /* Home button scales down slightly */
-  #home-btn {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 1rem;
-  }
-}
+    /* Home button scales down slightly */
+    #home-btn {
+      top: 10px;
+      right: 10px;
+      padding: 8px 16px;
+      font-size: 1rem;
+    }
+    }
 
-/* =========================================
-   RESPONSIVE POPUP ORE SELECTION LAYOUT
-   ========================================= */
-@media (max-width: 480px) {
-  #ore-popup-content {
-    width: 92%;
-    max-width: 340px;
-    padding: 16px 18px;
-    border-radius: 10px;
-  }
+    /* =========================================
+    RESPONSIVE POPUP ORE SELECTION LAYOUT
+    ========================================= */
+    @media (max-width: 480px) {
+    #ore-popup-content {
+      width: 92%;
+      max-width: 340px;
+      padding: 16px 18px;
+      border-radius: 10px;
+    }
 
-  .ore-popup-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-    justify-content: center;
-  }
+    .ore-popup-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      justify-content: center;
+    }
 
-  .ore-popup-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    background: #232323;
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 0.9em;
-    min-height: 42px;
-  }
+    .ore-popup-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background: #232323;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.9em;
+      min-height: 42px;
+    }
 
-  .ore-popup-row img {
-    width: 22px;
-    height: 22px;
-    margin-right: 8px;
-  }
+    .ore-popup-row img {
+      width: 22px;
+      height: 22px;
+      margin-right: 8px;
+    }
 
-  .ore-popup-cancel-btn {
-    grid-column: 1 / -1;
-    width: 100%;
-    padding: 8px 0;
-    margin-top: 4px;
-  }
+    .ore-popup-cancel-btn {
+      grid-column: 1 / -1;
+      width: 100%;
+      padding: 8px 0;
+      margin-top: 4px;
+    }
 
-  #ore-popup-content {
-    max-height: 80vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
+    #ore-popup-content {
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    }
 
-/* 📱 Medium phones & small tablets (481px–767px) */
-@media (min-width: 481px) and (max-width: 767px) {
-  #ore-popup-content {
-    width: 90%;
-    max-width: 480px;
-    padding: 20px;
-  }
+    /* 📱 Medium phones & small tablets (481px–767px) */
+    @media (min-width: 481px) and (max-width: 767px) {
+    #ore-popup-content {
+      width: 90%;
+      max-width: 480px;
+      padding: 20px;
+    }
 
-  .ore-popup-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
+    .ore-popup-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
 
-  .ore-popup-row {
-    min-height: 46px;
-    font-size: 0.95em;
-  }
-}
+    .ore-popup-row {
+      min-height: 46px;
+      font-size: 0.95em;
+    }
+    }
 
-/* 💻 Tablets & small laptops (768px–1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  #ore-popup-content {
-    width: 85%;
-    max-width: 600px;
-  }
+    /* 💻 Tablets & small laptops (768px–1023px) */
+    @media (min-width: 768px) and (max-width: 1023px) {
+    #ore-popup-content {
+      width: 85%;
+      max-width: 600px;
+    }
 
-  .ore-popup-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-  }
+    .ore-popup-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
 
-  .ore-popup-row {
-    min-height: 48px;
-  }
-}
+    .ore-popup-row {
+      min-height: 48px;
+    }
+    }
 
-/* 🖥️ Large screens (1024px+) */
-@media (min-width: 1024px) {
-  .ore-popup-grid {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-  }
-}
+    /* 🖥️ Large screens (1024px+) */
+    @media (min-width: 1024px) {
+    .ore-popup-grid {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    }

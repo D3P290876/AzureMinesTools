@@ -1,4 +1,4 @@
-let ambrosiaCount = parseInt(localStorage.getItem("ambrosiaCount")) || 50;
+    let ambrosiaCount = parseInt(localStorage.getItem("ambrosiaCount")) || 50;
     let nihiliumCount1 = parseInt(localStorage.getItem("nihiliumCount1")) || 50;
     let nihiliumCount2 = parseInt(localStorage.getItem("nihiliumCount2")) || 50;
 
