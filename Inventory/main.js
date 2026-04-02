@@ -522,6 +522,155 @@
     };
     // <<--- Reset All AV% Button --->>
 
+    /*******************************
+*  CUSTOM ORE VALUE EDITOR (MERGED)
+*******************************/
+const editBtn = document.getElementById("edit-ores-btn");
+const editPopup = document.getElementById("edit-popup");
+const editList = document.getElementById("ore-edit-list");
+const oreSearch = document.getElementById("ore-search");
+const resetOresBtn = document.getElementById("reset-ores-btn");
+const saveOresBtn = document.getElementById("save-ores-btn");
+const closeEditPopup = document.getElementById("close-edit-popup");
+
+/********************************
+ * LOAD CUSTOM VALUES ON START
+ ********************************/
+(function loadCustomOreValues() {
+  const savedCustomValues = JSON.parse(localStorage.getItem("customOreValues") || "{}");
+
+  Object.keys(savedCustomValues).forEach((ore) => {
+    if (window.oreValues[ore]) {
+      window.oreValues[ore].AV = savedCustomValues[ore];
+    }
+  });
+})();
+
+/********************************
+ * OPEN / CLOSE POPUP
+ ********************************/
+editBtn?.addEventListener("click", showOreEditor);
+
+function showOreEditor() {
+  editPopup.style.display = "flex";
+  renderOreEditList();
+}
+
+closeEditPopup?.addEventListener("click", () => {
+  editPopup.style.display = "none";
+});
+
+/********************************
+ * RENDER EDIT LIST
+ ********************************/
+function renderOreEditList(filter = "") {
+  editList.innerHTML = "";
+
+  const ores = Object.keys(window.oreValues)
+    .filter((ore) => ore.toLowerCase().includes(filter.toLowerCase()))
+    .sort();
+
+  const MIN_ROWS = 12;
+  const placeholderCount = Math.max(0, MIN_ROWS - ores.length);
+
+  ores.forEach((ore) => {
+    const row = document.createElement("div");
+    row.className = "ore-edit-row";
+
+    const oreImg =
+      window.oreImages && window.oreImages[ore]
+        ? window.oreImages[ore]
+        : `../src/${encodeURIComponent(ore)}.png`;
+
+    row.innerHTML = `
+      <span><img src="${oreImg}" alt="${ore} icon"> ${ore}</span>
+      <input type="number" step="any" value="${window.oreValues[ore].AV}" data-edit-ore="${ore}">
+    `;
+
+    editList.appendChild(row);
+  });
+
+  // placeholders to keep height stable
+  for (let i = 0; i < placeholderCount; i++) {
+    const placeholder = document.createElement("div");
+    placeholder.className = "ore-edit-row";
+    placeholder.style.visibility = "hidden";
+    placeholder.style.height = "32px";
+    editList.appendChild(placeholder);
+  }
+}
+
+/********************************
+ * SEARCH FILTER
+ ********************************/
+oreSearch?.addEventListener("input", (e) => {
+  renderOreEditList(e.target.value);
+});
+
+/********************************
+ * SAVE CUSTOM VALUES
+ ********************************/
+saveOresBtn?.addEventListener("click", () => {
+  const inputs = editList.querySelectorAll("input");
+  const customValues = {};
+
+  inputs.forEach((input) => {
+    const ore = input.dataset.editOre;
+    const val = parseFloat(input.value);
+
+    if (!isNaN(val) && val > 0) {
+      window.oreValues[ore].AV = val;
+      customValues[ore] = val;
+    }
+  });
+
+  localStorage.setItem("customOreValues", JSON.stringify(customValues));
+  editPopup.style.display = "none";
+
+  applyUpdatedOreValues(); // 🔥 KEY FUNCTION
+});
+
+/********************************
+ * RESET VALUES
+ ********************************/
+resetOresBtn?.addEventListener("click", () => {
+  if (confirm("Reset all ore values to default?")) {
+    localStorage.removeItem("customOreValues");
+    location.reload();
+  }
+});
+
+/********************************
+ * 🔥 CORE UPDATE FUNCTION (IMPORTANT)
+ ********************************/
+function applyUpdatedOreValues() {
+  // 1. Update all "Ore per AV" cells
+  sections.forEach((section, i) => {
+    section.ores.forEach((ore, oreIndex) => {
+      const cell = document.querySelector(`#inv-${i}-${oreIndex}`)
+        ?.closest("tr")
+        ?.children[2]; // Ore per AV column
+
+      if (cell) {
+        cell.textContent = window.oreValues[ore]?.AV ?? "";
+      }
+    });
+  });
+
+  // 2. Re-trigger all inputs to recalc EVERYTHING
+  document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
+    input.dispatchEvent(new Event('input'));
+  });
+
+  // 3. Update all stats explicitly (extra safety)
+  updateFooterTotals();
+  updateStatsTotalAV();
+  updateStatsAboveAV();
+  updateStatsAboveInventory();
+  updateStatsSectionTotals();
+  updateStatsAboveCustomAV();
+}
+
     // <<--- Danfan Secret function --->>
     function rebindOreInputListeners() {
       document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
