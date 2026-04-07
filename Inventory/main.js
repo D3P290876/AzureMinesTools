@@ -20,6 +20,29 @@
       window.customAVs = [];
     // <<--- Section Definitions --->>
 
+    // <<--- Tab Logic --->>
+    function openTab(evt, tabId) {
+      const displayMode = localStorage.getItem('displayMode') || 'tabs';
+      if (displayMode !== 'tabs') return; // Don't switch tabs if in 'all' mode
+
+      const contents = document.querySelectorAll(".tab-content");
+      const buttons = document.querySelectorAll(".tab-button");
+
+      contents.forEach(c => {
+        c.classList.remove("active");
+        c.style.display = "none";
+      });
+      buttons.forEach(b => b.classList.remove("active"));
+
+      const selected = document.getElementById(tabId);
+      if (selected) {
+        selected.classList.add("active");
+        selected.style.display = "block";
+      }
+      evt.currentTarget.classList.add("active");
+    }
+    // <<--- Tab Logic --->>
+
     // <<--- Pull Helper AV from oreValues, fallback blank --->>
     function getAV(ore) {
       return (window.oreValues && ore in oreValues) ? window.oreValues[ore].AV : "";
@@ -62,6 +85,8 @@
       let html = "";
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
+        const activeClass = i === 0 ? "active" : "";
+        html += `<div id="tab${i}" class="tab-content ${activeClass}">`;
         html += `<div class="section-header">${section.name}</div>`;
         html += `<table class="ore-table">
           <thead>
@@ -111,7 +136,8 @@
               </td>
             </tr>
            </tfoot>
-           </table>`;
+           </table>
+           </div>`;
           }
           return html;
           }
@@ -163,11 +189,166 @@
     // <<--- Event Listeners for all Inventory Inputs --->>
 
     // <<--- Custom AV% Modal Logic --->>
-    document.getElementById('add-av-btn').onclick = function() {
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsMenu = document.getElementById('settings-menu');
+    const settingsAddAv = document.getElementById('settings-add-av');
+    const settingsResetCustomAv = document.getElementById('settings-reset-custom-av');
+    const settingsClearInventory = document.getElementById('settings-clear-inventory');
+    const settingsEditOres = document.getElementById('settings-edit-ores');
+
+    function openAddAVModal() {
       document.getElementById('custom-av-modal').style.display = 'flex';
       document.getElementById('custom-av-input').value = '';
       document.getElementById('custom-av-input').focus();
-    };
+      settingsMenu?.classList.remove('open');
+    }
+
+    function resetCustomAVColumns() {
+      if (confirm('Reset all custom AV% columns? This will remove any custom AV columns you added.')) {
+        window.customAVs = [];
+        saveCustomAVsToLocal();
+        updateStatsAboveCustomAV();
+        
+        // Re-render tables without custom AV columns
+        document.querySelectorAll('.ore-table').forEach(table => {
+          const ths = table.querySelectorAll('thead th');
+          ths.forEach((th, idx) => {
+            const btn = th.querySelector('.remove-av-btn');
+            if (btn) th.remove();
+          });
+          table.querySelectorAll('tbody tr').forEach((row) => {
+            const customTds = row.querySelectorAll('td[id^="custom-av-"]');
+            customTds.forEach(td => td.remove());
+          });
+        });
+        
+        updateFooterTotals();
+        updateStatsTotalAV();
+        settingsMenu?.classList.remove('open');
+      }
+    }
+
+    function openClearInventoryModal() {
+      const box = document.getElementById('reset-section-checkboxes');
+      box.innerHTML = "";
+
+      sections.forEach((section, i) => {
+        const row = document.createElement('div');
+        row.innerHTML = `
+          <label style="cursor:pointer;">
+            <input type="checkbox" data-reset-section="${i}">
+            ${section.name}
+          </label>
+        `;
+        box.appendChild(row);
+      });
+
+      document.getElementById('reset-av-modal').style.display = "flex";
+      document.getElementById('settings-menu')?.classList.remove('open');
+    }
+
+    settingsBtn?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      settingsMenu?.classList.toggle('open');
+    });
+
+    settingsAddAv?.addEventListener('click', openAddAVModal);
+    settingsResetCustomAv?.addEventListener('click', resetCustomAVColumns);
+    settingsClearInventory?.addEventListener('click', openClearInventoryModal);
+    settingsEditOres?.addEventListener('click', function() {
+      showOreEditor();
+      settingsMenu?.classList.remove('open');
+    });
+
+    document.addEventListener('click', function(e) {
+      if (settingsMenu && !settingsMenu.contains(e.target) && e.target !== settingsBtn) {
+        settingsMenu.classList.remove('open');
+      }
+    });
+
+    // <<--- Display Mode Toggle --->>
+    const displayModeBtn = document.getElementById('settings-display-mode');
+    const tabsContainer = document.querySelector('.tabs');
+
+    function loadDisplayMode() {
+      const savedMode = localStorage.getItem('displayMode') || 'tabs';
+      applyDisplayMode(savedMode);
+    }
+
+    function applyDisplayMode(mode) {
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      if (mode === 'tabs') {
+        // Show tabs, hide all tab-content except first one
+        tabsContainer.style.display = 'flex';
+        tabContents.forEach((content, idx) => {
+          content.style.display = idx === 0 ? 'block' : 'none';
+          content.classList.toggle('active', idx === 0);
+        });
+        document.body.classList.add('tabs-mode');
+        displayModeBtn.textContent = 'Tabs View';
+        displayModeBtn.setAttribute('data-mode', 'tabs');
+      } else if (mode === 'all') {
+        // Hide tabs, show all tab-content
+        tabsContainer.style.display = 'none';
+        tabContents.forEach((content) => {
+          content.style.display = 'block';
+          content.classList.add('active');
+        });
+        document.body.classList.remove('tabs-mode');
+        displayModeBtn.textContent = 'Lists View';
+        displayModeBtn.setAttribute('data-mode', 'all');
+      }
+
+      localStorage.setItem('displayMode', mode);
+    }
+
+    displayModeBtn?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const currentMode = displayModeBtn.getAttribute('data-mode');
+      const newMode = currentMode === 'tabs' ? 'all' : 'tabs';
+      applyDisplayMode(newMode);
+      settingsMenu?.classList.remove('open');
+    });
+
+    // Load saved display mode on page load
+    loadDisplayMode();
+    // <<--- Display Mode Toggle --->>
+
+    // <<--- Statistics Visibility Toggle --->>
+    const statsToggleBtn = document.getElementById('settings-stats-toggle');
+    const statsDropdown = document.getElementById('stats-dropdown');
+
+    function loadStatsVisibility() {
+      const savedVisibility = localStorage.getItem('statsVisibility') !== 'false';
+      applyStatsVisibility(savedVisibility);
+    }
+
+    function applyStatsVisibility(isVisible) {
+      if (isVisible) {
+        statsDropdown.style.display = 'block';
+        statsToggleBtn.textContent = 'Statistics';
+        statsToggleBtn.setAttribute('data-mode', 'show');
+      } else {
+        statsDropdown.style.display = 'none';
+        statsToggleBtn.textContent = 'Statistics (Hidden)';
+        statsToggleBtn.setAttribute('data-mode', 'hide');
+      }
+      localStorage.setItem('statsVisibility', isVisible);
+    }
+
+    statsToggleBtn?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const currentMode = statsToggleBtn.getAttribute('data-mode');
+      const newVisibility = currentMode === 'hide';
+      applyStatsVisibility(newVisibility);
+      settingsMenu?.classList.remove('open');
+    });
+
+    // Load saved stats visibility on page load
+    loadStatsVisibility();
+    // <<--- Statistics Visibility Toggle --->>
+
     document.getElementById('custom-av-cancel').onclick = function() {
       document.getElementById('custom-av-modal').style.display = 'none';
     };
@@ -466,61 +647,43 @@
     }
     // <<--- Custom AV% logic to Stats logic Connector --->>
     
-    // <<--- Reset All AV% Button --->>
-    document.getElementById('reset-av-btn').addEventListener('click', () => {
-    const box = document.getElementById('reset-section-checkboxes');
-    box.innerHTML = "";
-
-    sections.forEach((section, i) => {
-    const row = document.createElement('div');
-    row.innerHTML = `
-      <label style="cursor:pointer;">
-        <input type="checkbox" data-reset-section="${i}">
-        ${section.name}
-      </label>
-    `;
-    box.appendChild(row);
-    });
-
-    document.getElementById('reset-av-modal').style.display = "flex";
-    });
-
+    // <<--- Clear Inventory Modal --->>
     document.getElementById('reset-av-cancel').onclick = () => {
-    document.getElementById('reset-av-modal').style.display = "none";
+      document.getElementById('reset-av-modal').style.display = "none";
     };
 
     document.getElementById('reset-av-confirm').onclick = () => {
-  
-    saveInventoryToLocal();
+      const boxes = document.querySelectorAll('input[data-reset-section]');
+      const sectionsToClear = [];
+      boxes.forEach(box => {
+        if (box.checked) sectionsToClear.push(parseInt(box.getAttribute('data-reset-section')));
+      });
 
-    const boxes = document.querySelectorAll('input[data-reset-section]');
-    const sectionsToClear = [];
-    boxes.forEach(box => {
-      if (box.checked) sectionsToClear.push(parseInt(box.getAttribute('data-reset-section')));
-    });
-    window.customAVs = [];
-    saveCustomAVsToLocal();
+      if (sectionsToClear.length === 0) {
+        alert('Please select at least one section to clear.');
+        return;
+      }
 
-    const stored = JSON.parse(localStorage.getItem('inventory') || '{}');
-    sectionsToClear.forEach(sectionIdx => {
-      sections[sectionIdx].ores.forEach(ore => stored[ore] = "");
-    });
-    localStorage.setItem('inventory', JSON.stringify(stored));
-    document.getElementById('ore-sections').innerHTML = renderSections(sections);
+      const stored = JSON.parse(localStorage.getItem('inventory') || '{}');
+      sectionsToClear.forEach(sectionIdx => {
+        sections[sectionIdx].ores.forEach(ore => stored[ore] = "");
+      });
+      localStorage.setItem('inventory', JSON.stringify(stored));
+      
+      document.getElementById('ore-sections').innerHTML = renderSections(sections);
+      rebindOreInputListeners();
+      loadInventoryFromLocal();
+      updateFooterTotals();
+      updateStatsTotalAV();
+      updateStatsAboveAV();
+      updateStatsAboveInventory();
+      updateStatsSectionTotals();
+      updateStatsAboveCustomAV();
 
-    rebindOreInputListeners();
-    loadInventoryFromLocal();
-    updateFooterTotals();
-    updateStatsTotalAV();
-    updateStatsAboveAV();
-    updateStatsAboveInventory();
-    updateStatsSectionTotals();
-    updateStatsAboveCustomAV();
-
-    document.getElementById('reset-av-modal').style.display = "none";
-    location.reload();
+      document.getElementById('reset-av-modal').style.display = "none";
+      location.reload();
     };
-    // <<--- Reset All AV% Button --->>
+    // <<--- Clear Inventory Modal --->>
 
     /*******************************
 *  CUSTOM ORE VALUE EDITOR (MERGED)

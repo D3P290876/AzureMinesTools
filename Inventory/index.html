@@ -11,9 +11,34 @@
 
 <body>
   <div id="top-btn-bar">
-    <button id="add-av-btn" class="add-av-btn">Add AV%</button>
-    <button id="reset-av-btn" class="reset-button">Reset all AV%'s</button>
+    <div class="settings-wrapper">
+      <button id="settings-btn" class="settings-btn">Settings ⚙️</button>
+      <div id="settings-menu" class="settings-menu">
+        <label for="settings-display-mode" class="toggle-label">Functionality Options</label>
+        <button id="settings-add-av">Add AV%</button>
+        <button id="settings-reset-custom-av">Reset Custom AV%</button>
+        <button id="settings-clear-inventory">Clear Inventory</button>
+        <button id="settings-edit-ores">Edit Ore Values</button>
+        <div class="settings-divider"></div>
+        <div class="settings-toggle-group">
+          <label for="settings-display-mode" class="toggle-label">Display Toggles</label>
+          <button id="settings-display-mode" class="toggle-button" data-mode="tabs">Tabs</button>
+          <button id="settings-stats-toggle" class="toggle-button" data-mode="show">Statistics</button>
+        </div>
+      </div>
+    </div>
     <button id="home-btn" onclick="window.location.href='https://d3p290876.github.io/AzureMinesTools/'">Home Page</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-button active" onclick="openTab(event, 'tab0')">Limited Ores</button>
+    <button class="tab-button" onclick="openTab(event, 'tab1')">Special Ores</button>
+    <button class="tab-button" onclick="openTab(event, 'tab2')">Market Ores</button>
+    <button class="tab-button" onclick="openTab(event, 'tab3')">Scary Caverns</button>
+    <button class="tab-button" onclick="openTab(event, 'tab4')">Azure Caverns</button>
+    <button class="tab-button" onclick="openTab(event, 'tab5')">Underworld</button>
+    <button class="tab-button" onclick="openTab(event, 'tab6')">Radioactive Zone</button>
+    <button class="tab-button" onclick="openTab(event, 'tab7')">Dreamscape/Abyss</button>
   </div>
 
   <div id="stats-dropdown">
@@ -61,9 +86,9 @@
     background:#1e1e1e; padding:20px; border-radius:10px; width:350px;
     color:#eee; box-shadow:0 0 20px #000;">
     
-    <h2 style="margin-top:0; text-align:center;">Reset AV% Columns</h2>
+    <h2 style="margin-top:0; text-align:center;">Clear Inventory</h2>
 
-    <p>Option to clear text boxes aswell:</p>
+    <p>Select which sections to clear:</p>
 
     <div id="reset-section-checkboxes" style="margin-bottom:15px;">
     </div>
@@ -81,9 +106,6 @@
     </div>
   </div>
 </div>
-
-<!-- Edit Ore Values Button -->
-<button id="edit-ores-btn">Edit Ore Values</button>
 
 <!-- Ore Value Editor Popup -->
 <div id="edit-popup">
