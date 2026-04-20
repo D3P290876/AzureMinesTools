@@ -5,7 +5,7 @@ const oreValues = {
     "Sinistyte S":     { AV: 180 },
     "Sinistyte E":     { AV: 180 },
     "Nightmarium":     { AV: 70 },
-    "Twitchite":       { AV: 7 },
+    "Twitchite":       { AV: 6 },
     "Frostarium":      { AV: 900 },
     "Giftium":         { AV: 230 },
     "Frawstbyte":      { AV: 360 },
@@ -13,8 +13,8 @@ const oreValues = {
     "Peppermintium":   { AV: 250 },
     "Noobite":         { AV: 150 },
 
-    "Garnet":          { AV: 140 },
-    "Moonstone":       { AV: 130 },
+    "Garnet":          { AV: 135 },
+    "Moonstone":       { AV: 140 },
     "Kappa":           { AV: 20 },
     "Tungsten":        { AV: 160 },
     "Titanium":        { AV: 80 },
@@ -31,7 +31,7 @@ const oreValues = {
     "Copper":          { AV: 14000 },
     "Silver":          { AV: 125000 },
     "Topaz":           { AV: 2400 },
-    "Sulfur":          { AV: 13000 },
+    "Sulfur":          { AV: 11500 },
     "Sapphire":        { AV: 11500 },
     "Ruby":            { AV: 9000 },
     "Emerald":         { AV: 7000 },
@@ -43,7 +43,7 @@ const oreValues = {
 
     "Amethyst":        { AV: 650 },
     "Platinum":        { AV: 900 },
-    "Shadow Metal":    { AV: 100 },
+    "Shadow Metal":    { AV: 90 },
     "Illuminunium":    { AV: 75 },
 
     "Plutonium":       { AV: 800 },
@@ -59,7 +59,7 @@ const oreValues = {
     "Painite":         { AV: 825 },
     "Soulstone":       { AV: 110 },
     "Firecrystal":     { AV: 300 },
-    "Symmetrium":      { AV: 65 },
+    "Symmetrium":      { AV: 60 },
 
     "Dragonstone":     { AV: 4500 },
     "Promethium":      { AV: 200 },
@@ -70,9 +70,9 @@ const oreValues = {
 
     "Frightstone":     { AV: 1400 },
     "Redmatter":       { AV: 155 },
-    "Darkmatter":      { AV: 380 },
-    "Antimatter":      { AV: 320 },
-    "Stellarite":      { AV: 650 },
+    "Darkmatter":      { AV: 360 },
+    "Antimatter":      { AV: 335 },
+    "Stellarite":      { AV: 600 },
     "Constellatium":   { AV: 225 },
     "Mightstone":      { AV: 1100 }
 };
