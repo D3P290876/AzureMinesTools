@@ -105,6 +105,39 @@
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
 
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #000;
+      color: #fff;
+      border-radius: 24px;
+      padding: 30px 28px;
+      max-width: 420px;
+      width: min(90vw, 420px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .modal-content strong {
+      display: block;
+      margin-bottom: 16px;
+      font-size: 1.1rem;
+    }
+
   </style>
 </head>
 <body>
@@ -130,6 +163,15 @@
      <br>
      If you have any suggestions or find any bugs you can ping @D3P290876 in the Azure Mines Club Discord server.
      </span>
+  </div>
+
+  <div class="modal-overlay" id="kappaModal">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <strong>Congrats!</strong>
+      I bet you clicked one too many times and closed this pop-up by accident atleast once, right?
+      <br><br>
+      To find the Ambrosia maybe you should *search* the word "Giveaway" somewhere. Perhaps on a certain page involving trading?
+    </div>
   </div>
 
   <script src="kappafall.js"></script>

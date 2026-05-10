@@ -100,6 +100,50 @@
     function hideResetModal() {
       document.getElementById('reset-modal').style.display = 'none';
     }
+
+    let secretSequenceProgress = 0;
+    const secretSequence = [1, 4, 6, 6, 4, 1];
+
+    function resetSecretSequence() {
+      secretSequenceProgress = 0;
+    }
+
+    function handleSecretClick(index) {
+      if (index === secretSequence[secretSequenceProgress]) {
+        secretSequenceProgress += 1;
+        if (secretSequenceProgress === secretSequence.length) {
+          showSecretModal();
+          resetSecretSequence();
+        }
+      } else {
+        resetSecretSequence();
+      }
+    }
+
+    function showSecretModal() {
+      document.getElementById('secret-modal').style.display = 'flex';
+    }
+
+    function hideSecretModal() {
+      document.getElementById('secret-modal').style.display = 'none';
+    }
+
+    const secretModalOverlay = document.getElementById('secret-modal');
+    if (secretModalOverlay) {
+      secretModalOverlay.addEventListener('click', (event) => {
+        if (event.target === secretModalOverlay) {
+          hideSecretModal();
+        }
+      });
+    }
+
+    document.querySelectorAll('img[data-seq-img]').forEach((img) => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', () => {
+        handleSecretClick(parseInt(img.dataset.seqImg, 10));
+      });
+    });
+
     function doReset() {
       // Clear localStorage
       localStorage.clear();

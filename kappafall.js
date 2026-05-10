@@ -1,14 +1,8 @@
 // main.js
 // Handles Kappa image click and falling animation
 
-document.addEventListener('DOMContentLoaded', function() {
-  const kappaImg = document.querySelector('.kappa');
-  if (!kappaImg) return;
-
-  kappaImg.addEventListener('click', function() {
-    createFallingKappa();
-  });
-});
+let kappaClickCount = 0;
+const kappaThreshold = 1337;
 
 function createFallingKappa() {
   const kappaSrc = './src/Kappa.png';
@@ -36,3 +30,41 @@ function createFallingKappa() {
   }
   fall();
 }
+
+function showKappaModal() {
+  const modal = document.getElementById('kappaModal');
+  if (!modal) return;
+  modal.classList.add('active');
+}
+
+function hideKappaModal() {
+  const modal = document.getElementById('kappaModal');
+  if (!modal) return;
+  modal.classList.remove('active');
+}
+
+function handleModalClick(event) {
+  const modal = document.getElementById('kappaModal');
+  if (!modal) return;
+  if (event.target === modal) {
+    hideKappaModal();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const kappaImg = document.querySelector('.kappa');
+  if (!kappaImg) return;
+
+  kappaImg.addEventListener('click', function() {
+    createFallingKappa();
+    kappaClickCount += 1;
+    if (kappaClickCount === kappaThreshold) {
+      showKappaModal();
+    }
+  });
+
+  const modal = document.getElementById('kappaModal');
+  if (modal) {
+    modal.addEventListener('click', handleModalClick);
+  }
+});

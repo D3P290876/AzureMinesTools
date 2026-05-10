@@ -519,6 +519,7 @@
       height: 24px;
       margin-right: 10px;
       flex-shrink: 0;
+      cursor: pointer;
     }
 
     .ore-edit-row span {
@@ -538,6 +539,78 @@
       margin-top: 4px;
       margin-bottom: 12px;
       text-align: center;
-      opacity: 0.85;
     }
 
+    .order-challenge-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1200;
+      padding: 16px;
+    }
+
+    .order-challenge-modal.active {
+      display: flex;
+    }
+
+    .order-challenge-modal .modal-inner {
+      background: #181818;
+      border-radius: 12px;
+      padding: 24px 28px;
+      max-width: 660px;
+      width: 100%;
+      color: #f4f4f4;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .order-challenge-modal .modal-inner h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+    }
+
+    .order-challenge-modal .modal-inner p {
+      margin: 0;
+      line-height: 1.5;
+      color: #ccc;
+    }
+
+    .kappa-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1200;
+      padding: 16px;
+    }
+
+    .kappa-modal-overlay.active {
+      display: flex;
+    }
+
+    .kappa-modal-content {
+      background: #181818;
+      border-radius: 12px;
+      padding: 24px 28px;
+      max-width: 720px;
+      width: 100%;
+      color: #f4f4f4;
+      text-align: justify;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .kappa-modal-content h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+    }
+
+    .kappa-modal-content p {
+      margin: 0;
+      line-height: 1.5;
+      color: #ccc;
+    }

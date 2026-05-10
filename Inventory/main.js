@@ -107,7 +107,7 @@
           const avId = `av-${i}-${oreIndex}`;
           html += `<tr>
             <td class="ore-name">
-              <img src="../src/${ore.replace(/ /g, "%20")}.png" alt="${ore}" class="ore-img">
+              <img src="../src/${ore.replace(/ /g, "%20")}.png" alt="${ore}" class="ore-img" ${ore === "Kappa" ? 'data-kappa-img' : ''}>
               ${ore}
             </td>
             <td><input type="number" min="0" id="${inputId}" data-ore="${ore}" data-av-id="${avId}"></td>
@@ -176,6 +176,20 @@
             percentCell.style.color = percentNum >= 50 || percentNum >= 100 ? "#222" : "#222";
           }
         });
+
+        // Special Kappa modal logic
+        if (ore === "Kappa") {
+          const kappaImg = document.querySelector('img[data-kappa-img]');
+          if (kappaImg) {
+            if (value == 10000) {
+              kappaImg.style.cursor = 'pointer';
+              kappaImg.onclick = () => showKappaModal();
+            } else {
+              kappaImg.style.cursor = '';
+              kappaImg.onclick = null;
+            }
+          }
+        }
 
         saveInventoryToLocal();
         updateFooterTotals();
@@ -696,6 +710,30 @@ const resetOresBtn = document.getElementById("reset-ores-btn");
 const saveOresBtn = document.getElementById("save-ores-btn");
 const closeEditPopup = document.getElementById("close-edit-popup");
 
+let oreOrderProgress = 0;
+let currentOreSequence = [];
+
+function resetOreSequence() {
+  oreOrderProgress = 0;
+}
+
+function setOreSequence(ores) {
+  currentOreSequence = ores.slice();
+  resetOreSequence();
+}
+
+function handleOreImageClick(oreName) {
+  if (currentOreSequence[oreOrderProgress] === oreName) {
+    oreOrderProgress += 1;
+    if (oreOrderProgress === currentOreSequence.length) {
+      showOrderChallengeModal();
+      resetOreSequence();
+    }
+  } else {
+    resetOreSequence();
+  }
+}
+
 /********************************
  * LOAD CUSTOM VALUES ON START
  ********************************/
@@ -729,14 +767,22 @@ closeEditPopup?.addEventListener("click", () => {
 function renderOreEditList(filter = "") {
   editList.innerHTML = "";
 
-  const ores = Object.keys(window.oreValues)
-    .filter((ore) => ore.toLowerCase().includes(filter.toLowerCase()))
-    .sort();
+  const filteredOres = Object.keys(window.oreValues)
+    .filter((ore) => ore.toLowerCase().includes(filter.toLowerCase()));
+
+  const displayOres = filteredOres.slice().sort((a, b) => {
+    if (a === "Stone" && b === "Sulfur") return 1;
+    if (a === "Sulfur" && b === "Stone") return -1;
+    return a.localeCompare(b);
+  });
+
+  const orderedSequenceOres = filteredOres.slice().sort((a, b) => a.localeCompare(b));
+  setOreSequence(orderedSequenceOres);
 
   const MIN_ROWS = 12;
-  const placeholderCount = Math.max(0, MIN_ROWS - ores.length);
+  const placeholderCount = Math.max(0, MIN_ROWS - displayOres.length);
 
-  ores.forEach((ore) => {
+  displayOres.forEach((ore) => {
     const row = document.createElement("div");
     row.className = "ore-edit-row";
 
@@ -746,9 +792,18 @@ function renderOreEditList(filter = "") {
         : `../src/${encodeURIComponent(ore)}.png`;
 
     row.innerHTML = `
-      <span><img src="${oreImg}" alt="${ore} icon"> ${ore}</span>
+      <span><img src="${oreImg}" alt="${ore} icon" data-edit-ore-img="${ore}"> ${ore}</span>
       <input type="number" step="any" value="${window.oreValues[ore].AV}" data-edit-ore="${ore}">
     `;
+
+    const img = row.querySelector("img[data-edit-ore-img]");
+    if (img) {
+      img.style.cursor = "pointer";
+      img.addEventListener("click", (event) => {
+        event.stopPropagation();
+        handleOreImageClick(ore);
+      });
+    }
 
     editList.appendChild(row);
   });
@@ -832,6 +887,106 @@ function applyUpdatedOreValues() {
   updateStatsAboveInventory();
   updateStatsSectionTotals();
   updateStatsAboveCustomAV();
+}
+
+function showOrderChallengeModal() {
+  const modal = document.getElementById("orderChallengeModal");
+  if (modal) {
+    modal.classList.add("active");
+  }
+}
+
+function hideOrderChallengeModal() {
+  const modal = document.getElementById("orderChallengeModal");
+  if (modal) {
+    modal.classList.remove("active");
+  }
+}
+
+function handleOrderChallengeModalClick(event) {
+  const modal = document.getElementById("orderChallengeModal");
+  if (!modal) return;
+  if (event.target === modal) {
+    hideOrderChallengeModal();
+  }
+}
+
+const orderChallengeModal = document.getElementById("orderChallengeModal");
+if (orderChallengeModal) {
+  orderChallengeModal.addEventListener("click", handleOrderChallengeModalClick);
+}
+
+function showKappaModal() {
+  const modal = document.getElementById("kappa-modal");
+  if (modal) {
+    modal.classList.add("active");
+    // Reset modal state
+    const input = document.getElementById("kappa-secret-input");
+    const button = document.getElementById("kappa-next-hint-btn");
+    const text = document.getElementById("kappa-modal-text");
+    if (input) input.value = "";
+    if (button) button.style.display = "none";
+  }
+}
+
+function hideKappaModal() {
+  const modal = document.getElementById("kappa-modal");
+  if (modal) {
+    modal.classList.remove("active");
+  }
+}
+
+function handleKappaModalClick(event) {
+  const modal = document.getElementById("kappa-modal");
+  if (!modal) return;
+  if (event.target === modal) {
+    hideKappaModal();
+  }
+}
+
+const kappaModal = document.getElementById("kappa-modal");
+if (kappaModal) {
+  kappaModal.addEventListener("click", handleKappaModalClick);
+}
+
+// Kappa secret input logic
+const kappaSecretInput = document.getElementById("kappa-secret-input");
+const kappaNextHintBtn = document.getElementById("kappa-next-hint-btn");
+
+if (kappaSecretInput) {
+  kappaSecretInput.addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase().trim();
+    const text = document.getElementById("kappa-modal-text");
+
+    if (value === "misspel") {
+      if (text) {
+        text.innerHTML = "You should know it's not that easy by now, but I'll give you a hint.<br><br>The pop-up with the misspelt word has a lot of text on it.";
+      }
+      kappaNextHintBtn.style.display = "none";
+      return;
+    }
+
+    if (text) {
+      text.innerHTML = "Did you really think it would be that easy?<br><br>One of the previous hint pop-ups has a misspelt word in it, type the <strong>misspel</strong> word below for the next hint.";
+    }
+
+    if (value === "nastolgic") {
+      kappaNextHintBtn.style.display = "block";
+    } else {
+      kappaNextHintBtn.style.display = "none";
+    }
+  });
+}
+
+if (kappaNextHintBtn) {
+  kappaNextHintBtn.addEventListener("click", () => {
+    const text = document.getElementById("kappa-modal-text");
+    if (text) {
+      text.innerHTML = "Well done, You're now halfway there! The next hint is...<br><br>I am a 6-digit palindrome. On the outside I am Ambrosia, in the middle I am Twitchite. The sum of my digits is 22.<br><br> Maybe try entering the answer to this riddle on a page with 6 PNGs?";
+    }
+    kappaSecretInput.style.display = "none";
+    kappaNextHintBtn.style.display = "none";
+  });
 }
 
     // <<--- Danfan Secret function --->>

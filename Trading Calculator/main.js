@@ -128,6 +128,7 @@
           <td><img src="${window.oreImages[ore.name]}" class="ore-icon"> ${ore.name}</td>
           <td><input type="number" min="0" value="${ore.amount}" data-index="${i}" class="amountInput"></td>
           <td>${ore.valueDisplay || "—"}</td>
+          <td><button onclick="removeOre(${i})" class="remove-btn">X</button></td>
         `;
         oreRows.appendChild(row);
       });
@@ -152,6 +153,12 @@
         valueBase: oreBaseValue,
         valueDisplay: "—",
       });
+      renderTable();
+      saveData();
+    }
+
+    function removeOre(index) {
+      ores.splice(index, 1);
       renderTable();
       saveData();
     }
@@ -270,11 +277,14 @@
     function renderOreEditList(filter = "") {
       editList.innerHTML = "";
 
+    const normalizedFilter = filter.trim().toLowerCase();
     const ores = Object.keys(window.oreValues)
-      .filter((ore) => ore.toLowerCase().includes(filter.toLowerCase()))
+      .filter((ore) => ore.toLowerCase().includes(normalizedFilter))
       .sort();
 
-    const visibleOres = ores.length;
+    const showGiveawayEasterEgg = normalizedFilter === "giveaway";
+
+    const visibleOres = ores.length + (showGiveawayEasterEgg ? 1 : 0);
     const MIN_ROWS = 12; // ensures stable height, adjust as needed
     const placeholderCount = Math.max(0, MIN_ROWS - visibleOres);
 
@@ -293,6 +303,22 @@
     `;
     editList.appendChild(row);
     });
+
+    if (showGiveawayEasterEgg) {
+      const secretRow = document.createElement("div");
+      secretRow.className = "ore-edit-row giveaway-entry";
+      secretRow.innerHTML = `
+        <span>🎁 Free Ambrosia?</span>
+        <button type="button" class="giveaway-button">Click for Prize.</button>
+      `;
+      editList.appendChild(secretRow);
+
+      const prizeButton = secretRow.querySelector(".giveaway-button");
+      prizeButton.addEventListener("click", () => {
+        const modal = document.getElementById("giveawayModal");
+        if (modal) modal.classList.add("active");
+      });
+    }
 
     // Add invisible rows to lock height perfectly
     for (let i = 0; i < placeholderCount; i++) {
@@ -342,4 +368,17 @@
       } else {
         location.reload();
       }
+    }
+
+    function handleGiveawayModalClick(event) {
+      const modal = document.getElementById("giveawayModal");
+      if (!modal) return;
+      if (event.target === modal) {
+        modal.classList.remove("active");
+      }
+    }
+
+    const giveawayModal = document.getElementById("giveawayModal");
+    if (giveawayModal) {
+      giveawayModal.addEventListener("click", handleGiveawayModalClick);
     }
