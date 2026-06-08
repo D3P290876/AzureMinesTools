@@ -1,5 +1,5 @@
 const oreValues = {
-    "Pumpkinite":      { AV: 14 },
+    "Pumpkinite":      { AV: 12 },
     "Sinistyte M":     { AV: 325 },
     "Sinistyte L":     { AV: 240 },
     "Sinistyte S":     { AV: 180 },
@@ -43,12 +43,12 @@ const oreValues = {
 
     "Amethyst":        { AV: 650 },
     "Platinum":        { AV: 825 },
-    "Shadow Metal":    { AV: 90 },
+    "Shadow Metal":    { AV: 80 },
     "Illuminunium":    { AV: 75 },
 
     "Plutonium":       { AV: 800 },
     "Baryte":          { AV: 1000 },
-    "Rainbonite":      { AV: 200 },
+    "Rainbonite":      { AV: 185 },
     "Orichalcum":      { AV: 160 },
     "Alexandrite":     { AV: 215 },
     "Azure":           { AV: 275 },
@@ -65,14 +65,14 @@ const oreValues = {
     "Promethium":      { AV: 200 },
     "Newtonium":       { AV: 950 },
     "Corium":          { AV: 240 },
-    "Yunium":          { AV: 115 },
+    "Yunium":          { AV: 105 },
     "Solarium":        { AV: 90 },
 
     "Frightstone":     { AV: 1400 },
     "Redmatter":       { AV: 155 },
     "Darkmatter":      { AV: 360 },
     "Antimatter":      { AV: 335 },
-    "Stellarite":      { AV: 600 },
+    "Stellarite":      { AV: 550 },
     "Constellatium":   { AV: 225 },
     "Mightstone":      { AV: 1100 }
 };
