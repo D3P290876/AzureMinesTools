@@ -88,6 +88,7 @@
         const activeClass = i === 0 ? "active" : "";
         html += `<div id="tab${i}" class="tab-content ${activeClass}">`;
         html += `<div class="section-header">${section.name}</div>`;
+        html += `<div class="table-scroll-wrapper">`;
         html += `<table class="ore-table">
           <thead>
             <tr>
@@ -137,12 +138,98 @@
             </tr>
            </tfoot>
            </table>
+           </div>
            </div>`;
           }
           return html;
           }
     console.log(window.oreValues);
     document.getElementById('ore-sections').innerHTML = renderSections(sections);
+    // After rendering, set up faux scrollbars for each table wrapper
+    setupFauxScrollbars();
+    function setupFauxScrollbars() {
+      const wrappers = document.querySelectorAll('.table-scroll-wrapper');
+      wrappers.forEach(wrapper => {
+        // Avoid duplicating
+        if (wrapper.querySelector('.faux-scrollbar')) return;
+
+        const table = wrapper.querySelector('.ore-table');
+        if (!table) return;
+
+        // create faux scrollbar elements
+        const faux = document.createElement('div');
+        faux.className = 'faux-scrollbar';
+        const track = document.createElement('div');
+        track.className = 'faux-track';
+        const thumb = document.createElement('div');
+        thumb.className = 'faux-thumb';
+        track.appendChild(thumb);
+        faux.appendChild(track);
+        wrapper.appendChild(faux);
+
+        // helper to update thumb size/position
+        function updateThumb() {
+          const wrapperWidth = wrapper.clientWidth;
+          const scrollWidth = table.scrollWidth;
+          const trackWidth = track.clientWidth;
+          const visibleRatio = Math.min(1, wrapperWidth / scrollWidth || 1);
+          const thumbWidth = Math.max(28, Math.floor(visibleRatio * trackWidth));
+          thumb.style.width = thumbWidth + 'px';
+          const maxScroll = Math.max(0, scrollWidth - wrapperWidth);
+          const maxThumbOffset = Math.max(0, trackWidth - thumbWidth);
+          const thumbOffset = maxScroll > 0 ? (wrapper.scrollLeft / maxScroll) * maxThumbOffset : 0;
+          thumb.style.transform = `translateX(${thumbOffset}px)`;
+        }
+
+        // sync on native scroll
+        wrapper.addEventListener('scroll', updateThumb, { passive: true });
+
+        // resize observer to recompute sizes
+        const ro = new ResizeObserver(() => updateThumb());
+        ro.observe(wrapper);
+        ro.observe(table);
+
+        // clicking on track moves scroll
+        track.addEventListener('click', (e) => {
+          const rect = track.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const trackWidth = rect.width;
+          const thumbWidth = thumb.clientWidth;
+          const ratio = Math.max(0, Math.min(1, (clickX - thumbWidth / 2) / (trackWidth - thumbWidth)));
+          const maxScroll = table.scrollWidth - wrapper.clientWidth;
+          wrapper.scrollLeft = ratio * maxScroll;
+        });
+
+        // drag support
+        let dragging = false;
+        function onPointerMove(e) {
+          if (!dragging) return;
+          const rect = track.getBoundingClientRect();
+          const trackWidth = rect.width;
+          const thumbWidth = thumb.clientWidth;
+          const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] && e.touches[0].clientX) || 0;
+          let pos = clientX - rect.left - thumbWidth / 2;
+          pos = Math.max(0, Math.min(pos, trackWidth - thumbWidth));
+          const ratio = pos / (trackWidth - thumbWidth || 1);
+          const maxScroll = table.scrollWidth - wrapper.clientWidth;
+          wrapper.scrollLeft = ratio * maxScroll;
+        }
+        function onPointerUp() {
+          dragging = false;
+          document.removeEventListener('pointermove', onPointerMove);
+          document.removeEventListener('pointerup', onPointerUp);
+        }
+        thumb.addEventListener('pointerdown', (e) => {
+          dragging = true;
+          thumb.setPointerCapture(e.pointerId);
+          document.addEventListener('pointermove', onPointerMove);
+          document.addEventListener('pointerup', onPointerUp);
+        });
+
+        // initial update
+        setTimeout(updateThumb, 50);
+      });
+    }
     // <<--- Render Sections as a Table --->>
 
     // <<--- Event Listeners for all Inventory Inputs --->>
