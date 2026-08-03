@@ -217,8 +217,8 @@
     /* Statistics Menu Styling */
     #stats-dropdown{
       position:fixed;
-      left:18px; top:18px;
-      width:275px;
+      left:14px; top:14px;
+      width:250px;
       z-index:40;
     }
     #stats-toggle{
@@ -227,21 +227,62 @@
       border-radius:8px 8px 0 0;
       border:none;
       color:#fff;
-      padding:8px;
+      padding:6px 8px;
       font-weight:800;
       text-align:left;
       cursor:pointer;
       border:1px solid rgba(0,0,0,0.6);
       border-bottom: none;
+      font-size:0.95rem;
     }
     #stats-box{
       background: #1f2024;
       border-radius:0 0 8px 8px;
-      padding:10px;
-      font-size:15px;
+      padding:8px;
+      font-size:14px;
+      line-height:1.3;
       color: #bdbdbd;
       border:1px solid rgba(0,0,0,0.6);
       border-top: none;
+    }
+    .stat-line {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: help;
+      padding: 2px 0;
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.2;
+      width: 100%;
+    }
+    .stats-tooltip {
+      position: fixed;
+      z-index: 10050;
+      display: none;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+      max-width: 280px;
+      background: rgba(18, 20, 30, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 8px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+      color: #fff;
+      pointer-events: none;
+    }
+    .stats-tooltip img {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      object-fit: contain;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #111;
+    }
+    .stats-tooltip span {
+      font-size: 0.85rem;
+      color: #d0d0d0;
     }
     @media (max-width: 700px) {
       body {

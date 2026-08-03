@@ -335,6 +335,22 @@
       renderOreEditList(e.target.value);
     });
 
+    const customValueNotice = document.getElementById("custom-value-notice");
+
+    function showCustomValueNotice() {
+      if (customValueNotice) customValueNotice.style.display = "block";
+    }
+
+    function hideCustomValueNotice() {
+      if (customValueNotice) customValueNotice.style.display = "none";
+    }
+
+    function setCustomNoticeVisibility() {
+      const hasCustom = !!localStorage.getItem("customOreValues");
+      if (hasCustom) showCustomValueNotice();
+      else hideCustomValueNotice();
+    }
+
     // Save changes
     saveOresBtn.addEventListener("click", () => {
       const inputs = editList.querySelectorAll("input");
@@ -351,6 +367,7 @@
 
     localStorage.setItem("customOreValues", JSON.stringify(customValues));
     editPopup.style.display = "none";
+    setCustomNoticeVisibility();
     updateAllOreValues();
     });
 
@@ -358,9 +375,12 @@
     resetOresBtn.addEventListener("click", () => {
       if (confirm("Reset all ore values to default?")) {
       localStorage.removeItem("customOreValues");
+      hideCustomValueNotice();
       window.location.reload();
       }
     });
+
+    setCustomNoticeVisibility();
 
     function updateAllOreValues() {
       if (typeof recalculateTotals === "function") {

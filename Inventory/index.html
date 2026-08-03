@@ -45,13 +45,13 @@
     <button id="stats-toggle">Statistics ▼</button>
     <div id="stats-box">
       Total Inventory Value: <span id="stats-total-av">0.00</span><br><br>
-      # of Ores ≥ 1 AV: <span id="stats-above-1av">0</span><br>
-      # of Ores ≥ 2 AV: <span id="stats-above-2av">0</span><br>
-      # of Ores ≥ 3 AV: <span id="stats-above-3av">0</span><br>
+      <div class="stat-line" data-stat="above-av" data-threshold="1"># of Ores ≥ 1 AV: <span id="stats-above-1av">0</span></div>
+      <div class="stat-line" data-stat="above-av" data-threshold="2"># of Ores ≥ 2 AV: <span id="stats-above-2av">0</span></div>
+      <div class="stat-line" data-stat="above-av" data-threshold="3"># of Ores ≥ 3 AV: <span id="stats-above-3av">0</span></div>
       <div id="stats-above-custom"></div><br>
-      # of Ores above 1K: <span id="stats-above-1k">0</span><br>
-      # of Ores above 10K: <span id="stats-above-10k">0</span><br>
-      # of Ores above 100K: <span id="stats-above-100k">0</span><br><br>
+      <div class="stat-line" data-stat="above-inv" data-threshold="1000"># of Ores above 1K: <span id="stats-above-1k">0</span></div>
+      <div class="stat-line" data-stat="above-inv" data-threshold="10000"># of Ores above 10K: <span id="stats-above-10k">0</span></div>
+      <div class="stat-line" data-stat="above-inv" data-threshold="100000"># of Ores above 100K: <span id="stats-above-100k">0</span></div><br>
       Total AV of Limited Ores: <span id="stats-av-limited">0.00</span><br>
       Total AV of Special Ores: <span id="stats-av-special">0.00</span><br>
       Total AV of Market Ores: <span id="stats-av-market">0.00</span><br>
@@ -62,6 +62,7 @@
       Total AV of Dreamscape/Abyss: <span id="stats-av-dreamscape">0.00</span><br>
     </div>
   </div>
+  <div id="stats-tooltip" class="stats-tooltip" style="display:none;"></div>
   
   <div id="ore-sections"></div>
 

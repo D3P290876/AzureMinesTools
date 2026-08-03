@@ -670,6 +670,89 @@
         }
       }
     }
+
+    function getOresAboveAV(threshold) {
+      const matched = [];
+      document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
+        const ore = input.getAttribute('data-ore');
+        const av = window.oreValues && window.oreValues[ore] ? window.oreValues[ore].AV : null;
+        const value = parseFloat(input.value) || 0;
+        if (av && value > 0) {
+          const totalOreAV = value / av;
+          if (totalOreAV >= threshold) {
+            matched.push(ore);
+          }
+        }
+      });
+      return matched;
+    }
+
+    function getOresAboveInventory(threshold) {
+      const matched = [];
+      document.querySelectorAll('input[type="number"][data-ore]').forEach(input => {
+        const ore = input.getAttribute('data-ore');
+        const value = parseFloat(input.value) || 0;
+        if (value >= threshold) {
+          matched.push(ore);
+        }
+      });
+      return matched;
+    }
+
+    function getStatLineOres(line) {
+      const type = line.dataset.stat;
+      const threshold = parseFloat(line.dataset.threshold) || 0;
+      if (type === 'above-av') {
+        return getOresAboveAV(threshold);
+      }
+      if (type === 'above-inv') {
+        return getOresAboveInventory(threshold);
+      }
+      return [];
+    }
+
+    function positionStatsTooltip(evt, tooltip) {
+      const padding = 12;
+      const mouseX = evt.clientX + padding;
+      const mouseY = evt.clientY + padding;
+      tooltip.style.left = `${mouseX}px`;
+      tooltip.style.top = `${mouseY}px`;
+      const rect = tooltip.getBoundingClientRect();
+      if (rect.right > window.innerWidth - 10) {
+        tooltip.style.left = `${Math.max(10, evt.clientX - rect.width - padding)}px`;
+      }
+      if (rect.bottom > window.innerHeight - 10) {
+        tooltip.style.top = `${Math.max(10, evt.clientY - rect.height - padding)}px`;
+      }
+    }
+
+    function showStatsTooltip(evt, ores) {
+      const tooltip = document.getElementById('stats-tooltip');
+      if (!tooltip) return;
+      tooltip.innerHTML = '';
+      if (!ores.length) {
+        const message = document.createElement('span');
+        message.textContent = 'No matching ores';
+        tooltip.appendChild(message);
+      } else {
+        ores.forEach(ore => {
+          const img = document.createElement('img');
+          img.src = `../src/${encodeURIComponent(ore)}.png`;
+          img.alt = ore;
+          img.title = ore;
+          tooltip.appendChild(img);
+        });
+      }
+      tooltip.style.display = 'flex';
+      positionStatsTooltip(evt, tooltip);
+    }
+
+    function hideStatsTooltip() {
+      const tooltip = document.getElementById('stats-tooltip');
+      if (tooltip) {
+        tooltip.style.display = 'none';
+      }
+    }
     // <<--- Statistics Total Logic and Functions --->>
     loadInventoryFromLocal();
     updateFooterTotals();
@@ -690,6 +773,30 @@
         btn.innerHTML = "Statistics ▲";
       }
     };
+
+    const statsBox = document.getElementById('stats-box');
+    if (statsBox) {
+      statsBox.addEventListener('mouseover', function(e) {
+        const line = e.target.closest('.stat-line');
+        if (!line || !statsBox.contains(line)) return;
+        const ores = getStatLineOres(line);
+        showStatsTooltip(e, ores);
+      });
+
+      statsBox.addEventListener('mousemove', function(e) {
+        const tooltip = document.getElementById('stats-tooltip');
+        if (tooltip && tooltip.style.display === 'flex') {
+          positionStatsTooltip(e, tooltip);
+        }
+      });
+
+      statsBox.addEventListener('mouseout', function(e) {
+        const line = e.target.closest('.stat-line');
+        if (!line || !statsBox.contains(line)) return;
+        if (e.relatedTarget && line.contains(e.relatedTarget)) return;
+        hideStatsTooltip();
+      });
+    }
     // <<--- Stats Toggle Logic --->>
 
     // <<--- Custom AV% logic to Stats logic Connector --->>
@@ -711,7 +818,9 @@
         });
         // Add the stat line
         const line = document.createElement('div');
-        line.setAttribute('data-av', n);
+        line.className = 'stat-line';
+        line.setAttribute('data-stat', 'above-av');
+        line.setAttribute('data-threshold', n);
         line.innerHTML = `# of Ores ≥ ${n} AV: <span id="stats-above-${n}av">${count}</span>`;
         container.appendChild(line);
       });
