@@ -1,5 +1,5 @@
 const oreValues = {
-    "Pumpkinite":      { AV: 12 },
+    "Pumpkinite":      { AV: 2 },
     "Sinistyte M":     { AV: 325 },
     "Sinistyte L":     { AV: 240 },
     "Sinistyte S":     { AV: 180 },
